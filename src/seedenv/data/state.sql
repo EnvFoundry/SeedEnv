@@ -1,0 +1,17 @@
+CREATE TABLE IF NOT EXISTS installations (
+  component TEXT PRIMARY KEY,
+  definition TEXT NOT NULL,
+  command TEXT NOT NULL,
+  managed INTEGER NOT NULL,
+  location TEXT NOT NULL,
+  prepared_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE IF NOT EXISTS jobs (
+  id TEXT PRIMARY KEY,
+  state TEXT NOT NULL,
+  selection TEXT NOT NULL,
+  result TEXT,
+  error TEXT,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);

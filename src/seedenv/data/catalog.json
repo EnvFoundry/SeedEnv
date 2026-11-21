@@ -1,0 +1,1048 @@
+{
+  "components": [
+    {
+      "id": "python-science",
+      "title": "Scientific Python · 科学计算",
+      "kind": "python",
+      "requirements": [
+        "numpy",
+        "scipy",
+        "sympy",
+        "matplotlib",
+        "pandas"
+      ],
+      "imports": [
+        "numpy",
+        "scipy",
+        "sympy",
+        "matplotlib",
+        "pandas"
+      ],
+      "sources": [
+        "https://scipy.org/install/"
+      ]
+    },
+    {
+      "id": "python-tables",
+      "title": "Polars / DuckDB / Arrow · 表格与数据",
+      "kind": "python",
+      "requirements": [
+        "polars",
+        "duckdb",
+        "pyarrow"
+      ],
+      "imports": [
+        "polars",
+        "duckdb",
+        "pyarrow"
+      ],
+      "sources": [
+        "https://duckdb.org/docs/stable/clients/python/overview"
+      ]
+    },
+    {
+      "id": "python-statistics",
+      "title": "Statsmodels · 统计与时序",
+      "kind": "python",
+      "requirements": [
+        "statsmodels",
+        "pandas",
+        "numpy"
+      ],
+      "imports": [
+        "statsmodels",
+        "pandas",
+        "numpy"
+      ],
+      "sources": [
+        "https://www.statsmodels.org/stable/install.html"
+      ]
+    },
+    {
+      "id": "python-backtesting",
+      "title": "Backtesting.py · 策略回测",
+      "kind": "python",
+      "requirements": [
+        "backtesting",
+        "pandas",
+        "numpy"
+      ],
+      "imports": [
+        "backtesting",
+        "pandas",
+        "numpy"
+      ],
+      "sources": [
+        "https://kernc.github.io/backtesting.py/"
+      ]
+    },
+    {
+      "id": "python-ml",
+      "title": "Scikit-learn · 机器学习",
+      "kind": "python",
+      "requirements": [
+        "scikit-learn",
+        "pandas",
+        "matplotlib"
+      ],
+      "imports": [
+        "sklearn",
+        "pandas",
+        "matplotlib"
+      ],
+      "sources": [
+        "https://scikit-learn.org/stable/install.html"
+      ]
+    },
+    {
+      "id": "python-optimization",
+      "title": "CVXPY / HiGHS · 数学优化",
+      "kind": "python",
+      "requirements": [
+        "cvxpy",
+        "highspy"
+      ],
+      "imports": [
+        "cvxpy",
+        "highspy"
+      ],
+      "sources": [
+        "https://www.cvxpy.org/install/"
+      ]
+    },
+    {
+      "id": "python-molecules",
+      "title": "RDKit · 分子数据",
+      "kind": "python",
+      "requirements": [
+        "rdkit"
+      ],
+      "imports": [
+        "rdkit.Chem"
+      ],
+      "sources": [
+        "https://rdkit.org/docs/Install.html"
+      ]
+    },
+    {
+      "id": "python-materials",
+      "title": "ASE / pymatgen · 原子与材料",
+      "kind": "python",
+      "requirements": [
+        "ase",
+        "pymatgen"
+      ],
+      "imports": [
+        "ase",
+        "pymatgen.core"
+      ],
+      "sources": [
+        "https://pymatgen.org/installation.html"
+      ]
+    },
+    {
+      "id": "python-sequences",
+      "title": "Biopython · 生物序列",
+      "kind": "python",
+      "requirements": [
+        "biopython"
+      ],
+      "imports": [
+        "Bio.Seq",
+        "Bio.SeqIO"
+      ],
+      "sources": [
+        "https://biopython.org/download/"
+      ]
+    },
+    {
+      "id": "python-medical-images",
+      "title": "NiBabel / pydicom · 医学图像数据",
+      "kind": "python",
+      "requirements": [
+        "nibabel",
+        "pydicom",
+        "numpy"
+      ],
+      "imports": [
+        "nibabel",
+        "pydicom",
+        "numpy"
+      ],
+      "sources": [
+        "https://nipy.org/nibabel/installation.html"
+      ]
+    },
+    {
+      "id": "python-geospatial",
+      "title": "GeoPandas / Rasterio / xarray · 地理与遥感",
+      "kind": "python",
+      "requirements": [
+        "geopandas",
+        "rasterio",
+        "xarray"
+      ],
+      "imports": [
+        "geopandas",
+        "rasterio",
+        "xarray"
+      ],
+      "sources": [
+        "https://geopandas.org/en/stable/getting_started/install.html"
+      ]
+    },
+    {
+      "id": "python-images",
+      "title": "scikit-image / Pillow · 图像处理",
+      "kind": "python",
+      "requirements": [
+        "scikit-image",
+        "pillow"
+      ],
+      "imports": [
+        "skimage",
+        "PIL"
+      ],
+      "sources": [
+        "https://scikit-image.org/docs/stable/user_guide/install.html"
+      ]
+    },
+    {
+      "id": "python-fem",
+      "title": "scikit-fem / meshio · 有限元",
+      "kind": "python",
+      "requirements": [
+        "scikit-fem[all]"
+      ],
+      "imports": [
+        "skfem",
+        "meshio"
+      ],
+      "sources": [
+        "https://scikit-fem.readthedocs.io/en/stable/gettingstarted.html"
+      ]
+    },
+    {
+      "id": "python-cad",
+      "title": "CadQuery · 参数化几何",
+      "kind": "python",
+      "requirements": [
+        "cadquery"
+      ],
+      "imports": [
+        "cadquery"
+      ],
+      "sources": [
+        "https://cadquery.readthedocs.io/en/latest/installation.html"
+      ]
+    },
+    {
+      "id": "python-optics",
+      "title": "tmm / miepython · 薄膜与颗粒散射",
+      "kind": "python",
+      "requirements": [
+        "tmm",
+        "miepython"
+      ],
+      "imports": [
+        "tmm",
+        "miepython"
+      ],
+      "sources": [
+        "https://github.com/sbyrnes321/tmm"
+      ]
+    },
+    {
+      "id": "python-quantum",
+      "title": "QuTiP · 量子动力学",
+      "kind": "python",
+      "requirements": [
+        "qutip"
+      ],
+      "imports": [
+        "qutip"
+      ],
+      "sources": [
+        "https://qutip.readthedocs.io/en/stable/installation.html"
+      ]
+    },
+    {
+      "id": "python-astronomy",
+      "title": "Astropy · 天文与物理量",
+      "kind": "python",
+      "requirements": [
+        "astropy"
+      ],
+      "imports": [
+        "astropy"
+      ],
+      "sources": [
+        "https://docs.astropy.org/en/stable/install.html"
+      ]
+    },
+    {
+      "id": "python-instruments",
+      "title": "PyVISA · 仪器连接",
+      "kind": "python",
+      "requirements": [
+        "pyvisa",
+        "pyvisa-py"
+      ],
+      "imports": [
+        "pyvisa",
+        "pyvisa_py"
+      ],
+      "sources": [
+        "https://pyvisa.readthedocs.io/en/latest/introduction/getting.html"
+      ]
+    },
+    {
+      "id": "python-networks",
+      "title": "NetworkX · 图与网络",
+      "kind": "python",
+      "requirements": [
+        "networkx",
+        "numpy",
+        "scipy"
+      ],
+      "imports": [
+        "networkx",
+        "numpy",
+        "scipy"
+      ],
+      "sources": [
+        "https://networkx.org/documentation/stable/install.html"
+      ]
+    },
+    {
+      "id": "tool-tex",
+      "title": "LaTeX · 论文编译",
+      "kind": "command",
+      "commands": [
+        "latexmk"
+      ],
+      "sources": [
+        "https://www.tug.org/texlive/",
+        "https://yihui.org/tinytex/"
+      ],
+      "origo_preset": "research-tex",
+      "instructions": "Connect an existing latexmk installation. Origo can prepare its research-tex preset; standalone installations use the upstream TeX installer."
+    },
+    {
+      "id": "tool-r",
+      "title": "R · 统计计算",
+      "kind": "command",
+      "commands": [
+        "Rscript"
+      ],
+      "sources": [
+        "https://cran.r-project.org/"
+      ],
+      "instructions": "Install R from CRAN or connect an existing Rscript executable; use renv within research projects when needed."
+    },
+    {
+      "id": "tool-julia",
+      "title": "Julia · 科学计算",
+      "kind": "command",
+      "commands": [
+        "julia"
+      ],
+      "sources": [
+        "https://julialang.org/downloads/"
+      ],
+      "instructions": "Install Julia using its upstream installer or connect an existing executable; select the project with --project."
+    },
+    {
+      "id": "tool-ngspice",
+      "title": "ngspice · 电路模拟",
+      "kind": "command",
+      "commands": [
+        "ngspice"
+      ],
+      "sources": [
+        "https://ngspice.sourceforge.io/download.html"
+      ],
+      "instructions": "Install ngspice for the execution host, then bind the executable. Circuit netlists use its native syntax."
+    },
+    {
+      "id": "plugin-optics",
+      "title": "Optics-Photonics-AI-Lab",
+      "kind": "plugin",
+      "url": "https://github.com/EnvFoundry/Optics-Photonics-AI-Lab/tree/main/connect/agentic-research-os",
+      "sources": [
+        "https://github.com/EnvFoundry/Optics-Photonics-AI-Lab"
+      ],
+      "instructions": "Import and activate the upstream plugin in the host. Use its prepare/bind operations for scientific solvers; existing OPTICS_HOME remains authoritative."
+    },
+    {
+      "id": "plugin-iop",
+      "title": "IOP · 实验平台",
+      "kind": "plugin",
+      "url": "https://github.com/EnvFoundry/IOP",
+      "sources": [
+        "https://github.com/EnvFoundry/IOP"
+      ],
+      "instructions": "Follow the upstream connection guide and select the existing instrument host. Preserve its device connections and experiment state."
+    },
+    {
+      "id": "python-http",
+      "title": "HTTP APIs · 数据接口",
+      "kind": "python",
+      "requirements": [
+        "httpx[socks]"
+      ],
+      "imports": [
+        "httpx"
+      ],
+      "sources": [
+        "https://www.python-httpx.org/"
+      ]
+    },
+    {
+      "id": "connector-crossref",
+      "title": "Crossref · 文献元数据",
+      "kind": "connector",
+      "connection": {
+        "protocol": "https",
+        "endpoint": "https://api.crossref.org",
+        "authentication": "none"
+      },
+      "instructions": "Use the existing host HTTP or literature connector, or the included httpx example. Crossref metadata is publicly accessible.",
+      "sources": [
+        "https://www.crossref.org/documentation/retrieve-metadata/rest-api/"
+      ]
+    },
+    {
+      "id": "python-databases",
+      "title": "SQLAlchemy / psycopg · 数据库客户端",
+      "kind": "python",
+      "requirements": [
+        "sqlalchemy",
+        "psycopg[binary]"
+      ],
+      "imports": [
+        "sqlalchemy",
+        "psycopg"
+      ],
+      "sources": [
+        "https://docs.sqlalchemy.org/en/20/",
+        "https://www.psycopg.org/psycopg3/docs/"
+      ]
+    },
+    {
+      "id": "connector-postgresql",
+      "title": "PostgreSQL · 研究数据库连接",
+      "kind": "connector",
+      "connection": {
+        "protocol": "postgresql",
+        "fields": [
+          "host",
+          "port",
+          "database"
+        ],
+        "credentials": "host-managed"
+      },
+      "instructions": "Select an existing database connection in the host. Keep account credentials in its connection settings; use the prepared SQLAlchemy or psycopg client.",
+      "sources": [
+        "https://www.postgresql.org/docs/current/libpq-connect.html"
+      ]
+    }
+  ],
+  "modules": [
+    {
+      "id": "science",
+      "title": "Scientific computing · 科学计算",
+      "summary": "数组、数值求解、符号运算、拟合和绘图。",
+      "tags": [
+        "common",
+        "mathematics",
+        "physics",
+        "科学",
+        "计算",
+        "数学",
+        "物理"
+      ],
+      "components": [
+        "python-science"
+      ],
+      "includes": [],
+      "guide": "guides/science.md",
+      "example": {
+        "component": "python-science",
+        "file": "examples/fit.py"
+      }
+    },
+    {
+      "id": "tables",
+      "title": "Tables and local data · 表格与本地数据",
+      "summary": "CSV、Parquet、Arrow 与本地 SQL 分析。",
+      "tags": [
+        "common",
+        "data",
+        "sql",
+        "数据",
+        "表格"
+      ],
+      "components": [
+        "python-tables"
+      ],
+      "includes": [],
+      "guide": "guides/tables.md",
+      "example": {
+        "component": "python-tables",
+        "file": "examples/tables.py"
+      }
+    },
+    {
+      "id": "time-series",
+      "title": "Time series and econometrics · 时间序列与计量",
+      "summary": "时间索引、回归、时序模型和预测误差。",
+      "tags": [
+        "finance",
+        "economics",
+        "statistics",
+        "time-series",
+        "金融",
+        "经济",
+        "时序",
+        "统计"
+      ],
+      "components": [
+        "python-statistics"
+      ],
+      "includes": [],
+      "guide": "guides/time-series.md",
+      "example": {
+        "component": "python-statistics",
+        "file": "examples/time_series.py"
+      }
+    },
+    {
+      "id": "backtesting",
+      "title": "Strategy backtesting · 策略回测",
+      "summary": "用历史或自备行情研究策略与交易成本。",
+      "tags": [
+        "finance",
+        "trading",
+        "economics",
+        "backtest",
+        "金融",
+        "交易",
+        "回测"
+      ],
+      "components": [
+        "python-backtesting"
+      ],
+      "includes": [
+        "time-series"
+      ],
+      "guide": "guides/backtesting.md",
+      "example": {
+        "component": "python-backtesting",
+        "file": "examples/backtest.py"
+      }
+    },
+    {
+      "id": "machine-learning",
+      "title": "Machine learning · 机器学习",
+      "summary": "表格学习、特征变换和模型比较。",
+      "tags": [
+        "ai",
+        "machine-learning",
+        "人工智能",
+        "机器学习"
+      ],
+      "components": [
+        "python-ml"
+      ],
+      "includes": [],
+      "guide": "guides/machine-learning.md",
+      "example": {
+        "component": "python-ml",
+        "file": "examples/learning.py"
+      }
+    },
+    {
+      "id": "optimization",
+      "title": "Optimization · 优化与运筹",
+      "summary": "凸优化、线性规划和约束建模。",
+      "tags": [
+        "mathematics",
+        "engineering",
+        "economics",
+        "optimization",
+        "数学",
+        "优化",
+        "运筹"
+      ],
+      "components": [
+        "python-optimization"
+      ],
+      "includes": [],
+      "guide": "guides/optimization.md",
+      "example": {
+        "component": "python-optimization",
+        "file": "examples/optimization.py"
+      }
+    },
+    {
+      "id": "molecules",
+      "title": "Molecular data · 分子数据",
+      "summary": "分子结构读取、描述符、子结构与格式转换。",
+      "tags": [
+        "chemistry",
+        "pharma",
+        "drug",
+        "molecules",
+        "化学",
+        "药物",
+        "医药",
+        "分子"
+      ],
+      "components": [
+        "python-molecules"
+      ],
+      "includes": [],
+      "guide": "guides/molecules.md",
+      "example": {
+        "component": "python-molecules",
+        "file": "examples/molecules.py"
+      }
+    },
+    {
+      "id": "materials",
+      "title": "Atomic structures and materials · 原子结构与材料",
+      "summary": "晶体、原子结构、文件转换和计算器接入。",
+      "tags": [
+        "materials",
+        "chemistry",
+        "atoms",
+        "crystals",
+        "材料",
+        "化学",
+        "晶体",
+        "原子"
+      ],
+      "components": [
+        "python-materials"
+      ],
+      "includes": [],
+      "guide": "guides/materials.md",
+      "example": {
+        "component": "python-materials",
+        "file": "examples/materials.py"
+      }
+    },
+    {
+      "id": "sequences",
+      "title": "Biological sequences · 生物序列",
+      "summary": "FASTA/GenBank、序列变换和基础统计。",
+      "tags": [
+        "biology",
+        "genomics",
+        "sequences",
+        "生物",
+        "基因",
+        "序列"
+      ],
+      "components": [
+        "python-sequences"
+      ],
+      "includes": [],
+      "guide": "guides/sequences.md",
+      "example": {
+        "component": "python-sequences",
+        "file": "examples/sequences.py"
+      }
+    },
+    {
+      "id": "medical-imaging",
+      "title": "Medical image data · 医学图像数据",
+      "summary": "NIfTI、DICOM 与体数据的读取和组织。",
+      "tags": [
+        "medicine",
+        "biology",
+        "imaging",
+        "医学",
+        "医疗",
+        "影像",
+        "生物"
+      ],
+      "components": [
+        "python-medical-images"
+      ],
+      "includes": [],
+      "guide": "guides/medical-imaging.md",
+      "example": {
+        "component": "python-medical-images",
+        "file": "examples/medical_images.py"
+      }
+    },
+    {
+      "id": "geospatial",
+      "title": "Geospatial and remote sensing · 地理与遥感",
+      "summary": "矢量、栅格与多维时空数据。",
+      "tags": [
+        "geography",
+        "earth",
+        "climate",
+        "remote-sensing",
+        "地理",
+        "地球",
+        "环境",
+        "遥感"
+      ],
+      "components": [
+        "python-geospatial"
+      ],
+      "includes": [],
+      "guide": "guides/geospatial.md",
+      "example": {
+        "component": "python-geospatial",
+        "file": "examples/geospatial.py"
+      }
+    },
+    {
+      "id": "images",
+      "title": "Image processing · 图像处理",
+      "summary": "图像读写、滤波、分割与定量分析。",
+      "tags": [
+        "common",
+        "imaging",
+        "optics",
+        "图像",
+        "成像",
+        "光学"
+      ],
+      "components": [
+        "python-images"
+      ],
+      "includes": [],
+      "guide": "guides/images.md",
+      "example": {
+        "component": "python-images",
+        "file": "examples/images.py"
+      }
+    },
+    {
+      "id": "finite-elements",
+      "title": "Finite elements · 有限元基础",
+      "summary": "网格、弱形式、边界条件与 PDE 求解。",
+      "tags": [
+        "engineering",
+        "mechanics",
+        "physics",
+        "fem",
+        "机械",
+        "工程",
+        "物理",
+        "有限元"
+      ],
+      "components": [
+        "python-fem"
+      ],
+      "includes": [],
+      "guide": "guides/finite-elements.md",
+      "example": {
+        "component": "python-fem",
+        "file": "examples/fem.py"
+      }
+    },
+    {
+      "id": "cad",
+      "title": "Parametric geometry · 参数化几何",
+      "summary": "用程序构建几何并导出 STEP/STL。",
+      "tags": [
+        "engineering",
+        "mechanical",
+        "cad",
+        "机械",
+        "工程",
+        "几何",
+        "设计"
+      ],
+      "components": [
+        "python-cad"
+      ],
+      "includes": [],
+      "guide": "guides/cad.md",
+      "example": {
+        "component": "python-cad",
+        "file": "examples/cad.py"
+      }
+    },
+    {
+      "id": "optics",
+      "title": "Optics basics · 光学基础",
+      "summary": "多层膜与球形颗粒散射的计算起点。",
+      "tags": [
+        "optics",
+        "photonics",
+        "physics",
+        "光学",
+        "光子学",
+        "物理",
+        "薄膜",
+        "散射"
+      ],
+      "components": [
+        "python-optics"
+      ],
+      "includes": [],
+      "guide": "guides/optics.md",
+      "example": {
+        "component": "python-optics",
+        "file": "examples/thin_film.py"
+      }
+    },
+    {
+      "id": "quantum",
+      "title": "Quantum dynamics · 量子动力学",
+      "summary": "量子态、算符与开放系统动力学。",
+      "tags": [
+        "quantum",
+        "physics",
+        "optics",
+        "量子",
+        "物理",
+        "光学"
+      ],
+      "components": [
+        "python-quantum"
+      ],
+      "includes": [],
+      "guide": "guides/quantum.md",
+      "example": {
+        "component": "python-quantum",
+        "file": "examples/quantum.py"
+      }
+    },
+    {
+      "id": "astronomy",
+      "title": "Astronomy · 天文计算",
+      "summary": "物理单位、坐标、时间与天文数据格式。",
+      "tags": [
+        "astronomy",
+        "astrophysics",
+        "space",
+        "天文",
+        "天体",
+        "空间"
+      ],
+      "components": [
+        "python-astronomy"
+      ],
+      "includes": [],
+      "guide": "guides/astronomy.md",
+      "example": {
+        "component": "python-astronomy",
+        "file": "examples/astronomy.py"
+      }
+    },
+    {
+      "id": "instruments",
+      "title": "Instrument connections · 仪器连接",
+      "summary": "通过已有 VISA 后端连接仪器。",
+      "tags": [
+        "experiment",
+        "instruments",
+        "measurement",
+        "实验",
+        "仪器",
+        "测量"
+      ],
+      "components": [
+        "python-instruments"
+      ],
+      "includes": [],
+      "guide": "guides/instruments.md"
+    },
+    {
+      "id": "networks",
+      "title": "Graphs and networks · 图与网络",
+      "summary": "关系数据、图算法与网络模型。",
+      "tags": [
+        "mathematics",
+        "social",
+        "biology",
+        "networks",
+        "社会",
+        "数学",
+        "生物",
+        "网络",
+        "图"
+      ],
+      "components": [
+        "python-networks"
+      ],
+      "includes": [],
+      "guide": "guides/networks.md",
+      "example": {
+        "component": "python-networks",
+        "file": "examples/networks.py"
+      }
+    },
+    {
+      "id": "writing",
+      "title": "Research writing · 研究写作",
+      "summary": "LaTeX 论文编译与文献引用。",
+      "tags": [
+        "common",
+        "writing",
+        "latex",
+        "paper",
+        "写作",
+        "论文",
+        "中文",
+        "文献"
+      ],
+      "components": [
+        "tool-tex"
+      ],
+      "includes": [],
+      "guide": "guides/writing.md",
+      "example": {
+        "component": "tool-tex",
+        "file": "examples/paper.tex",
+        "args": [
+          "-xelatex",
+          "-interaction=nonstopmode",
+          "-halt-on-error"
+        ]
+      }
+    },
+    {
+      "id": "r-statistics",
+      "title": "R statistics · R 统计计算",
+      "summary": "连接已有 R 并运行研究脚本。",
+      "tags": [
+        "statistics",
+        "biology",
+        "economics",
+        "R",
+        "统计",
+        "生物",
+        "经济"
+      ],
+      "components": [
+        "tool-r"
+      ],
+      "includes": [],
+      "guide": "guides/r-statistics.md"
+    },
+    {
+      "id": "julia-science",
+      "title": "Julia science · Julia 科学计算",
+      "summary": "连接 Julia 与项目环境。",
+      "tags": [
+        "science",
+        "mathematics",
+        "julia",
+        "科学",
+        "数学"
+      ],
+      "components": [
+        "tool-julia"
+      ],
+      "includes": [],
+      "guide": "guides/julia-science.md"
+    },
+    {
+      "id": "circuits",
+      "title": "Circuit simulation · 电路模拟",
+      "summary": "连接 ngspice，运行原生电路网表。",
+      "tags": [
+        "electronics",
+        "circuits",
+        "engineering",
+        "电子",
+        "电路",
+        "工程"
+      ],
+      "components": [
+        "tool-ngspice"
+      ],
+      "includes": [],
+      "guide": "guides/circuits.md"
+    },
+    {
+      "id": "optical-lab",
+      "title": "Optics–Photonics AI Lab · 光学专业环境",
+      "summary": "接入已有光学模型、求解器与研究程序。",
+      "tags": [
+        "optics",
+        "photonics",
+        "laboratory",
+        "光学",
+        "光子学",
+        "实验室"
+      ],
+      "components": [
+        "plugin-optics"
+      ],
+      "includes": [],
+      "guide": "guides/optical-lab.md"
+    },
+    {
+      "id": "experimental-lab",
+      "title": "IOP laboratory · 实验平台",
+      "summary": "连接已有 IOP 仪器与实验服务。",
+      "tags": [
+        "instruments",
+        "experiments",
+        "laboratory",
+        "仪器",
+        "实验",
+        "实验室"
+      ],
+      "components": [
+        "plugin-iop"
+      ],
+      "includes": [],
+      "guide": "guides/experimental-lab.md"
+    },
+    {
+      "id": "references",
+      "title": "Literature metadata · 文献元数据",
+      "summary": "检索 DOI 与文献元数据，连接原文和参考文献。",
+      "tags": [
+        "literature",
+        "论文",
+        "文献",
+        "crossref"
+      ],
+      "includes": [],
+      "components": [
+        "python-http",
+        "connector-crossref"
+      ],
+      "guide": "guides/references.md",
+      "example": {
+        "component": "python-http",
+        "file": "examples/references.py"
+      }
+    },
+    {
+      "id": "databases",
+      "title": "Research databases · 研究数据库",
+      "summary": "SQL 查询、数据库客户端和已有研究数据连接。",
+      "tags": [
+        "database",
+        "postgresql",
+        "sql",
+        "数据",
+        "数据库"
+      ],
+      "includes": [],
+      "components": [
+        "python-databases",
+        "connector-postgresql"
+      ],
+      "guide": "guides/databases.md",
+      "example": {
+        "component": "python-databases",
+        "file": "examples/database.py"
+      }
+    }
+  ]
+}
