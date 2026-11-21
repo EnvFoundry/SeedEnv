@@ -21,9 +21,9 @@ An additional HTTP example retrieved actual DOI metadata from Crossref, bringing
 the executed Python examples to 20. No instrument or external database was
 connected during this work.
 
-Eleven process-level Python tests passed, including preparation from local
+Twelve process-level Python tests passed, including preparation from local
 wheels, reuse from a second process, cancellation, failed additions, composition,
-MCP messages and relocated plugin exports. The TypeScript client and picker tests
+MCP messages, multilingual pipes and relocated plugin exports. The TypeScript client and picker tests
 and the Rust client test also passed. These local runs do not establish Windows
 or macOS research-package compatibility; the repository includes a three-platform
 workflow for the core preparation tests.
