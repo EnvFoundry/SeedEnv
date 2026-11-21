@@ -55,8 +55,10 @@ def run(command, *, env=None, cancel=None, timeout=1800, cwd=None):
 def installation_lock(path):
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("a+b") as handle:
-        handle.seek(0)
-        if not handle.read(1):
+        # Do not read byte zero before locking it: Windows forbids reading a
+        # region already held by another preparer.
+        handle.seek(0, os.SEEK_END)
+        if handle.tell() == 0:
             handle.write(b"0")
             handle.flush()
         handle.seek(0)

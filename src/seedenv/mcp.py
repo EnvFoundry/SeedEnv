@@ -103,6 +103,9 @@ def dispatch(manager, request):
 
 
 def serve(manager=None):
+    for stream in (sys.stdin, sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(encoding="utf-8")
     manager = manager or Manager()
     for line in sys.stdin:
         request = None

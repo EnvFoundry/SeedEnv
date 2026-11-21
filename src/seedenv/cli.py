@@ -12,6 +12,9 @@ from .manager import Manager
 
 
 def main(argv=None):
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(encoding="utf-8")
     parser = argparse.ArgumentParser(prog="seedenv", description="Prepare and reuse research tools")
     parser.add_argument("--home", help="Persistent software and state directory")
     parser.add_argument("--catalog", help="Additional local module catalogue")
