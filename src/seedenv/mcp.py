@@ -14,8 +14,11 @@ SELECTION = {"type": "array", "items": {"type": "string"}, "minItems": 1}
 
 def tools():
     definitions = [
+        ("seedenv_browse", "Browse fields, then research directions. Navigation never selects or installs all modules in a field.",
+         {"field": field("string")}, [], True),
         ("seedenv_search", "Find research modules by task, discipline or software; supports Chinese and English.",
-         {"query": field("string"), "limit": field("integer"), "offset": field("integer")}, [], True),
+         {"query": field("string"), "limit": field("integer"), "offset": field("integer"),
+          "field": field("string"), "direction": field("string")}, [], True),
         ("seedenv_show", "Read a module and its complete software requirements, or one component.",
          {"name": field("string")}, ["name"], True),
         ("seedenv_guide", "Read practical working instructions for one selected research module.",
@@ -57,6 +60,7 @@ def call(manager, name, args):
         if typ == "array" and any(not isinstance(x, str) or not x for x in value):
             raise ValueError(f"{key} must contain strings")
     operations = {
+        "seedenv_browse": manager.catalog.browse,
         "seedenv_search": manager.catalog.search, "seedenv_show": manager.catalog.show,
         "seedenv_guide": manager.catalog.guide, "seedenv_plan": manager.plan,
         "seedenv_discover": lambda selections, **kw: manager.discover(selections, **kw),

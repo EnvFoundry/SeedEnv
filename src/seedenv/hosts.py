@@ -8,7 +8,7 @@ import uuid
 from .catalog import DATA
 
 
-def origo_requests(manager, selections, destination="System/software/seedenv"):
+def origo_requests(manager, selections, destination="environments"):
     plan = manager.plan(selections)
     requests, connections = [], []
     # The existing Origo API owns jobs and installation. Its required identity
@@ -33,7 +33,8 @@ def origo_requests(manager, selections, destination="System/software/seedenv"):
             }})
         else:
             connections.append(item)
-    return {"modules": plan["modules"], "preparations": requests, "connections": connections}
+    return {"modules": plan["modules"], "installation_root": str(manager.home),
+            "preparations": requests, "connections": connections}
 
 
 def export_plugin(output, host="origo", home=None, catalog=None):
@@ -62,7 +63,7 @@ def export_plugin(output, host="origo", home=None, catalog=None):
                  "skills": ["skills/seedenv"], "environment": {"resources": []},
                  "mcpServers": {"seedenv": {"transport": "stdio", "command": "${RESEARCH_PYTHON}",
                     "args": ["-B", "${PACKAGE_ROOT}/server.py"], "protocol_version": "2025-11-25",
-                    "env": {"SEEDENV_HOME": "${WORKSPACE_ROOT}/System/software/seedenv", **environment}}}}
+                    "env": environment}}}
         (output / "plugin.json").write_text(json.dumps(value, indent=2) + "\n", encoding="utf-8")
     return {"host": host, "path": str(output), "installed": False,
             "next": "Import this package in the host, then activate SeedEnv"}

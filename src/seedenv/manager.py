@@ -35,8 +35,11 @@ def python_works(command, modules):
 
 
 class Manager:
-    def __init__(self, home=None, catalog=None):
-        self.home = Path(home or os.environ.get("SEEDENV_HOME", Path.home() / ".seedenv")).expanduser().absolute()
+    def __init__(self, home=None, catalog=None, research_space=None):
+        space = research_space or os.environ.get("SEEDENV_RESEARCH_SPACE")
+        default = Path(space).expanduser() / "system" / "seedenv" if space else Path.home() / ".seedenv"
+        location = home or (default if research_space else os.environ.get("SEEDENV_HOME", default))
+        self.home = Path(os.path.abspath(Path(location).expanduser()))
         self.catalog = catalog or Catalog(os.environ.get("SEEDENV_CATALOG"))
         self.state = State(self.home)
 
@@ -47,12 +50,19 @@ class Manager:
 
     def _available(self, item):
         saved = self.state.get(item["id"])
-        if not saved or not Path(saved["command"][0]).is_file():
-            return None
         fields = ("kind", "requirements", "imports")
-        if any(saved["definition"].get(key) != item.get(key) for key in fields):
-            return None
-        return saved
+        if saved and Path(saved["command"][0]).is_file() and all(
+                saved["definition"].get(key) == item.get(key) for key in fields):
+            return saved
+        # A smaller module may use a previously prepared larger environment.
+        # Only explicit compatible predecessors are considered; no machine scan.
+        for parent in item.get("reuse_from", []):
+            saved = self.state.get(parent)
+            if (saved and Path(saved["command"][0]).is_file()
+                    and saved["definition"].get("kind") == "python"
+                    and python_works(saved["command"], item["imports"])):
+                return saved
+        return None
 
     def plan(self, selections, target=None):
         target = target or platform.system().lower()
@@ -65,23 +75,35 @@ class Manager:
             item = self._component(name)
             saved = self._available(item) if local else None
             row = {"component": name, "title": item["title"], "kind": item["kind"]}
+            if item.get("instructions"):
+                row["instructions"] = item["instructions"]
+            if item.get("sources"):
+                row["sources"] = item["sources"]
             if item.get("platforms") and target not in item["platforms"]:
                 row.update(action="choose-host", platforms=item["platforms"], instructions=item.get("instructions", "Choose a supported execution host"))
             elif saved:
-                row.update(action="reuse", command=saved["command"], location=saved["location"])
+                row.update(action="reuse", command=saved["command"], location=saved["location"], provided_by=saved["component"])
             elif item["kind"] == "python":
                 row.update(action="install", requirements=item["requirements"], python=item.get("python", "3.11+"))
             elif item["kind"] == "command":
                 found = next((shutil.which(x) for x in item["commands"] if shutil.which(x)), None) if local else None
                 row.update(action="connect" if found else "setup", command=[str(Path(found).absolute())] if found else None,
                            instructions=item.get("instructions", ""), sources=item.get("sources", []))
+            elif item["kind"] == "environment":
+                row.update(action="setup", imports=item["imports"], instructions=item["instructions"], sources=item.get("sources", []))
             elif item["kind"] == "connector":
                 row.update(action="configure-connector", connection=item["connection"],
                            instructions=item.get("instructions", ""), sources=item.get("sources", []))
             else:
                 row.update(action="add-plugin", url=item["url"], instructions=item.get("instructions", ""))
             actions.append(row)
+        no_download = all(a["action"] in {"reuse", "connect"} for a in actions)
         return {"modules": modules, "target": target, "actions": actions,
+                "storage": {"root": str(self.home), "new_environments": sum(a["action"] == "install" for a in actions),
+                            "reused_environments": len({tuple(a["command"]) for a in actions if a["action"] == "reuse"}),
+                            "download_bytes": 0 if no_download else None,
+                            "additional_disk_bytes": 0 if no_download else None,
+                            "free_bytes": shutil.disk_usage(self.home).free if local else None},
                 "guides": [{"module": name, "title": self.catalog.modules[name]["title"]} for name in modules]}
 
     def discover(self, names, python=None):
@@ -91,7 +113,7 @@ class Manager:
         result = []
         for name in ids:
             item = self._component(name)
-            if item["kind"] == "python" and python_works(candidate, item["imports"]):
+            if item["kind"] in {"python", "environment"} and python_works(candidate, item["imports"]):
                 result.append({"component": name, "command": candidate, "action": "bind"})
             elif item["kind"] == "command":
                 found = next((shutil.which(x) for x in item["commands"] if shutil.which(x)), None)
@@ -106,7 +128,7 @@ class Manager:
         if not command or any(not isinstance(x, str) or not x for x in command):
             raise ValueError("command must be an executable and its arguments")
         command = [executable(command[0]), *command[1:]]
-        if item["kind"] == "python" and not python_works(command, item["imports"]):
+        if item["kind"] in {"python", "environment"} and not python_works(command, item["imports"]):
             raise ValueError(f"This interpreter cannot import the packages required by {name}")
         with installation_lock(self.home / "locks" / (name + ".lock")):
             return self.state.bind(name, item, command, Path(command[0]).parent, False)
@@ -116,6 +138,8 @@ class Manager:
         with installation_lock(self.home / "locks" / (name + ".lock")):
             existing = self._available(item)
             if existing and python_works(existing["command"], item["imports"]):
+                if existing["component"] != name:
+                    return self.state.bind(name, item, existing["command"], existing["location"], existing["managed"])
                 return existing
             base = executable(python or sys.executable)
             directory = self.home / "environments"
@@ -128,6 +152,7 @@ class Manager:
                 env.pop(key, None)
             env["PIP_CONFIG_FILE"] = os.devnull
             env["PIP_DISABLE_PIP_VERSION_CHECK"] = "1"
+            env["PIP_CACHE_DIR"] = str(self.home / "cache" / "pip")
             env["PYTHONNOUSERSITE"] = "1"
             try:
                 run([base, "-I", "-m", "venv", str(prefix)], env=env, cancel=cancel)
@@ -170,8 +195,7 @@ class Manager:
         return result
 
     def entry(self, component):
-        self._component(component)
-        saved = self.state.get(component)
+        saved = self._available(self._component(component))
         if saved is None or not Path(saved["command"][0]).is_file():
             raise ValueError(f"Prepare or bind {component} first")
         return {"component": component, "command": saved["command"], "location": saved["location"]}

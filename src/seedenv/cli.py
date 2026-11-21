@@ -16,13 +16,19 @@ def main(argv=None):
         if hasattr(stream, "reconfigure"):
             stream.reconfigure(encoding="utf-8")
     parser = argparse.ArgumentParser(prog="seedenv", description="Prepare and reuse research tools")
-    parser.add_argument("--home", help="Persistent software and state directory")
+    location = parser.add_mutually_exclusive_group()
+    location.add_argument("--home", help="Persistent software and state directory")
+    location.add_argument("--research-space", help="User research space; software lives in its system/seedenv directory")
     parser.add_argument("--catalog", help="Additional local module catalogue")
     sub = parser.add_subparsers(dest="action", required=True)
     search = sub.add_parser("search", help="Find research modules")
     search.add_argument("query", nargs="?", default="")
     search.add_argument("--limit", type=int, default=20)
     search.add_argument("--offset", type=int, default=0)
+    search.add_argument("--field")
+    search.add_argument("--direction")
+    browse = sub.add_parser("browse", help="Browse fields and research directions without selecting software")
+    browse.add_argument("--field")
     for action in ("show", "guide", "entry"):
         p = sub.add_parser(action)
         p.add_argument("name")
@@ -57,10 +63,12 @@ def main(argv=None):
     connect.add_argument("--output", required=True)
     args = parser.parse_args(argv)
     try:
-        manager = Manager(args.home, Catalog(args.catalog))
+        manager = Manager(args.home, Catalog(args.catalog), args.research_space)
         action = args.action
         if action == "search":
-            value = manager.catalog.search(args.query, args.limit, args.offset)
+            value = manager.catalog.search(args.query, args.limit, args.offset, args.field, args.direction)
+        elif action == "browse":
+            value = manager.catalog.browse(args.field)
         elif action == "show":
             value = manager.catalog.show(args.name)
         elif action == "guide":
@@ -102,7 +110,7 @@ def main(argv=None):
             value = {"path": str(target), "component": example["component"],
                      "run": [*common, "run", example["component"], "--", *example.get("args", []), str(target)]}
         elif action == "connect":
-            value = export_plugin(args.output, args.host, args.home, args.catalog)
+            value = export_plugin(args.output, args.host, str(manager.home) if args.home or args.research_space else None, args.catalog)
         else:
             from .mcp import serve
             serve(manager)
