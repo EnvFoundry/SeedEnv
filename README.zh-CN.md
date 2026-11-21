@@ -2,11 +2,32 @@
 
 [English](README.md)
 
-**按研究需要准备工具，安装后跨会话复用。**
+**按领域找到方向，按研究任务选择模块，准备后跨会话使用。**
 
-用户在 Origo 首次设置或日后的“研究环境”页面选择需要的模块。SeedEnv
-准备软件、连接已有安装，并提供实际调用入口、简明工作说明和起步程序。
-光学光子学 AI 实验室、IOP 等专业环境继续维护自己的研究方法和专业积累。
+SeedEnv 为 Origo 首次设置和日常环境管理提供同一套软件选择、准备与连接能力。
+模块可以包含软件、环境、数据连接、插件和简短工作说明。深入的研究方法、知识库
+和实验流程继续由光学光子学 AI 实验室、IOP 等专业环境提供。
+
+## 选择研究环境
+
+浏览顺序是 **领域 → 研究方向 → 具体模块**。领域和方向只用于导航，默认不勾选
+模块。也可以直接搜索任务或软件，跨领域组合所需内容。
+
+当前有 16 个领域入口、88 个可选模块。光学与光子学有 14 个方向、54 个不同模块，
+包括几何光学、波动成像、统计光学、薄膜散射、纳米光子学、光电子器件、非线性与
+超快、光纤激光、集成光子、量子光学、计算成像、实验测量、X 射线和材料数据。
+完整对应关系见 [研究目录](docs/catalogue.md)。现有覆盖不代表每个学科的所有工具。
+
+| 研究工作 | 可选模块 | 直接准备的软件 |
+| --- | --- | --- |
+| 多层膜反射透射 | `thin-films` | tmm、NumPy |
+| 半导体载流子输运 | `semiconductor-transport` | DEVSIM、NumPy、适用平台的数学库 |
+| 非线性光纤脉冲 | `fiber-pulses` | laserfun 及其依赖 |
+| 光子芯片版图 | `photonic-layout` | gdsfactory 及其依赖 |
+| 量子态、轨迹、光子关联 | `quantum`、`quantum-trajectories`、`photon-correlations` | 共用一套 QuTiP |
+| 经典相干与散斑统计 | `mutual-coherence`、`speckle-statistics` | 共用 NumPy / SciPy |
+
+同一个模块可以出现在多个方向，实际软件只引用一份。
 
 ## 开始使用
 
@@ -14,73 +35,67 @@
 
 ```sh
 python -m pip install .
-seedenv search 光学
-seedenv plan optics molecules writing
-seedenv prepare optics molecules
-seedenv example optics --output thin_film.py
-seedenv run python-optics -- thin_film.py
+seedenv browse
+seedenv browse --field optics
+seedenv search --field optics --direction optoelectronic-devices
+seedenv --research-space /path/to/user-space plan thin-films writing
+seedenv --research-space /path/to/user-space prepare thin-films
+seedenv --research-space /path/to/user-space example thin-films --output thin_film.py
+seedenv --research-space /path/to/user-space run python-tmm -- thin_film.py
 ```
 
-默认软件位置是 `~/.seedenv`。可通过 `SEEDENV_HOME`，或命令前的
-`seedenv --home PATH ...` 指定持久目录。研究程序和数据放在研究空间。
-环境准备与 Agent 对其他目录的读写范围分别管理。
+`--research-space` 指向**用户层级的研究空间**。软件与登记信息放在其中的
+`system/seedenv`，研究代码、数据和输出留在各自项目中。各会话传入同一个用户
+空间即可复用环境，不要传入每次会话的临时目录。也可设置 `SEEDENV_RESEARCH_SPACE`。
 
-示例可以改写为自己的完整程序；`seedenv entry COMPONENT` 返回真实解释器或
-可执行程序，后续计算使用上游完整接口。
+已有的 `--home` / `SEEDENV_HOME` 仍直接指定环境目录；没有位置配置的独立命令
+继续使用 `~/.seedenv`。已有软件不会被迁移或删除。
 
-## 可组合的内容
+## 软件体积与长期使用
 
-第一批提供 **27 个模块**，覆盖科学计算、表格数据、统计与金融回测、机器学习、
-优化、化学分子、材料结构、生物序列、医学影像、地理、图像、有限元、CAD、
-电路、光学、量子、天文、仪器、网络、论文写作、R、Julia、文献和数据库连接，
-以及现有专业环境的接入。具体模块和软件见 [英文首页的对应表](README.md#modules)。
+浏览只读取小型目录和说明。只有所选模块进入准备计划，计划显示新增软件、可复用
+环境和保存位置。下载量与新增磁盘量目前没有逐平台的解析估计，接口用空值表示，
+界面明确显示尚无估计，不把未知体积当成零。
 
-每个模块包含软件引用、适用任务、工作说明和上游文档，适合时再附起步程序。
-组合引用同一组件，不重复维护。引导围绕模型选择、输入含义、单位、时间关系、
-数据接口和结果解释展开，避免把泛泛的“专家角色”提示词作为专业能力。
+同一组件只准备一次。不同依赖的软件可以保留独立环境，因此组件去重不代表所有
+底层依赖都只占一份空间。大型数据、模型权重、GPU 后端和硬件驱动单独选择或连接。
 
-Python 组件可以自动安装。LaTeX、R、Julia、ngspice 连接已有程序；其中 LaTeX
-也可交给 Origo 已有的 `research-tex` 准备流程。独立命令目前不负责系统包安装。
-插件激活、数据服务账户和仪器连接由产品已有的连接管理完成。
-找到可执行文件代表可以登记入口，额外字体、驱动和后端仍取决于实际安装。
-
-## 长期使用
+旧 `python-optics` 环境可供拆分后的薄膜、球形散射模块复用。`optics` 现在是领域，
+旧命令应改选 `thin-films`、`sphere-scattering`；原组合仍可通过
+`thin-film-and-scattering` 显式访问。
 
 ```sh
-seedenv discover science --python /已有环境/bin/python
-seedenv bind python-science -- /已有环境/bin/python
+seedenv discover thin-films --python /existing/environment/bin/python
+seedenv bind python-tmm -- /existing/environment/bin/python
 seedenv installed
-seedenv prepare optics --background
+seedenv prepare thin-films --background
 seedenv status JOB_ID
 seedenv cancel JOB_ID
 ```
 
-重复准备会复用已完成的组件；新增模块只准备缺少的组件。依赖需要改变时创建
-新目录，保留旧目录供正在运行的程序使用。某个组件准备失败，不影响已完成的部分。
-后台准备需要所在机器和进程持续运行。
+后续命令继续使用相同的位置参数或环境变量。环境不随会话结束删除；失败的新增
+安装不替换已有环境。后台准备要求执行机器持续运行。
 
-Windows、macOS、Linux 使用相同接口，但具体软件遵循上游的平台要求。
-服务器或 WSL 上的环境在对应执行位置准备，产品通过已有远程通道调用。
-本项目不假定所有求解器原生支持所有系统。
+Python 配方可自动准备；Meep、Finesse 等求解环境可以登记实际解释器。原生程序、
+设备驱动、插件和数据连接保留各自配置步骤。各系统使用同一入口，软件运行位置
+遵循上游支持情况，服务器和 WSL 通过产品已有通道接入。
 
-## 产品接入
+## 产品与 Agent 接入
 
 ```sh
-seedenv connect origo --output ./seedenv-origo
-seedenv connect mcp --output ./seedenv-mcp
-seedenv plan optics writing --host origo
+seedenv --research-space /path/to/user-space connect origo --output ./seedenv-origo
+seedenv --research-space /path/to/user-space connect mcp --output ./seedenv-mcp
+seedenv --research-space /path/to/user-space plan thin-films writing --host origo
 ```
 
-Origo 导出包包含可独立运行的 MCP 和一份短 Skill，随后在产品插件管理中导入、
-启用。通用 MCP 导出包也包含服务代码，配置使用当前 Python。
-Agent 按需读取模块说明，取得解释器后编写和运行自己的研究程序。
+TypeScript 提供客户端和领域、方向、模块选择界面；Rust 提供原生客户端；
+Python 负责组合与准备；SQLite 保存安装位置与进度；直接复用上游的 C/C++ 等内核。
 
-TypeScript 提供调用客户端和可嵌入的模块选择组件；Rust 提供原生产品调用端；
-Python 负责组合和准备；SQLite 保存实际软件位置与准备进度。
-科学软件已有的 C/C++ 等内核直接复用。
+Agent 先浏览或搜索，再读取相关说明，取得实际解释器后编写完整研究程序。
+示例可以改写，模块不限制上游 API。安装路径不会改变 Agent 的文件访问范围。
 
-这些接入组件已在本项目实现。**它们尚未随某个 Origo 发布版本上线**；具体页面
-接线与插件启用见 [接入说明](docs/integration.md)。
+这些组件已在本仓库实现。Origo 发布版本的页面接线与用户空间映射仍需产品接入，
+见 [接入说明](docs/integration.md)。扩展方法见 [模块说明](docs/modules.md)，
+实际运行范围见 [实现说明](docs/implementation.md)。
 
-扩展新领域主要是添加模块内容，见 [模块说明](docs/modules.md)。实际运行情况见
-[实现说明](docs/implementation.md)。SeedEnv 使用 MIT 许可证，上游软件遵循各自许可证。
+SeedEnv 使用 MIT 许可证，上游软件遵循各自许可证。

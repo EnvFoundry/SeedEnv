@@ -76,6 +76,81 @@ class SeedEnvTests(unittest.TestCase):
         self.assertIn("quantum", [x["id"] for x in self.manager.catalog.search("qutip")["items"]])
         self.assertEqual(self.manager.catalog.search("fixture", limit=1)["next_offset"], 1)
 
+    def test_fields_navigate_without_selecting_a_whole_discipline(self):
+        catalog = self.manager.catalog
+        self.assertIn("optics", [f["id"] for f in catalog.browse()["fields"]])
+        directions = catalog.browse("optics")["directions"]
+        self.assertIn("optoelectronic-devices", [d["id"] for d in directions])
+        devices = catalog.search(field="optics", direction="optoelectronic-devices")["items"]
+        self.assertIn("semiconductor-transport", [m["id"] for m in devices])
+        self.assertNotIn("fiber-pulses", [m["id"] for m in devices])
+        with self.assertRaisesRegex(ValueError, "is a field"):
+            self.manager.plan(["optics"])
+        with self.assertRaisesRegex(ValueError, "within its field"):
+            catalog.search(direction="optoelectronic-devices")
+        self.assertFalse((self.home / "environments").exists())
+
+    def test_extension_adds_a_task_to_an_existing_direction(self):
+        original = self.manager.catalog.fields["optics"]
+        first = original["directions"][0]
+        self.definition["fields"] = [{"id":"optics", "title":original["title"],
+            "directions":[{"id":first["id"], "title":first["title"], "modules":["fixture"]}]}]
+        self.save_catalog()
+        catalog = Catalog(self.extra)
+        ids = [m["id"] for m in catalog.search(field="optics", direction=first["id"])["items"]]
+        self.assertIn("fixture", ids)
+        self.assertIn("lens-design", ids)
+        self.assertEqual(catalog.show("fixture")["paths"][0]["field"], "optics")
+
+    def test_specific_tasks_prepare_only_their_shared_software(self):
+        thin = self.manager.plan(["thin-films"])
+        self.assertEqual([a["component"] for a in thin["actions"]], ["python-tmm"])
+        self.assertNotIn("miepython", thin["actions"][0]["requirements"])
+        quantum = self.manager.plan(["quantum", "quantum-trajectories", "photon-correlations"])
+        self.assertEqual([a["component"] for a in quantum["actions"]], ["python-quantum"])
+        self.assertEqual(quantum["storage"]["new_environments"], 1)
+        # The same module is reachable from physics and optics, not copied.
+        for field in ["optics", "physics"]:
+            self.assertIn("photon-correlations", [m["id"] for m in self.manager.catalog.search("correlations", field=field)["items"]])
+
+    def test_smaller_component_reuses_previously_prepared_environment(self):
+        original = self.prepare()
+        self.definition["components"].append({**self.definition["components"][0],
+            "id": "fixture-small", "reuse_from": ["fixture-python"]})
+        self.save_catalog()
+        manager = Manager(self.home, Catalog(self.extra))
+        plan = manager.plan(["fixture-python", "fixture-small"])
+        self.assertEqual([a["action"] for a in plan["actions"]], ["reuse", "reuse"])
+        self.assertEqual(plan["storage"]["reused_environments"], 1)
+        self.assertEqual(manager.entry("fixture-small")["command"], original["command"])
+        result = self.cli("prepare", "fixture-small", "--offline")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        saved = json.loads(result.stdout)["ready"][0]
+        self.assertEqual(saved["component"], "fixture-small")
+        self.assertEqual(saved["command"], original["command"])
+        self.assertEqual(len(list((self.home / "environments").iterdir())), 1)
+
+    def test_user_research_space_and_external_solver_binding(self):
+        user_space = self.root / "user research space"
+        manager = Manager(catalog=self.manager.catalog, research_space=user_space)
+        expected = user_space / "system" / "seedenv"
+        self.assertEqual(manager.home, expected)
+        plan = manager.plan(["thin-films"])
+        self.assertEqual(plan["storage"]["root"], str(expected))
+        self.assertIsNone(plan["storage"]["download_bytes"])
+        host = origo_requests(manager, ["thin-films"])
+        self.assertEqual(host["installation_root"], str(expected))
+        self.assertTrue(host["preparations"][0]["request"]["destination"].startswith("environments/"))
+        original = self.prepare()
+        self.definition["components"].append({"id":"fixture-external", "title":"Existing solver", "kind":"environment",
+            "imports":["seedenv_fixture"], "instructions":"Connect an existing interpreter"})
+        self.save_catalog()
+        external = Manager(self.home, Catalog(self.extra))
+        self.assertEqual(external.prepare(["fixture-external"])["pending"][0]["action"], "setup")
+        external.bind("fixture-external", original["command"])
+        self.assertEqual(external.prepare(["fixture-external"])["ready"][0]["command"], original["command"])
+        self.assertEqual(self.manager.plan(["fdtd"], target="windows")["actions"][0]["action"], "choose-host")
+
     def test_catalog_rejects_cycle_and_resource_escape(self):
         self.definition["modules"][0]["includes"] = ["fixture-composed"]
         self.save_catalog()

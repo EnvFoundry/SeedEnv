@@ -10,12 +10,13 @@ pub struct Client {
     pub program: OsString,
     pub prefix: Vec<OsString>,
     pub home: Option<PathBuf>,
+    pub research_space: Option<PathBuf>,
     pub catalog: Option<PathBuf>,
 }
 
 impl Client {
     pub fn new(python: impl Into<OsString>) -> Self {
-        Self { program: python.into(), prefix: Vec::new(), home: None, catalog: None }
+        Self { program: python.into(), prefix: Vec::new(), home: None, research_space: None, catalog: None }
     }
 
     /// Return JSON, except for `guide`, which returns Markdown. Arguments never
@@ -25,6 +26,7 @@ impl Client {
         let mut command = Command::new(&self.program);
         command.args(&self.prefix).args(["-m", "seedenv"]);
         if let Some(home) = &self.home { command.arg("--home").arg(home); }
+        else if let Some(space) = &self.research_space { command.arg("--research-space").arg(space); }
         if let Some(catalog) = &self.catalog { command.arg("--catalog").arg(catalog); }
         let output = command.args(arguments).stdin(Stdio::null()).output()?;
         if !output.status.success() {
@@ -34,6 +36,9 @@ impl Client {
     }
 
     pub fn search(&self, query: &str) -> io::Result<String> { self.request(["search", query]) }
+    pub fn browse(&self, field: Option<&str>) -> io::Result<String> {
+        match field { Some(name) => self.request(["browse", "--field", name]), None => self.request(["browse"]) }
+    }
     pub fn guide(&self, module: &str) -> io::Result<String> { self.request(["guide", module]) }
     pub fn plan(&self, modules: &[&str]) -> io::Result<String> {
         self.request(std::iter::once("plan").chain(modules.iter().copied()))

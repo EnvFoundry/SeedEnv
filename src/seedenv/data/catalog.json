@@ -446,6 +446,842 @@
       "sources": [
         "https://www.postgresql.org/docs/current/libpq-connect.html"
       ]
+    },
+    {
+      "id": "python-numerics",
+      "title": "NumPy / SciPy",
+      "kind": "python",
+      "requirements": [
+        "numpy",
+        "scipy"
+      ],
+      "imports": [
+        "numpy",
+        "scipy"
+      ],
+      "sources": [
+        "https://docs.scipy.org/doc/scipy/"
+      ],
+      "reuse_from": [
+        "python-science"
+      ]
+    },
+    {
+      "id": "python-symbolic",
+      "title": "SymPy",
+      "kind": "python",
+      "requirements": [
+        "sympy"
+      ],
+      "imports": [
+        "sympy"
+      ],
+      "sources": [
+        "https://docs.sympy.org/latest/"
+      ],
+      "reuse_from": [
+        "python-science"
+      ]
+    },
+    {
+      "id": "python-plotting",
+      "title": "Matplotlib",
+      "kind": "python",
+      "requirements": [
+        "matplotlib"
+      ],
+      "imports": [
+        "matplotlib"
+      ],
+      "sources": [
+        "https://matplotlib.org/stable/"
+      ],
+      "reuse_from": [
+        "python-science"
+      ]
+    },
+    {
+      "id": "python-tmm",
+      "title": "tmm",
+      "kind": "python",
+      "requirements": [
+        "tmm",
+        "numpy"
+      ],
+      "imports": [
+        "tmm",
+        "numpy"
+      ],
+      "sources": [
+        "https://github.com/sbyrnes321/tmm"
+      ],
+      "reuse_from": [
+        "python-optics"
+      ]
+    },
+    {
+      "id": "python-miepython",
+      "title": "miepython",
+      "kind": "python",
+      "requirements": [
+        "miepython"
+      ],
+      "imports": [
+        "miepython"
+      ],
+      "sources": [
+        "https://github.com/scottprahl/miepython"
+      ],
+      "reuse_from": [
+        "python-optics"
+      ]
+    },
+    {
+      "id": "python-ase",
+      "title": "ASE",
+      "kind": "python",
+      "requirements": [
+        "ase"
+      ],
+      "imports": [
+        "ase"
+      ],
+      "sources": [
+        "https://ase-lib.org/"
+      ],
+      "reuse_from": [
+        "python-materials"
+      ]
+    },
+    {
+      "id": "python-pymatgen",
+      "title": "pymatgen",
+      "kind": "python",
+      "requirements": [
+        "pymatgen"
+      ],
+      "imports": [
+        "pymatgen.core"
+      ],
+      "sources": [
+        "https://pymatgen.org/"
+      ],
+      "reuse_from": [
+        "python-materials"
+      ]
+    },
+    {
+      "id": "python-dicom",
+      "title": "pydicom",
+      "kind": "python",
+      "requirements": [
+        "pydicom",
+        "numpy"
+      ],
+      "imports": [
+        "pydicom",
+        "numpy"
+      ],
+      "sources": [
+        "https://pydicom.github.io/pydicom/stable/"
+      ],
+      "reuse_from": [
+        "python-medical-images"
+      ]
+    },
+    {
+      "id": "python-nifti",
+      "title": "NiBabel",
+      "kind": "python",
+      "requirements": [
+        "nibabel",
+        "numpy"
+      ],
+      "imports": [
+        "nibabel",
+        "numpy"
+      ],
+      "sources": [
+        "https://nipy.org/nibabel/"
+      ],
+      "reuse_from": [
+        "python-medical-images"
+      ]
+    },
+    {
+      "id": "python-vectors",
+      "title": "geopandas",
+      "kind": "python",
+      "requirements": [
+        "geopandas"
+      ],
+      "imports": [
+        "geopandas"
+      ],
+      "sources": [
+        "https://geopandas.org/"
+      ],
+      "reuse_from": [
+        "python-geospatial"
+      ]
+    },
+    {
+      "id": "python-rasters",
+      "title": "rasterio",
+      "kind": "python",
+      "requirements": [
+        "rasterio"
+      ],
+      "imports": [
+        "rasterio"
+      ],
+      "sources": [
+        "https://rasterio.readthedocs.io/"
+      ],
+      "reuse_from": [
+        "python-geospatial"
+      ]
+    },
+    {
+      "id": "python-arrays",
+      "title": "xarray",
+      "kind": "python",
+      "requirements": [
+        "xarray"
+      ],
+      "imports": [
+        "xarray"
+      ],
+      "sources": [
+        "https://docs.xarray.dev/"
+      ],
+      "reuse_from": [
+        "python-geospatial"
+      ]
+    },
+    {
+      "id": "python-optiland",
+      "title": "Optiland",
+      "kind": "python",
+      "imports": [
+        "optiland"
+      ],
+      "sources": [
+        "https://github.com/optiland/optiland"
+      ],
+      "requirements": [
+        "optiland==0.6.3"
+      ],
+      "python": ">=3.11"
+    },
+    {
+      "id": "python-rayoptics",
+      "title": "RayOptics",
+      "kind": "python",
+      "imports": [
+        "rayoptics"
+      ],
+      "sources": [
+        "https://github.com/mjhoptics/ray-optics"
+      ],
+      "requirements": [
+        "rayoptics==0.9.10"
+      ],
+      "python": ">=3.12"
+    },
+    {
+      "id": "python-raytracing",
+      "title": "RayTracing",
+      "kind": "python",
+      "imports": [
+        "raytracing"
+      ],
+      "sources": [
+        "https://github.com/DCC-Lab/RayTracing"
+      ],
+      "requirements": [
+        "raytracing==1.4.7"
+      ],
+      "python": ">=3.10"
+    },
+    {
+      "id": "python-lightpipes",
+      "title": "LightPipes",
+      "kind": "python",
+      "imports": [
+        "LightPipes"
+      ],
+      "sources": [
+        "https://github.com/opticspy/lightpipes"
+      ],
+      "requirements": [
+        "LightPipes==2.1.5"
+      ]
+    },
+    {
+      "id": "python-poppy",
+      "title": "POPPY",
+      "kind": "python",
+      "imports": [
+        "poppy"
+      ],
+      "sources": [
+        "https://github.com/spacetelescope/poppy"
+      ],
+      "requirements": [
+        "poppy==1.2.0"
+      ],
+      "python": ">=3.12"
+    },
+    {
+      "id": "python-hcipy",
+      "title": "HCIPy",
+      "kind": "python",
+      "imports": [
+        "hcipy"
+      ],
+      "sources": [
+        "https://github.com/ehpor/hcipy"
+      ],
+      "requirements": [
+        "hcipy==0.7.1"
+      ]
+    },
+    {
+      "id": "python-prysm",
+      "title": "prysm",
+      "kind": "python",
+      "imports": [
+        "prysm"
+      ],
+      "sources": [
+        "https://github.com/brandondube/prysm"
+      ],
+      "requirements": [
+        "prysm==0.21.1",
+        "setuptools<81"
+      ],
+      "instructions": "prysm 0.21.1 imports pkg_resources; use a compatible setuptools environment, or a newer upstream release that removes this dependency."
+    },
+    {
+      "id": "python-diffractio",
+      "title": "Diffractio",
+      "kind": "python",
+      "imports": [
+        "diffractio"
+      ],
+      "sources": [
+        "https://github.com/optbrea/diffractio"
+      ],
+      "requirements": [
+        "diffractio==1.0.0"
+      ]
+    },
+    {
+      "id": "python-py-pol",
+      "title": "py-pol",
+      "kind": "python",
+      "imports": [
+        "py_pol"
+      ],
+      "sources": [
+        "https://py-pol.readthedocs.io/en/master/"
+      ],
+      "requirements": [
+        "py-pol==1.3.0"
+      ]
+    },
+    {
+      "id": "python-grcwa",
+      "title": "grcwa",
+      "kind": "python",
+      "imports": [
+        "grcwa"
+      ],
+      "sources": [
+        "https://github.com/weiliangjinca/grcwa"
+      ],
+      "requirements": [
+        "grcwa==0.1.2"
+      ]
+    },
+    {
+      "id": "python-legume",
+      "title": "Legume",
+      "kind": "python",
+      "imports": [
+        "legume"
+      ],
+      "sources": [
+        "https://github.com/fancompute/legume"
+      ],
+      "requirements": [
+        "legume-gme==1.0.3"
+      ]
+    },
+    {
+      "id": "python-ceviche",
+      "title": "Ceviche",
+      "kind": "python",
+      "imports": [
+        "ceviche"
+      ],
+      "sources": [
+        "https://github.com/fancompute/ceviche"
+      ],
+      "requirements": [
+        "ceviche==0.1.3"
+      ]
+    },
+    {
+      "id": "python-solcore",
+      "title": "Solcore",
+      "kind": "python",
+      "imports": [
+        "solcore"
+      ],
+      "sources": [
+        "https://github.com/qpv-research-group/solcore5"
+      ],
+      "requirements": [
+        "solcore==5.10.0",
+        "numpy<2.4"
+      ],
+      "platforms": [
+        "linux",
+        "darwin",
+        "windows"
+      ]
+    },
+    {
+      "id": "python-treams",
+      "title": "treams",
+      "kind": "python",
+      "imports": [
+        "treams"
+      ],
+      "sources": [
+        "https://github.com/tfp-photonics/treams"
+      ],
+      "requirements": [
+        "treams==0.4.7",
+        "numpy<2; sys_platform == 'win32'"
+      ],
+      "platforms": [
+        "linux",
+        "darwin",
+        "windows"
+      ],
+      "python": "<3.14"
+    },
+    {
+      "id": "python-gdsfactory",
+      "title": "gdsfactory",
+      "kind": "python",
+      "imports": [
+        "gdsfactory"
+      ],
+      "sources": [
+        "https://github.com/gdsfactory/gdsfactory"
+      ],
+      "requirements": [
+        "gdsfactory==9.51.0"
+      ],
+      "python": ">=3.12,<3.15"
+    },
+    {
+      "id": "python-klayout",
+      "title": "KLayout Python API",
+      "kind": "python",
+      "imports": [
+        "klayout.db"
+      ],
+      "sources": [
+        "https://github.com/KLayout/klayout"
+      ],
+      "requirements": [
+        "klayout==0.30.13"
+      ]
+    },
+    {
+      "id": "python-sax",
+      "title": "SAX",
+      "kind": "python",
+      "imports": [
+        "sax"
+      ],
+      "sources": [
+        "https://github.com/flaport/sax"
+      ],
+      "requirements": [
+        "sax==0.18.2"
+      ],
+      "platforms": [
+        "linux",
+        "darwin",
+        "windows"
+      ],
+      "python": ">=3.12"
+    },
+    {
+      "id": "python-perceval",
+      "title": "Perceval",
+      "kind": "python",
+      "imports": [
+        "perceval"
+      ],
+      "sources": [
+        "https://github.com/Quandela/Perceval"
+      ],
+      "requirements": [
+        "perceval-quandela==1.3.1",
+        "drawsvg<2.4.1"
+      ],
+      "python": "<3.15",
+      "instructions": "drawsvg 2.4.1 and later fail to import with Perceval 1.3.1, so the recipe keeps an earlier drawsvg."
+    },
+    {
+      "id": "python-opticomm",
+      "title": "OptiCommPy",
+      "kind": "python",
+      "imports": [
+        "optic"
+      ],
+      "sources": [
+        "https://github.com/edsonportosilva/OptiCommPy"
+      ],
+      "requirements": [
+        "OptiCommPy==0.11.0"
+      ]
+    },
+    {
+      "id": "python-pydhm",
+      "title": "pyDHM",
+      "kind": "python",
+      "imports": [
+        "pyDHM"
+      ],
+      "sources": [
+        "https://github.com/catrujilla/pyDHM"
+      ],
+      "requirements": [
+        "pyDHM==1.0.5"
+      ],
+      "instructions": "pyDHM 1.0.5 angularSpectrum uses np.exp2(i*pi*z*kz) instead of exp(i*2*pi*z*kz), so its propagation phase differs from the angular-spectrum operator. Use a corrected upstream implementation or a separately checked propagation program. Other pyDHM modules can be bound through an existing environment."
+    },
+    {
+      "id": "python-harvesters",
+      "title": "Harvesters",
+      "kind": "python",
+      "imports": [
+        "harvesters"
+      ],
+      "sources": [
+        "https://github.com/genicam/harvesters"
+      ],
+      "requirements": [
+        "harvesters==1.4.3"
+      ]
+    },
+    {
+      "id": "python-seabreeze",
+      "title": "python-seabreeze",
+      "kind": "python",
+      "imports": [
+        "seabreeze"
+      ],
+      "sources": [
+        "https://github.com/ap--/python-seabreeze"
+      ],
+      "requirements": [
+        "seabreeze==2.11.0",
+        "numpy"
+      ],
+      "python": ">=3.9"
+    },
+    {
+      "id": "python-slmsuite",
+      "title": "slmsuite",
+      "kind": "python",
+      "imports": [
+        "slmsuite"
+      ],
+      "sources": [
+        "https://github.com/holodyne/slmsuite"
+      ],
+      "requirements": [
+        "slmsuite==0.5.0"
+      ],
+      "python": ">=3.10"
+    },
+    {
+      "id": "python-bluesky",
+      "title": "Bluesky / Ophyd",
+      "kind": "python",
+      "imports": [
+        "bluesky",
+        "ophyd"
+      ],
+      "sources": [
+        "https://github.com/bluesky/bluesky"
+      ],
+      "requirements": [
+        "bluesky==1.16.0",
+        "ophyd==1.11.2",
+        "scipy"
+      ],
+      "python": ">=3.10"
+    },
+    {
+      "id": "python-srw",
+      "title": "SRW",
+      "kind": "python",
+      "imports": [
+        "srwpy"
+      ],
+      "sources": [
+        "https://github.com/ochubar/SRW"
+      ],
+      "requirements": [
+        "srwpy==4.2.1"
+      ],
+      "platforms": [
+        "linux",
+        "darwin",
+        "windows"
+      ],
+      "python": ">=3.10,<3.15"
+    },
+    {
+      "id": "python-shadow",
+      "title": "SHADOW4",
+      "kind": "python",
+      "imports": [
+        "shadow4"
+      ],
+      "sources": [
+        "https://github.com/oasys-kit/shadow4"
+      ],
+      "requirements": [
+        "shadow4==0.2.1"
+      ]
+    },
+    {
+      "id": "environment-meep",
+      "title": "Meep / MPB",
+      "kind": "environment",
+      "imports": [
+        "meep",
+        "meep.mpb"
+      ],
+      "sources": [
+        "https://github.com/NanoComp/meep"
+      ],
+      "platforms": [
+        "linux",
+        "darwin"
+      ],
+      "instructions": "Use conda-forge pymeep on Linux/macOS, then bind this environment’s Python. On Windows choose WSL or a Linux server. The PyPI package named meep is unrelated."
+    },
+    {
+      "id": "environment-raysect",
+      "title": "Raysect",
+      "kind": "environment",
+      "imports": [
+        "raysect"
+      ],
+      "sources": [
+        "https://github.com/raysect/source"
+      ],
+      "platforms": [
+        "linux"
+      ],
+      "instructions": "Raysect publishes wheels for Linux x86-64 only; elsewhere pip compiles it, which needs a C compiler and Cython."
+    },
+    {
+      "id": "environment-smuthi",
+      "title": "SMUTHI",
+      "kind": "environment",
+      "imports": [
+        "smuthi"
+      ],
+      "sources": [
+        "https://smuthi.readthedocs.io/en/latest/_source/01%20about/about_smuthi.html"
+      ],
+      "instructions": "pip install smuthi compiles Fortran code and needs gfortran; there is no conda-forge build."
+    },
+    {
+      "id": "environment-finesse",
+      "title": "Finesse 3",
+      "kind": "environment",
+      "imports": [
+        "finesse"
+      ],
+      "sources": [
+        "https://finesse.ifosim.org/docs/latest/"
+      ],
+      "platforms": [
+        "linux",
+        "darwin"
+      ],
+      "python": ">=3.11",
+      "instructions": "Finesse 3.0.2 imports IPython and publishes wheels for Linux x86-64 and macOS arm64; elsewhere pip compiles it from source."
+    },
+    {
+      "id": "environment-ptypy",
+      "title": "PtyPy",
+      "kind": "environment",
+      "imports": [
+        "ptypy"
+      ],
+      "sources": [
+        "https://github.com/ptycho/ptypy"
+      ],
+      "instructions": "PtyPy is installed from its GitHub repository at a fixed commit; it is not on PyPI. MPI and GPU engines need their own libraries."
+    },
+    {
+      "id": "environment-strawberry",
+      "title": "Strawberry Fields",
+      "kind": "environment",
+      "imports": [
+        "strawberryfields"
+      ],
+      "sources": [
+        "https://github.com/XanaduAI/strawberryfields"
+      ],
+      "python": ">=3.10,<3.12",
+      "instructions": "Prepare the upstream compatible Python environment, then bind it. Choose any TensorFlow backend separately; this module does not download a GPU runtime."
+    },
+    {
+      "id": "environment-mcx",
+      "title": "MCX",
+      "kind": "environment",
+      "imports": [
+        "pmcx"
+      ],
+      "sources": [
+        "https://github.com/fangq/mcx"
+      ],
+      "platforms": [
+        "linux",
+        "windows"
+      ],
+      "instructions": "Prepare MCX and the supported CUDA/OpenCL device runtime on the execution host; bind its Python interface pmcx. Installing an interface alone does not provide a GPU."
+    },
+    {
+      "id": "environment-pytorch",
+      "title": "PyTorch",
+      "kind": "environment",
+      "imports": [
+        "torch"
+      ],
+      "sources": [
+        "https://pytorch.org/"
+      ],
+      "platforms": [
+        "linux",
+        "darwin",
+        "windows"
+      ],
+      "python": ">=3.11",
+      "instructions": "Choose the upstream CPU/CUDA/ROCm build for the execution host, or connect its existing PyTorch interpreter. Weights and training datasets are separate selections."
+    },
+    {
+      "id": "environment-jax",
+      "title": "JAX",
+      "kind": "environment",
+      "imports": [
+        "jax"
+      ],
+      "sources": [
+        "https://docs.jax.dev/en/latest/"
+      ],
+      "platforms": [
+        "linux",
+        "darwin",
+        "windows"
+      ],
+      "python": ">=3.12",
+      "instructions": "Prepare the upstream CPU/GPU/TPU build on the chosen execution host, then bind its Python. Accelerator plugins are selected for that host."
+    },
+    {
+      "id": "python-laserfun",
+      "title": "laserfun",
+      "kind": "python",
+      "imports": [
+        "laserfun"
+      ],
+      "sources": [
+        "https://github.com/laserfun/laserfun"
+      ],
+      "requirements": [
+        "laserfun @ git+https://github.com/laserfun/laserfun@641afa4e71a0ec8caeaeef54bd687e4ca6ecab5a",
+        "numpy",
+        "scipy",
+        "matplotlib"
+      ],
+      "instructions": "laserfun is installed from its GitHub repository at a fixed commit; it is not on PyPI."
+    },
+    {
+      "id": "python-pyfmas",
+      "title": "py-fmas",
+      "kind": "python",
+      "imports": [
+        "fmas"
+      ],
+      "sources": [
+        "https://github.com/omelchert/py-fmas"
+      ],
+      "requirements": [
+        "py-fmas @ git+https://github.com/omelchert/py-fmas@241d942fe0cd6a49001b1bf110dd32bccc86bb16"
+      ],
+      "instructions": "py-fmas is installed from its GitHub repository at a fixed commit; it is not on PyPI."
+    },
+    {
+      "id": "python-devsim",
+      "title": "DEVSIM",
+      "kind": "python",
+      "requirements": [
+        "devsim",
+        "numpy",
+        "mkl; platform_machine == 'x86_64' and sys_platform != 'darwin'",
+        "mkl; platform_machine == 'AMD64' and sys_platform == 'win32'"
+      ],
+      "imports": [
+        "devsim"
+      ],
+      "sources": [
+        "https://devsim.org/introduction.html",
+        "https://github.com/devsim/devsim/blob/main/INSTALL.md"
+      ],
+      "instructions": "DEVSIM needs BLAS/LAPACK. On x86-64 Linux/Windows this recipe includes Intel MKL, a substantial native dependency. macOS uses system math libraries; ARM Linux needs a supported system BLAS. Connect an existing solver environment to reuse its math libraries."
+    },
+    {
+      "id": "tool-adda",
+      "title": "ADDA",
+      "kind": "command",
+      "commands": [
+        "adda",
+        "adda_seq"
+      ],
+      "sources": [
+        "https://github.com/adda-team/adda"
+      ],
+      "instructions": "Install the upstream serial/MPI build for the chosen host, or connect an existing executable."
+    },
+    {
+      "id": "connector-optical-materials",
+      "title": "RefractiveIndex.INFO",
+      "kind": "connector",
+      "sources": [
+        "https://github.com/polyanskiy/refractiveindex.info-database"
+      ],
+      "connection": {
+        "type": "dataset",
+        "url": "https://github.com/polyanskiy/refractiveindex.info-database",
+        "selection": "specific materials and wavelength ranges"
+      },
+      "instructions": "Select the required material records from the upstream YAML database or connect a local copy. This selection does not download the entire database."
     }
   ],
   "modules": [
@@ -470,7 +1306,8 @@
       "example": {
         "component": "python-science",
         "file": "examples/fit.py"
-      }
+      },
+      "summary_en": "Numerical computing, symbolic mathematics, plotting and data frames."
     },
     {
       "id": "tables",
@@ -491,7 +1328,8 @@
       "example": {
         "component": "python-tables",
         "file": "examples/tables.py"
-      }
+      },
+      "summary_en": "Read, query and transform tabular and columnar data."
     },
     {
       "id": "time-series",
@@ -515,7 +1353,8 @@
       "example": {
         "component": "python-statistics",
         "file": "examples/time_series.py"
-      }
+      },
+      "summary_en": "Fit statistical models to time-indexed observations."
     },
     {
       "id": "backtesting",
@@ -540,7 +1379,8 @@
       "example": {
         "component": "python-backtesting",
         "file": "examples/backtest.py"
-      }
+      },
+      "summary_en": "Run trading strategy simulations on supplied historical or synthetic data."
     },
     {
       "id": "machine-learning",
@@ -560,7 +1400,8 @@
       "example": {
         "component": "python-ml",
         "file": "examples/learning.py"
-      }
+      },
+      "summary_en": "Train and apply classical machine learning models."
     },
     {
       "id": "optimization",
@@ -583,7 +1424,8 @@
       "example": {
         "component": "python-optimization",
         "file": "examples/optimization.py"
-      }
+      },
+      "summary_en": "Formulate and solve mathematical optimization problems."
     },
     {
       "id": "molecules",
@@ -607,11 +1449,12 @@
       "example": {
         "component": "python-molecules",
         "file": "examples/molecules.py"
-      }
+      },
+      "summary_en": "Read molecular structures and calculate descriptors with RDKit."
     },
     {
       "id": "materials",
-      "title": "Atomic structures and materials · 原子结构与材料",
+      "title": "Atomic structure interchange · 原子结构格式互转",
       "summary": "晶体、原子结构、文件转换和计算器接入。",
       "tags": [
         "materials",
@@ -631,7 +1474,8 @@
       "example": {
         "component": "python-materials",
         "file": "examples/materials.py"
-      }
+      },
+      "summary_en": "Exchange atomic and crystal structures between ASE and pymatgen."
     },
     {
       "id": "sequences",
@@ -653,7 +1497,8 @@
       "example": {
         "component": "python-sequences",
         "file": "examples/sequences.py"
-      }
+      },
+      "summary_en": "Read biological sequences, annotations and sequence file formats."
     },
     {
       "id": "medical-imaging",
@@ -676,7 +1521,9 @@
       "example": {
         "component": "python-medical-images",
         "file": "examples/medical_images.py"
-      }
+      },
+      "hidden": true,
+      "summary_en": "Read DICOM and NIfTI data with spatial metadata."
     },
     {
       "id": "geospatial",
@@ -700,7 +1547,9 @@
       "example": {
         "component": "python-geospatial",
         "file": "examples/geospatial.py"
-      }
+      },
+      "hidden": true,
+      "summary_en": "Work with vector, raster and multidimensional geographic data."
     },
     {
       "id": "images",
@@ -722,7 +1571,8 @@
       "example": {
         "component": "python-images",
         "file": "examples/images.py"
-      }
+      },
+      "summary_en": "Read, filter, segment and quantify images."
     },
     {
       "id": "finite-elements",
@@ -746,7 +1596,8 @@
       "example": {
         "component": "python-fem",
         "file": "examples/fem.py"
-      }
+      },
+      "summary_en": "Build meshes and solve PDEs through finite-element weak forms."
     },
     {
       "id": "cad",
@@ -769,31 +1620,8 @@
       "example": {
         "component": "python-cad",
         "file": "examples/cad.py"
-      }
-    },
-    {
-      "id": "optics",
-      "title": "Optics basics · 光学基础",
-      "summary": "多层膜与球形颗粒散射的计算起点。",
-      "tags": [
-        "optics",
-        "photonics",
-        "physics",
-        "光学",
-        "光子学",
-        "物理",
-        "薄膜",
-        "散射"
-      ],
-      "components": [
-        "python-optics"
-      ],
-      "includes": [],
-      "guide": "guides/optics.md",
-      "example": {
-        "component": "python-optics",
-        "file": "examples/thin_film.py"
-      }
+      },
+      "summary_en": "Construct parametric geometry and export STEP or STL files."
     },
     {
       "id": "quantum",
@@ -815,7 +1643,8 @@
       "example": {
         "component": "python-quantum",
         "file": "examples/quantum.py"
-      }
+      },
+      "summary_en": "Construct quantum states and operators, and solve open-system dynamics."
     },
     {
       "id": "astronomy",
@@ -837,7 +1666,8 @@
       "example": {
         "component": "python-astronomy",
         "file": "examples/astronomy.py"
-      }
+      },
+      "summary_en": "Work with astronomical units, coordinates, time and data formats."
     },
     {
       "id": "instruments",
@@ -855,7 +1685,8 @@
         "python-instruments"
       ],
       "includes": [],
-      "guide": "guides/instruments.md"
+      "guide": "guides/instruments.md",
+      "summary_en": "Connect instruments through an existing VISA backend."
     },
     {
       "id": "networks",
@@ -880,7 +1711,8 @@
       "example": {
         "component": "python-networks",
         "file": "examples/networks.py"
-      }
+      },
+      "summary_en": "Represent relations as graphs and apply network algorithms."
     },
     {
       "id": "writing",
@@ -909,7 +1741,8 @@
           "-interaction=nonstopmode",
           "-halt-on-error"
         ]
-      }
+      },
+      "summary_en": "Compile LaTeX papers and bibliographies using a prepared TeX installation."
     },
     {
       "id": "r-statistics",
@@ -928,7 +1761,8 @@
         "tool-r"
       ],
       "includes": [],
-      "guide": "guides/r-statistics.md"
+      "guide": "guides/r-statistics.md",
+      "summary_en": "Connect an existing R installation and run research scripts."
     },
     {
       "id": "julia-science",
@@ -945,7 +1779,8 @@
         "tool-julia"
       ],
       "includes": [],
-      "guide": "guides/julia-science.md"
+      "guide": "guides/julia-science.md",
+      "summary_en": "Connect Julia and its project environments."
     },
     {
       "id": "circuits",
@@ -963,7 +1798,8 @@
         "tool-ngspice"
       ],
       "includes": [],
-      "guide": "guides/circuits.md"
+      "guide": "guides/circuits.md",
+      "summary_en": "Run native circuit netlists with an existing ngspice installation."
     },
     {
       "id": "optical-lab",
@@ -981,7 +1817,8 @@
         "plugin-optics"
       ],
       "includes": [],
-      "guide": "guides/optical-lab.md"
+      "guide": "guides/optical-lab.md",
+      "summary_en": "Connect the specialist Optics-Photonics-AI-Lab environment."
     },
     {
       "id": "experimental-lab",
@@ -999,7 +1836,8 @@
         "plugin-iop"
       ],
       "includes": [],
-      "guide": "guides/experimental-lab.md"
+      "guide": "guides/experimental-lab.md",
+      "summary_en": "Connect an existing IOP instrument and experiment service."
     },
     {
       "id": "references",
@@ -1020,7 +1858,8 @@
       "example": {
         "component": "python-http",
         "file": "examples/references.py"
-      }
+      },
+      "summary_en": "Find DOI and literature metadata through Crossref."
     },
     {
       "id": "databases",
@@ -1042,7 +1881,1698 @@
       "example": {
         "component": "python-databases",
         "file": "examples/database.py"
-      }
+      },
+      "summary_en": "Query research data with SQL clients and an existing database connection."
+    },
+    {
+      "id": "thin-film-and-scattering",
+      "title": "Thin-film and sphere tools · 薄膜与球形散射工具",
+      "summary": "多层膜与球形颗粒散射的计算起点。",
+      "tags": [
+        "optics",
+        "photonics",
+        "physics",
+        "光学",
+        "光子学",
+        "物理",
+        "薄膜",
+        "散射"
+      ],
+      "components": [
+        "python-optics"
+      ],
+      "includes": [],
+      "guide": "guides/optics.md",
+      "example": {
+        "component": "python-optics",
+        "file": "examples/thin_film.py"
+      },
+      "hidden": true,
+      "summary_en": "The earlier combined thin-film and sphere-scattering software selection."
+    },
+    {
+      "id": "paraxial-optics",
+      "title": "Paraxial systems · 近轴光路",
+      "summary": "ABCD 矩阵、孔径、视场与高斯光束的近轴分析。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "python-raytracing"
+      ],
+      "includes": [],
+      "guide": "guides/paraxial-optics.md",
+      "example": {
+        "component": "python-raytracing",
+        "file": "examples/paraxial_optics.py"
+      },
+      "summary_en": "Analyze ABCD systems, apertures, fields of view and paraxial Gaussian beams."
+    },
+    {
+      "id": "lens-design",
+      "title": "Lens design · 镜头设计与优化",
+      "summary": "曲面、光线追迹、像差和镜头参数优化。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "python-optiland"
+      ],
+      "includes": [],
+      "guide": "guides/lens-design.md",
+      "summary_en": "Trace rays, analyze aberrations and optimize lens parameters."
+    },
+    {
+      "id": "lens-prescriptions",
+      "title": "Lens prescriptions · 镜头处方与成像分析",
+      "summary": "读取和构建顺序光学系统，分析近轴与实际光线。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "python-rayoptics"
+      ],
+      "includes": [],
+      "guide": "guides/lens-prescriptions.md",
+      "summary_en": "Build and inspect sequential optical prescriptions and image formation."
+    },
+    {
+      "id": "radiometry",
+      "title": "Radiometry · 辐射度与非顺序光线",
+      "summary": "场景、光谱、材料与探测器之间的辐射传输。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "environment-raysect"
+      ],
+      "includes": [],
+      "guide": "guides/radiometry.md",
+      "summary_en": "Model spectral radiation transfer between scenes and detectors."
+    },
+    {
+      "id": "scalar-propagation",
+      "title": "Scalar propagation · 标量衍射与光束传播",
+      "summary": "孔径、透镜、传播与标量复振幅计算。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "python-lightpipes"
+      ],
+      "includes": [],
+      "guide": "guides/scalar-propagation.md",
+      "summary_en": "Propagate scalar complex fields through apertures and lenses."
+    },
+    {
+      "id": "vector-diffraction",
+      "title": "Vector diffraction · 矢量衍射与聚焦",
+      "summary": "标量及矢量场传播、偏振和聚焦。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "python-diffractio"
+      ],
+      "includes": [],
+      "guide": "guides/vector-diffraction.md",
+      "summary_en": "Model vector fields, polarization and diffraction-limited focusing."
+    },
+    {
+      "id": "fourier-imaging",
+      "title": "Fourier imaging · 傅里叶成像与点扩散函数",
+      "summary": "瞳面、像差、衍射 PSF 与光学传播链。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "python-poppy"
+      ],
+      "includes": [],
+      "guide": "guides/fourier-imaging.md",
+      "summary_en": "Build pupil-to-image propagation chains and diffraction PSFs."
+    },
+    {
+      "id": "wavefront-analysis",
+      "title": "Wavefront analysis · 波前与成像质量",
+      "summary": "波前、Zernike 表示、PSF 与 MTF。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "python-prysm"
+      ],
+      "includes": [],
+      "guide": "guides/wavefront-analysis.md",
+      "summary_en": "Analyze wavefronts, Zernike modes, PSFs and MTFs."
+    },
+    {
+      "id": "adaptive-optics",
+      "title": "Adaptive optics · 自适应光学",
+      "summary": "湍流、波前传感、变形镜与闭环仿真。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "python-hcipy"
+      ],
+      "includes": [],
+      "guide": "guides/adaptive-optics.md",
+      "summary_en": "Simulate turbulence, wavefront sensing, deformable mirrors and feedback."
+    },
+    {
+      "id": "polarization",
+      "title": "Polarization · 偏振与穆勒矩阵",
+      "summary": "Jones、Stokes、Mueller 计算与偏振元件建模。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "python-py-pol"
+      ],
+      "includes": [],
+      "guide": "guides/polarization.md",
+      "example": {
+        "component": "python-py-pol",
+        "file": "examples/polarization.py"
+      },
+      "summary_en": "Calculate Jones, Stokes and Mueller representations of polarization."
+    },
+    {
+      "id": "mutual-coherence",
+      "title": "Mutual coherence · 经典统计光学与相干性",
+      "summary": "互相干矩阵、相干模与部分相干传播。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "python-numerics"
+      ],
+      "includes": [],
+      "guide": "guides/mutual-coherence.md",
+      "example": {
+        "component": "python-numerics",
+        "file": "examples/mutual_coherence.py"
+      },
+      "summary_en": "Represent mutual coherence, coherent modes and partially coherent propagation."
+    },
+    {
+      "id": "speckle-statistics",
+      "title": "Speckle statistics · 散斑与强度统计",
+      "summary": "复随机场、散斑对比度、相关长度与多模平均。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "python-numerics"
+      ],
+      "includes": [],
+      "guide": "guides/speckle-statistics.md",
+      "example": {
+        "component": "python-numerics",
+        "file": "examples/speckle_statistics.py"
+      },
+      "summary_en": "Calculate speckle contrast, correlations and independent-mode averaging."
+    },
+    {
+      "id": "thin-films",
+      "title": "Thin films · 多层薄膜",
+      "summary": "多层膜反射、透射、吸收与场分布。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "python-tmm"
+      ],
+      "includes": [],
+      "guide": "guides/thin-films.md",
+      "example": {
+        "component": "python-tmm",
+        "file": "examples/thin_film.py"
+      },
+      "summary_en": "Calculate multilayer reflection, transmission, absorption and internal fields."
+    },
+    {
+      "id": "sphere-scattering",
+      "title": "Sphere scattering · 球形颗粒散射",
+      "summary": "Mie 散射效率、角分布与消光。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "python-miepython"
+      ],
+      "includes": [],
+      "guide": "guides/sphere-scattering.md",
+      "summary_en": "Calculate Mie scattering efficiencies and angular distributions."
+    },
+    {
+      "id": "multiple-scattering",
+      "title": "Multiple scattering · 多体散射与 T 矩阵",
+      "summary": "多极展开、T 矩阵与多体散射。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "python-treams"
+      ],
+      "includes": [],
+      "guide": "guides/multiple-scattering.md",
+      "summary_en": "Use multipole expansions and T matrices for interacting scatterers."
+    },
+    {
+      "id": "layered-particle-scattering",
+      "title": "Particles near layers · 层状介质中的颗粒散射",
+      "summary": "结合层状背景与颗粒多重散射。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "environment-smuthi"
+      ],
+      "includes": [],
+      "guide": "guides/layered-particle-scattering.md",
+      "summary_en": "Model particle multiple scattering in layered backgrounds."
+    },
+    {
+      "id": "discrete-dipoles",
+      "title": "Discrete dipoles · 离散偶极散射",
+      "summary": "任意形状颗粒的离散偶极近似。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "tool-adda"
+      ],
+      "includes": [],
+      "guide": "guides/discrete-dipoles.md",
+      "summary_en": "Model scattering by discretized particles of arbitrary shape with ADDA."
+    },
+    {
+      "id": "fdtd",
+      "title": "FDTD · 全波时域计算",
+      "summary": "结构、源、边界与电磁场时域传播。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "environment-meep"
+      ],
+      "includes": [],
+      "guide": "guides/fdtd.md",
+      "summary_en": "Simulate electromagnetic fields, sources and boundaries in the time domain."
+    },
+    {
+      "id": "photonic-bands",
+      "title": "Photonic bands · 光子晶体能带与模态",
+      "summary": "MPB 本征模、色散与周期结构能带。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "environment-meep"
+      ],
+      "includes": [],
+      "guide": "guides/photonic-bands.md",
+      "summary_en": "Calculate periodic photonic eigenmodes and band dispersion with MPB."
+    },
+    {
+      "id": "periodic-rcwa",
+      "title": "Periodic RCWA · 周期光栅与超表面",
+      "summary": "周期层状结构的 RCWA 散射。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "python-grcwa"
+      ],
+      "includes": [],
+      "guide": "guides/periodic-rcwa.md",
+      "example": {
+        "component": "python-grcwa",
+        "file": "examples/periodic_rcwa.py"
+      },
+      "summary_en": "Calculate diffraction and scattering from periodic layered structures."
+    },
+    {
+      "id": "slab-bands",
+      "title": "Photonic slab modes · 光子晶体薄板模态",
+      "summary": "导模展开、薄板能带与辐射损耗。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "python-legume"
+      ],
+      "includes": [],
+      "guide": "guides/slab-bands.md",
+      "summary_en": "Model photonic slab modes and radiation loss by guided-mode expansion."
+    },
+    {
+      "id": "inverse-electromagnetics",
+      "title": "Inverse electromagnetics · 电磁逆向设计",
+      "summary": "可微 FDFD/FDTD 模型与结构优化。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "python-ceviche"
+      ],
+      "includes": [],
+      "guide": "guides/inverse-electromagnetics.md",
+      "summary_en": "Optimize electromagnetic structures with differentiable field models."
+    },
+    {
+      "id": "semiconductor-transport",
+      "title": "Semiconductor transport · 半导体载流子与器件输运",
+      "summary": "Poisson、漂移扩散及自定义器件方程。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "python-devsim"
+      ],
+      "includes": [],
+      "guide": "guides/semiconductor-transport.md",
+      "summary_en": "Solve Poisson, drift-diffusion and custom semiconductor device equations."
+    },
+    {
+      "id": "photovoltaic-devices",
+      "title": "Photovoltaic devices · 光伏与多结光电器件",
+      "summary": "材料、吸收、结模型与太阳能电池光电响应。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "python-solcore"
+      ],
+      "includes": [],
+      "guide": "guides/photovoltaic-devices.md",
+      "summary_en": "Combine absorption and junction models for photovoltaic device response."
+    },
+    {
+      "id": "quantum-wells",
+      "title": "Semiconductor quantum wells · 半导体量子阱与能带",
+      "summary": "半导体量子阱能级、材料能带与吸收模型。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "python-solcore"
+      ],
+      "includes": [],
+      "guide": "guides/quantum-wells.md",
+      "summary_en": "Model semiconductor quantum-well levels, band structure and absorption."
+    },
+    {
+      "id": "fiber-pulses",
+      "title": "Nonlinear fiber pulses · 光纤非线性脉冲传播",
+      "summary": "色散、非线性与广义非线性薛定谔方程传播。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "python-laserfun"
+      ],
+      "includes": [],
+      "guide": "guides/fiber-pulses.md",
+      "summary_en": "Propagate nonlinear optical pulses using generalized envelope models."
+    },
+    {
+      "id": "broadband-pulses",
+      "title": "Broadband pulse propagation · 宽带与超快脉冲",
+      "summary": "基于解析信号的宽带非线性传播。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "python-pyfmas"
+      ],
+      "includes": [],
+      "guide": "guides/broadband-pulses.md",
+      "summary_en": "Simulate broadband nonlinear pulse propagation with analytic-signal models."
+    },
+    {
+      "id": "phase-matching",
+      "title": "Phase matching · 非线性频率转换与相位匹配",
+      "summary": "波矢失配、相干长度与转换带宽的计算起点。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "python-numerics"
+      ],
+      "includes": [],
+      "guide": "guides/phase-matching.md",
+      "example": {
+        "component": "python-numerics",
+        "file": "examples/phase_matching.py"
+      },
+      "summary_en": "Calculate wave-vector mismatch, coherence length and conversion bandwidth."
+    },
+    {
+      "id": "laser-rate-equations",
+      "title": "Laser rate equations · 激光速率方程",
+      "summary": "载流子、光子数、增益与时间响应模型。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "python-numerics"
+      ],
+      "includes": [],
+      "guide": "guides/laser-rate-equations.md",
+      "example": {
+        "component": "python-numerics",
+        "file": "examples/laser_rate_equations.py"
+      },
+      "summary_en": "Model pump, inversion, photons and laser time response with rate equations."
+    },
+    {
+      "id": "optical-resonators",
+      "title": "Optical resonators · 谐振腔与干涉仪",
+      "summary": "频域光学系统、腔模、失谐与信号响应。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "environment-finesse"
+      ],
+      "includes": [],
+      "guide": "guides/optical-resonators.md",
+      "summary_en": "Model optical cavities, detuning, modes and interferometer response."
+    },
+    {
+      "id": "fiber-communications",
+      "title": "Optical communications · 光纤通信与数字信号处理",
+      "summary": "调制、光纤信道、接收和 DSP 仿真。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "python-opticomm"
+      ],
+      "includes": [],
+      "guide": "guides/fiber-communications.md",
+      "summary_en": "Simulate optical modulation, fiber channels, receivers and DSP."
+    },
+    {
+      "id": "photonic-layout",
+      "title": "Photonic layout · 光子芯片器件与布线",
+      "summary": "参数化器件、端口、互连和版图生成。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "python-gdsfactory"
+      ],
+      "includes": [],
+      "guide": "guides/photonic-layout.md",
+      "summary_en": "Generate parametric photonic devices, ports, routes and layouts."
+    },
+    {
+      "id": "mask-layout",
+      "title": "Mask geometry · 掩模与 GDS/OASIS 几何",
+      "summary": "版图层、单元、几何变换与版图文件读写。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "python-klayout"
+      ],
+      "includes": [],
+      "guide": "guides/mask-layout.md",
+      "summary_en": "Read and construct GDS/OASIS geometry with the KLayout Python API."
+    },
+    {
+      "id": "photonic-circuits",
+      "title": "Photonic circuits · 光子集成电路仿真",
+      "summary": "由器件散射矩阵组合光子电路。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "python-sax"
+      ],
+      "includes": [],
+      "guide": "guides/photonic-circuits.md",
+      "summary_en": "Compose photonic circuits from component scattering matrices."
+    },
+    {
+      "id": "quantum-trajectories",
+      "title": "Quantum trajectories · 量子轨迹与开放系统",
+      "summary": "Lindblad 演化与蒙特卡洛量子轨迹。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "python-quantum"
+      ],
+      "includes": [],
+      "guide": "guides/quantum-trajectories.md",
+      "summary_en": "Simulate Lindblad evolution and stochastic quantum trajectories."
+    },
+    {
+      "id": "photon-correlations",
+      "title": "Photon correlations · 光子关联与量子统计",
+      "summary": "一阶与二阶关联、稳态和光子数统计。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "python-quantum"
+      ],
+      "includes": [],
+      "guide": "guides/photon-correlations.md",
+      "summary_en": "Calculate optical correlations and photon-number statistics."
+    },
+    {
+      "id": "linear-quantum-photonics",
+      "title": "Linear quantum photonics · 线性光学量子电路",
+      "summary": "光子输入态、干涉网络与输出概率。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "python-perceval"
+      ],
+      "includes": [],
+      "guide": "guides/linear-quantum-photonics.md",
+      "summary_en": "Simulate photon states, interferometers and measurement probabilities."
+    },
+    {
+      "id": "continuous-variable-photonics",
+      "title": "Continuous-variable photonics · 连续变量量子光学",
+      "summary": "高斯态、压缩、光学量子电路与测量。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "environment-strawberry"
+      ],
+      "includes": [],
+      "guide": "guides/continuous-variable-photonics.md",
+      "summary_en": "Connect Gaussian and Fock simulation backends for optical quantum circuits."
+    },
+    {
+      "id": "digital-holography",
+      "title": "Digital holography · 数字全息与相位重建",
+      "summary": "全息图传播、相移与相位补偿。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "python-pydhm"
+      ],
+      "includes": [],
+      "guide": "guides/digital-holography.md",
+      "summary_en": "Reconstruct amplitude and phase from digital holograms."
+    },
+    {
+      "id": "ptychography",
+      "title": "Ptychography · 叠层成像与相位恢复",
+      "summary": "扫描衍射数据、探针和物体的联合重建。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "environment-ptypy"
+      ],
+      "includes": [],
+      "guide": "guides/ptychography.md",
+      "summary_en": "Reconstruct objects and probes from scanning diffraction data."
+    },
+    {
+      "id": "tissue-light-transport",
+      "title": "Tissue light transport · 组织中的蒙特卡洛光输运",
+      "summary": "吸收、散射、各向异性与体介质光输运。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "environment-mcx"
+      ],
+      "includes": [],
+      "guide": "guides/tissue-light-transport.md",
+      "summary_en": "Simulate scattering and absorption in voxelized media with MCX."
+    },
+    {
+      "id": "camera-acquisition",
+      "title": "Camera acquisition · 工业相机采集",
+      "summary": "通过 GenICam/GenTL 连接已有工业相机。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "python-harvesters"
+      ],
+      "includes": [],
+      "guide": "guides/camera-acquisition.md",
+      "summary_en": "Connect supported cameras through a supplied GenICam/GenTL producer."
+    },
+    {
+      "id": "spectrometer-acquisition",
+      "title": "Spectrometer acquisition · 光谱仪采集",
+      "summary": "连接受支持光谱仪并读取光谱。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "python-seabreeze"
+      ],
+      "includes": [],
+      "guide": "guides/spectrometer-acquisition.md",
+      "summary_en": "Read spectra from supported spectrometers."
+    },
+    {
+      "id": "slm-wavefront-control",
+      "title": "SLM wavefront control · 空间光调制与波前整形",
+      "summary": "SLM 相位、全息图和相机反馈。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "python-slmsuite"
+      ],
+      "includes": [],
+      "guide": "guides/slm-wavefront-control.md",
+      "summary_en": "Model SLM phase patterns, holography and camera feedback."
+    },
+    {
+      "id": "experiment-scans",
+      "title": "Experiment scans · 实验扫描与数据流",
+      "summary": "设备、扫描计划和事件数据流。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "python-bluesky"
+      ],
+      "includes": [],
+      "guide": "guides/experiment-scans.md",
+      "summary_en": "Compose device scans and event streams with Bluesky and Ophyd."
+    },
+    {
+      "id": "synchrotron-wavefronts",
+      "title": "Synchrotron wavefronts · 同步辐射波前",
+      "summary": "同步辐射源、波前与束线传播。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "python-srw"
+      ],
+      "includes": [],
+      "guide": "guides/synchrotron-wavefronts.md",
+      "summary_en": "Simulate synchrotron sources, wavefronts and beamline propagation."
+    },
+    {
+      "id": "xray-raytracing",
+      "title": "X-ray ray tracing · X 射线束线追迹",
+      "summary": "X 射线源、晶体、反射镜与束线光线追迹。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "python-shadow"
+      ],
+      "includes": [],
+      "guide": "guides/xray-raytracing.md",
+      "summary_en": "Trace X-ray sources, crystals, mirrors and beamlines."
+    },
+    {
+      "id": "optical-material-data",
+      "title": "Optical material data · 光学材料色散数据",
+      "summary": "选择材料折射率与消光系数数据记录。",
+      "tags": [
+        "optics",
+        "photonics",
+        "光学",
+        "光子学"
+      ],
+      "components": [
+        "connector-optical-materials"
+      ],
+      "includes": [],
+      "guide": "guides/optical-material-data.md",
+      "summary_en": "Select material refractive-index and extinction-coefficient records."
+    },
+    {
+      "id": "numerical-computing",
+      "title": "Numerical computing · 数值计算",
+      "summary": "线性代数、积分、优化、信号处理与微分方程。",
+      "tags": [],
+      "components": [
+        "python-numerics"
+      ],
+      "includes": [],
+      "guide": "guides/numerical-computing.md",
+      "summary_en": "Use linear algebra, integration, optimization, signals and differential equations."
+    },
+    {
+      "id": "symbolic-mathematics",
+      "title": "Symbolic mathematics · 符号数学",
+      "summary": "符号表达式、代数、微积分与公式变换。",
+      "tags": [],
+      "components": [
+        "python-symbolic"
+      ],
+      "includes": [],
+      "guide": "guides/symbolic-mathematics.md",
+      "summary_en": "Manipulate symbolic algebra, calculus and exact expressions."
+    },
+    {
+      "id": "scientific-plotting",
+      "title": "Scientific plotting · 科学绘图",
+      "summary": "从已有数据制作科学图表。",
+      "tags": [],
+      "components": [
+        "python-plotting"
+      ],
+      "includes": [],
+      "guide": "guides/scientific-plotting.md",
+      "summary_en": "Create scientific figures from supplied data."
+    },
+    {
+      "id": "atomistic-models",
+      "title": "Atomistic models · 原子结构与原子模拟",
+      "summary": "构建原子结构，连接计算器与原子轨迹。",
+      "tags": [],
+      "components": [
+        "python-ase"
+      ],
+      "includes": [],
+      "guide": "guides/atomistic-models.md",
+      "summary_en": "Build atomic structures and connect calculators and trajectories with ASE."
+    },
+    {
+      "id": "crystal-analysis",
+      "title": "Crystal analysis · 晶体结构与材料分析",
+      "summary": "晶体、组成、结构变换与材料数据处理。",
+      "tags": [],
+      "components": [
+        "python-pymatgen"
+      ],
+      "includes": [],
+      "guide": "guides/crystal-analysis.md",
+      "summary_en": "Analyze crystal structures, compositions and material data with pymatgen."
+    },
+    {
+      "id": "reaction-informatics",
+      "title": "Reaction informatics · 反应与分子信息学",
+      "summary": "SMARTS 反应、分子表示与描述符。",
+      "tags": [],
+      "components": [
+        "python-molecules"
+      ],
+      "includes": [],
+      "guide": "guides/reaction-informatics.md",
+      "summary_en": "Represent molecules, calculate descriptors and apply SMARTS reactions."
+    },
+    {
+      "id": "sequence-alignment",
+      "title": "Sequence alignment · 生物序列比对",
+      "summary": "序列读取、成对比对与注释整理。",
+      "tags": [],
+      "components": [
+        "python-sequences"
+      ],
+      "includes": [],
+      "guide": "guides/sequence-alignment.md",
+      "summary_en": "Read biological sequences and perform pairwise alignment."
+    },
+    {
+      "id": "protein-structures",
+      "title": "Protein structures · 蛋白质结构数据",
+      "summary": "PDB/mmCIF 解析、链与残基组织。",
+      "tags": [],
+      "components": [
+        "python-sequences"
+      ],
+      "includes": [],
+      "guide": "guides/protein-structures.md",
+      "summary_en": "Parse PDB/mmCIF files and organize chains and residues."
+    },
+    {
+      "id": "dicom-data",
+      "title": "DICOM data · DICOM 图像与元数据",
+      "summary": "读取 DICOM 数据集与像素信息。",
+      "tags": [],
+      "components": [
+        "python-dicom"
+      ],
+      "includes": [],
+      "guide": "guides/dicom-data.md",
+      "summary_en": "Read DICOM data, pixel arrays and spatial metadata."
+    },
+    {
+      "id": "neuroimaging-data",
+      "title": "Neuroimaging arrays · NIfTI 与神经影像数组",
+      "summary": "NIfTI 体数据、仿射坐标与图像头信息。",
+      "tags": [],
+      "components": [
+        "python-nifti"
+      ],
+      "includes": [],
+      "guide": "guides/neuroimaging-data.md",
+      "summary_en": "Read NIfTI arrays, affine transforms and headers."
+    },
+    {
+      "id": "vector-geodata",
+      "title": "Vector geodata · 地理矢量数据",
+      "summary": "地理要素、坐标变换与空间连接。",
+      "tags": [],
+      "components": [
+        "python-vectors"
+      ],
+      "includes": [],
+      "guide": "guides/vector-geodata.md",
+      "summary_en": "Transform geographic features and perform spatial joins."
+    },
+    {
+      "id": "raster-geodata",
+      "title": "Raster geodata · 遥感栅格数据",
+      "summary": "栅格读取、窗口处理、地理变换和波段数据。",
+      "tags": [],
+      "components": [
+        "python-rasters"
+      ],
+      "includes": [],
+      "guide": "guides/raster-geodata.md",
+      "summary_en": "Read raster windows, bands and georeferencing metadata."
+    },
+    {
+      "id": "climate-arrays",
+      "title": "Climate arrays · 气候与多维时空数据",
+      "summary": "带标签的多维数组、坐标对齐与分组计算。",
+      "tags": [],
+      "components": [
+        "python-arrays"
+      ],
+      "includes": [],
+      "guide": "guides/climate-arrays.md",
+      "summary_en": "Organize labeled multidimensional arrays and time-space coordinates."
+    },
+    {
+      "id": "statistical-models",
+      "title": "Statistical models · 统计建模与推断",
+      "summary": "回归、广义线性模型、时间与群组结构。",
+      "tags": [],
+      "components": [
+        "python-statistics"
+      ],
+      "includes": [],
+      "guide": "guides/statistical-models.md",
+      "summary_en": "Fit regression and generalized linear models with explicit data assumptions."
+    },
+    {
+      "id": "deep-learning",
+      "title": "Deep learning · 深度学习运行环境",
+      "summary": "连接与硬件匹配的 PyTorch 训练与推理环境。",
+      "tags": [],
+      "components": [
+        "environment-pytorch"
+      ],
+      "includes": [],
+      "guide": "guides/deep-learning.md",
+      "summary_en": "Connect a hardware-matched PyTorch training and inference environment."
+    },
+    {
+      "id": "differentiable-computing",
+      "title": "Differentiable computing · 可微科学计算",
+      "summary": "连接 JAX 的自动微分、向量化与编译环境。",
+      "tags": [],
+      "components": [
+        "environment-jax"
+      ],
+      "includes": [],
+      "guide": "guides/differentiable-computing.md",
+      "summary_en": "Connect JAX automatic differentiation, vectorization and compilation."
+    }
+  ],
+  "fields": [
+    {
+      "id": "optics",
+      "title": "Optics & photonics · 光学与光子学",
+      "directions": [
+        {
+          "id": "geometrical",
+          "title": "Geometrical optics · 几何光学",
+          "modules": [
+            "paraxial-optics",
+            "lens-design",
+            "lens-prescriptions",
+            "radiometry"
+          ]
+        },
+        {
+          "id": "wave-imaging",
+          "title": "Wave optics & imaging · 波动光学与成像",
+          "modules": [
+            "scalar-propagation",
+            "vector-diffraction",
+            "fourier-imaging",
+            "wavefront-analysis",
+            "adaptive-optics",
+            "polarization"
+          ]
+        },
+        {
+          "id": "statistical",
+          "title": "Statistical optics · 统计光学",
+          "modules": [
+            "mutual-coherence",
+            "speckle-statistics",
+            "photon-correlations"
+          ]
+        },
+        {
+          "id": "films-scattering",
+          "title": "Films & scattering · 薄膜与散射",
+          "modules": [
+            "thin-films",
+            "sphere-scattering",
+            "multiple-scattering",
+            "layered-particle-scattering",
+            "discrete-dipoles"
+          ]
+        },
+        {
+          "id": "nano-electromagnetics",
+          "title": "Nanophotonics · 纳米光子学与电磁场",
+          "modules": [
+            "fdtd",
+            "photonic-bands",
+            "periodic-rcwa",
+            "slab-bands",
+            "inverse-electromagnetics"
+          ]
+        },
+        {
+          "id": "optoelectronic-devices",
+          "title": "Optoelectronic devices · 光电子器件",
+          "modules": [
+            "semiconductor-transport",
+            "photovoltaic-devices",
+            "quantum-wells",
+            "laser-rate-equations",
+            "circuits"
+          ]
+        },
+        {
+          "id": "nonlinear-ultrafast",
+          "title": "Nonlinear & ultrafast · 非线性与超快光学",
+          "modules": [
+            "fiber-pulses",
+            "broadband-pulses",
+            "phase-matching"
+          ]
+        },
+        {
+          "id": "fibers-lasers",
+          "title": "Fibers & lasers · 光纤与激光",
+          "modules": [
+            "fiber-pulses",
+            "laser-rate-equations",
+            "optical-resonators",
+            "fiber-communications"
+          ]
+        },
+        {
+          "id": "integrated-photonics",
+          "title": "Integrated photonics · 集成光子学",
+          "modules": [
+            "photonic-layout",
+            "mask-layout",
+            "photonic-circuits",
+            "photonic-bands"
+          ]
+        },
+        {
+          "id": "quantum-optics",
+          "title": "Quantum optics · 量子光学",
+          "modules": [
+            "quantum",
+            "quantum-trajectories",
+            "photon-correlations",
+            "linear-quantum-photonics",
+            "continuous-variable-photonics"
+          ]
+        },
+        {
+          "id": "computational-imaging",
+          "title": "Computational & biological imaging · 计算成像与生物光学",
+          "modules": [
+            "digital-holography",
+            "ptychography",
+            "tissue-light-transport",
+            "images"
+          ]
+        },
+        {
+          "id": "measurement",
+          "title": "Optical experiments · 光学实验与测量",
+          "modules": [
+            "instruments",
+            "camera-acquisition",
+            "spectrometer-acquisition",
+            "slm-wavefront-control",
+            "experiment-scans"
+          ]
+        },
+        {
+          "id": "xray",
+          "title": "X-ray & synchrotron · X 射线与同步辐射",
+          "modules": [
+            "synchrotron-wavefronts",
+            "xray-raytracing"
+          ]
+        },
+        {
+          "id": "resources",
+          "title": "Data & specialist tools · 数据与专业环境",
+          "modules": [
+            "optical-material-data",
+            "optical-lab",
+            "experimental-lab"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mathematics",
+      "title": "Mathematics · 数学",
+      "directions": [
+        {
+          "id": "analysis",
+          "title": "Analysis & algebra · 分析与代数",
+          "modules": [
+            "numerical-computing",
+            "symbolic-mathematics"
+          ]
+        },
+        {
+          "id": "discrete",
+          "title": "Discrete structures · 离散结构",
+          "modules": [
+            "networks",
+            "optimization"
+          ]
+        },
+        {
+          "id": "statistics",
+          "title": "Probability & statistics · 概率与统计",
+          "modules": [
+            "statistical-models",
+            "r-statistics"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "computing",
+      "title": "AI & computing · AI 与计算",
+      "directions": [
+        {
+          "id": "learning",
+          "title": "Machine learning · 机器学习",
+          "modules": [
+            "machine-learning",
+            "deep-learning"
+          ]
+        },
+        {
+          "id": "scientific",
+          "title": "Scientific computing · 科学计算",
+          "modules": [
+            "numerical-computing",
+            "differentiable-computing",
+            "julia-science"
+          ]
+        },
+        {
+          "id": "data",
+          "title": "Data systems · 数据系统",
+          "modules": [
+            "tables",
+            "databases",
+            "networks"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "physics",
+      "title": "Physics · 物理",
+      "directions": [
+        {
+          "id": "dynamics",
+          "title": "Dynamics & fields · 动力学与场",
+          "modules": [
+            "numerical-computing",
+            "finite-elements"
+          ]
+        },
+        {
+          "id": "quantum",
+          "title": "Quantum systems · 量子系统",
+          "modules": [
+            "quantum",
+            "quantum-trajectories",
+            "photon-correlations"
+          ]
+        },
+        {
+          "id": "measurement",
+          "title": "Measurement · 测量",
+          "modules": [
+            "instruments",
+            "experiment-scans",
+            "statistical-models"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "chemistry",
+      "title": "Chemistry · 化学",
+      "directions": [
+        {
+          "id": "molecular",
+          "title": "Molecular informatics · 分子信息学",
+          "modules": [
+            "molecules",
+            "reaction-informatics"
+          ]
+        },
+        {
+          "id": "atomistic",
+          "title": "Atomistic models · 原子建模",
+          "modules": [
+            "atomistic-models",
+            "materials"
+          ]
+        },
+        {
+          "id": "data",
+          "title": "Chemical data · 化学数据",
+          "modules": [
+            "tables",
+            "statistical-models",
+            "databases"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "materials-science",
+      "title": "Materials · 材料",
+      "directions": [
+        {
+          "id": "structures",
+          "title": "Structures · 结构",
+          "modules": [
+            "crystal-analysis",
+            "atomistic-models",
+            "materials"
+          ]
+        },
+        {
+          "id": "properties",
+          "title": "Properties & devices · 性质与器件",
+          "modules": [
+            "semiconductor-transport",
+            "thin-films",
+            "quantum-wells"
+          ]
+        },
+        {
+          "id": "characterization",
+          "title": "Characterization · 表征",
+          "modules": [
+            "images",
+            "spectrometer-acquisition",
+            "statistical-models"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "life-sciences",
+      "title": "Life sciences · 生命科学",
+      "directions": [
+        {
+          "id": "sequences",
+          "title": "Sequences · 序列",
+          "modules": [
+            "sequences",
+            "sequence-alignment"
+          ]
+        },
+        {
+          "id": "structures",
+          "title": "Structural data · 结构数据",
+          "modules": [
+            "protein-structures",
+            "molecules"
+          ]
+        },
+        {
+          "id": "imaging",
+          "title": "Microscopy · 显微成像",
+          "modules": [
+            "images",
+            "camera-acquisition",
+            "tissue-light-transport"
+          ]
+        },
+        {
+          "id": "statistics",
+          "title": "Data & statistics · 数据与统计",
+          "modules": [
+            "statistical-models",
+            "r-statistics",
+            "networks"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "medical-research",
+      "title": "Medicine · 医学研究",
+      "directions": [
+        {
+          "id": "imaging",
+          "title": "Image data · 影像数据",
+          "modules": [
+            "dicom-data",
+            "neuroimaging-data",
+            "images"
+          ]
+        },
+        {
+          "id": "analysis",
+          "title": "Research data · 研究数据",
+          "modules": [
+            "statistical-models",
+            "r-statistics",
+            "tables",
+            "databases"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pharmaceutical-research",
+      "title": "Pharmaceutical research · 医药研究",
+      "directions": [
+        {
+          "id": "molecules",
+          "title": "Molecules & reactions · 分子与反应",
+          "modules": [
+            "molecules",
+            "reaction-informatics"
+          ]
+        },
+        {
+          "id": "structures",
+          "title": "Biological structures · 生物结构",
+          "modules": [
+            "protein-structures",
+            "sequence-alignment"
+          ]
+        },
+        {
+          "id": "analysis",
+          "title": "Experimental data · 实验数据",
+          "modules": [
+            "statistical-models",
+            "optimization",
+            "databases"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mechanical-engineering",
+      "title": "Mechanical engineering · 机械工程",
+      "directions": [
+        {
+          "id": "geometry",
+          "title": "Geometry & manufacturing · 几何与制造",
+          "modules": [
+            "cad"
+          ]
+        },
+        {
+          "id": "mechanics",
+          "title": "Continuum models · 连续介质建模",
+          "modules": [
+            "finite-elements",
+            "numerical-computing"
+          ]
+        },
+        {
+          "id": "experiments",
+          "title": "Experiments · 实验",
+          "modules": [
+            "instruments",
+            "experiment-scans",
+            "images"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "electronics",
+      "title": "Electronics · 电子",
+      "directions": [
+        {
+          "id": "circuits",
+          "title": "Circuits · 电路",
+          "modules": [
+            "circuits"
+          ]
+        },
+        {
+          "id": "devices",
+          "title": "Semiconductor devices · 半导体器件",
+          "modules": [
+            "semiconductor-transport",
+            "photovoltaic-devices",
+            "quantum-wells"
+          ]
+        },
+        {
+          "id": "signals",
+          "title": "Signals & acquisition · 信号与采集",
+          "modules": [
+            "numerical-computing",
+            "instruments",
+            "experiment-scans"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "earth-sciences",
+      "title": "Earth & environment · 地球与环境",
+      "directions": [
+        {
+          "id": "geospatial",
+          "title": "Geospatial data · 地理数据",
+          "modules": [
+            "vector-geodata",
+            "raster-geodata"
+          ]
+        },
+        {
+          "id": "climate",
+          "title": "Climate & time series · 气候与时序",
+          "modules": [
+            "climate-arrays",
+            "time-series"
+          ]
+        },
+        {
+          "id": "analysis",
+          "title": "Spatial analysis · 空间分析",
+          "modules": [
+            "images",
+            "statistical-models",
+            "databases"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "space-sciences",
+      "title": "Astronomy & space · 天文与空间",
+      "directions": [
+        {
+          "id": "coordinates",
+          "title": "Coordinates & data · 坐标与数据",
+          "modules": [
+            "astronomy"
+          ]
+        },
+        {
+          "id": "instruments",
+          "title": "Optical instruments · 光学仪器",
+          "modules": [
+            "fourier-imaging",
+            "adaptive-optics",
+            "wavefront-analysis"
+          ]
+        },
+        {
+          "id": "analysis",
+          "title": "Signals & images · 信号与图像",
+          "modules": [
+            "time-series",
+            "images",
+            "statistical-models"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "economics-finance",
+      "title": "Economics & finance · 经济与金融",
+      "directions": [
+        {
+          "id": "econometrics",
+          "title": "Econometrics · 计量经济",
+          "modules": [
+            "statistical-models",
+            "time-series",
+            "r-statistics"
+          ]
+        },
+        {
+          "id": "trading",
+          "title": "Strategy research · 交易策略研究",
+          "modules": [
+            "backtesting",
+            "optimization"
+          ]
+        },
+        {
+          "id": "data",
+          "title": "Market & economic data · 市场与经济数据",
+          "modules": [
+            "tables",
+            "databases",
+            "networks"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "experimental-science",
+      "title": "Experimental science · 实验科学",
+      "directions": [
+        {
+          "id": "devices",
+          "title": "Device connections · 设备连接",
+          "modules": [
+            "instruments",
+            "camera-acquisition",
+            "spectrometer-acquisition"
+          ]
+        },
+        {
+          "id": "acquisition",
+          "title": "Acquisition & workflows · 采集与流程",
+          "modules": [
+            "experiment-scans",
+            "experimental-lab"
+          ]
+        },
+        {
+          "id": "processing",
+          "title": "Measurement processing · 测量处理",
+          "modules": [
+            "numerical-computing",
+            "images",
+            "statistical-models"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "research-essentials",
+      "title": "Research essentials · 通用研究工具",
+      "directions": [
+        {
+          "id": "computing",
+          "title": "Computing · 计算",
+          "modules": [
+            "science",
+            "numerical-computing",
+            "symbolic-mathematics",
+            "julia-science"
+          ]
+        },
+        {
+          "id": "data",
+          "title": "Data · 数据",
+          "modules": [
+            "tables",
+            "databases"
+          ]
+        },
+        {
+          "id": "communication",
+          "title": "Writing & figures · 写作与图表",
+          "modules": [
+            "writing",
+            "references",
+            "scientific-plotting"
+          ]
+        }
+      ]
     }
   ]
 }

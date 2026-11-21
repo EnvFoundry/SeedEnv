@@ -13,6 +13,7 @@ class Catalog:
         self.extra = str(Path(extra).absolute()) if extra else None
         self.components: dict[str, dict] = {}
         self.modules: dict[str, dict] = {}
+        self.fields: dict[str, dict] = {}
         self.roots: dict[str, Path] = {}
         paths = [DATA / "catalog.json"] + ([Path(self.extra)] if self.extra else [])
         for path in paths:
@@ -28,9 +29,37 @@ class Catalog:
                         raise ValueError(f"{name} needs a title")
                     getattr(self, kind)[name] = item
                     self.roots[name] = path.parent
+            for field in value.get("fields", []):
+                name = field["id"]
+                if name in self.fields:
+                    existing = self.fields[name]
+                    if field["title"] != existing["title"]:
+                        raise ValueError(f"Conflicting field title: {name}")
+                    for direction in field["directions"]:
+                        match = next((d for d in existing["directions"] if d["id"] == direction["id"]), None)
+                        if match:
+                            if match["title"] != direction["title"]:
+                                raise ValueError(f"Conflicting direction title: {name}/{direction['id']}")
+                            match["modules"] = list(dict.fromkeys([*match["modules"], *direction["modules"]]))
+                        else:
+                            existing["directions"].append(direction)
+                else:
+                    self.fields[name] = field
+        self.paths: dict[str, list[dict]] = {name: [] for name in self.modules}
+        for field in self.fields.values():
+            seen = set()
+            for direction in field["directions"]:
+                if direction["id"] in seen:
+                    raise ValueError(f"Duplicate direction in {field['id']}: {direction['id']}")
+                seen.add(direction["id"])
+                for name in dict.fromkeys(direction["modules"]):
+                    if name not in self.modules:
+                        raise ValueError(f"{field['id']}/{direction['id']} refers to missing module {name}")
+                    self.paths[name].append({"field": field["id"], "field_title": field["title"],
+                                             "direction": direction["id"], "direction_title": direction["title"]})
         for component in self.components.values():
             kind = component.get("kind")
-            if kind not in {"python", "command", "plugin", "connector"}:
+            if kind not in {"python", "environment", "command", "plugin", "connector"}:
                 raise ValueError(f"Unknown component kind: {kind}")
             for field in ("requirements", "imports", "commands", "platforms"):
                 entries = component.get(field, [])
@@ -41,6 +70,12 @@ class Catalog:
                     raise ValueError(f"{component['id']} needs requirements and imports")
                 if any(x.startswith('-') for x in component['requirements']):
                     raise ValueError("Requirements cannot be installer options")
+            if kind == "environment" and not component.get("imports"):
+                raise ValueError(f"{component['id']} needs interpreter imports")
+            for parent in component.get("reuse_from", []):
+                candidate = self.components.get(parent, {})
+                if kind != "python" or candidate.get("kind") != "python":
+                    raise ValueError(f"{component['id']} cannot reuse {parent}")
             if kind == "command" and not component.get("commands"):
                 raise ValueError(f"{component['id']} needs executable names")
             if kind == "plugin" and not str(component.get("url", "")).startswith("https://"):
@@ -63,6 +98,8 @@ class Catalog:
         modules, components, visiting = [], [], set()
 
         def visit(name):
+            if name in self.fields:
+                raise ValueError(f"{name} is a field. Browse its directions and select individual modules.")
             if name in self.components:
                 if name not in components:
                     components.append(name)
@@ -88,16 +125,39 @@ class Catalog:
             visit(name)
         return modules, components
 
-    def search(self, query="", limit=20, offset=0):
+    def browse(self, field=None):
+        if field is not None and field not in self.fields:
+            raise ValueError(f"Unknown field: {field}")
+        fields = [{"id": item["id"], "title": item["title"],
+                   "module_count": len({name for d in item["directions"] for name in d["modules"]})}
+                  for item in self.fields.values()]
+        directions = [] if field is None else [
+            {"id": d["id"], "title": d["title"], "module_count": len(set(d["modules"]))}
+            for d in self.fields[field]["directions"]]
+        return {"fields": fields, "field": field, "directions": directions}
+
+    def search(self, query="", limit=20, offset=0, field=None, direction=None):
         if not 1 <= limit <= 100 or offset < 0:
             raise ValueError("Use limit 1–100 and offset >= 0")
+        if field is not None and field not in self.fields:
+            raise ValueError(f"Unknown field: {field}")
+        if direction is not None and (field is None or direction not in
+                {d["id"] for d in self.fields[field]["directions"]}):
+            raise ValueError("Choose a direction within its field")
         words = query.casefold().split()
         matches = []
         for item in self.modules.values():
+            if item.get("hidden"):
+                continue
+            paths = self.paths[item["id"]]
+            if field and not any(p["field"] == field and (direction is None or p["direction"] == direction) for p in paths):
+                continue
             _, components = self.select([item["id"]])
-            haystack = json.dumps([item, [self.components[x] for x in components]], ensure_ascii=False).casefold()
+            haystack = json.dumps([item, paths, [self.components[x] for x in components]], ensure_ascii=False).casefold()
             if all(word in haystack for word in words):
-                matches.append({k: item[k] for k in ("id", "title", "summary", "tags", "components", "includes") if k in item})
+                matches.append({**{k: item[k] for k in ("id", "title", "summary", "summary_en", "tags", "components", "includes") if k in item},
+                                "paths": paths, "software": [{k: self.components[x][k] for k in ("id", "title", "kind")}
+                                                              for x in components]})
         return {"items": matches[offset:offset + limit], "total": len(matches),
                 "next_offset": offset + limit if offset + limit < len(matches) else None}
 
@@ -106,6 +166,7 @@ class Catalog:
             return dict(self.components[name])
         modules, components = self.select([name])
         return {**self.modules[name], "resolved_modules": modules,
+                "paths": self.paths[name],
                 "software": [self.components[key] for key in components]}
 
     def resource(self, name, relative):
