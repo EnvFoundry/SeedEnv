@@ -1,0 +1,17 @@
+{
+  "name": "@envfoundry/seedenv",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "exports": {".": "./dist/index.js", "./picker": "./dist/picker.js"},
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "node --test test.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "jsdom": "^31.0.1",
+    "typescript": "^5.7.0"
+  }
+}
