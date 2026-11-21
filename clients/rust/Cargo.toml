@@ -1,0 +1,9 @@
+[package]
+name = "seedenv-client"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "Native host client for the SeedEnv research environment service"
+
+[lib]
+path = "src/lib.rs"
