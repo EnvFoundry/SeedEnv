@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "seedenv"
+version = "0.1.0"
+description = "Composable research tools, environments and practical starting points"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+dependencies = []
+
+[project.urls]
+Repository = "https://github.com/EnvFoundry/SeedEnv"
+
+[project.scripts]
+seedenv = "seedenv.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+seedenv = ["data/*.json", "data/*.sql", "data/*.md", "data/guides/*.md", "data/examples/*"]
