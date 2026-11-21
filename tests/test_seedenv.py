@@ -172,6 +172,20 @@ class SeedEnvTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "integration manager"):
             self.manager.bind("connector-postgresql", [sys.executable])
 
+    def test_multilingual_output_and_mcp_under_non_utf8_host_defaults(self):
+        env = {**os.environ, "PYTHONPATH": str(ROOT / "src"), "PYTHONIOENCODING": "ascii"}
+        command = [sys.executable, "-m", "seedenv", "--home", str(self.home)]
+        result = subprocess.run([*command, "search", "光学"], capture_output=True, env=env, timeout=30)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertGreater(json.loads(result.stdout.decode("utf-8"))["total"], 0)
+        request = {"jsonrpc": "2.0", "id": 1, "method": "tools/call",
+                   "params": {"name": "seedenv_search", "arguments": {"query": "光学"}}}
+        result = subprocess.run([*command, "mcp"], input=(json.dumps(request, ensure_ascii=False) + "\n").encode("utf-8"),
+                                capture_output=True, env=env, timeout=30)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        text = json.loads(result.stdout.decode("utf-8"))["result"]["content"][0]["text"]
+        self.assertGreater(json.loads(text)["total"], 0)
+
     def test_generic_mcp_export_uses_selected_home_and_embedded_code(self):
         exported = self.root / "mcp"
         export_plugin(exported, "mcp", home=self.home, catalog=self.extra)
