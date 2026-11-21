@@ -4,14 +4,23 @@ export interface ModuleSummary {
   id: string;
   title: string;
   summary: string;
+  summary_en?: string;
   tags: string[];
   components: string[];
   includes: string[];
+  paths: { field: string; field_title: string; direction: string; direction_title: string }[];
+  software: { id: string; title: string; kind: string }[];
 }
+export interface Navigation {
+  fields: { id: string; title: string; module_count: number }[];
+  field: string | null;
+  directions: { id: string; title: string; module_count: number }[];
+}
+export interface SearchScope { field?: string; direction?: string }
 export interface PlanAction {
   component: string;
   title: string;
-  kind: "python" | "command" | "plugin" | "connector";
+  kind: "python" | "environment" | "command" | "plugin" | "connector";
   action: "reuse" | "install" | "connect" | "setup" | "choose-host" | "add-plugin" | "configure-connector";
   command?: string[] | null;
   requirements?: string[];
@@ -24,6 +33,8 @@ export interface Plan {
   target: "linux" | "darwin" | "windows";
   actions: PlanAction[];
   guides: { module: string; title: string }[];
+  storage: { root: string; new_environments: number; reused_environments: number;
+    download_bytes: number | null; additional_disk_bytes: number | null; free_bytes: number | null };
 }
 export interface Preparation {
   id: string;
@@ -50,6 +61,7 @@ export class SeedEnv {
   constructor(readonly options: {
     command: string[];
     home?: string;
+    researchSpace?: string;
     catalog?: string;
     env?: NodeJS.ProcessEnv;
   }) {
@@ -60,6 +72,7 @@ export class SeedEnv {
     const [program, ...prefix] = this.options.command;
     const common = ["-m", "seedenv"];
     if (this.options.home) common.push("--home", this.options.home);
+    else if (this.options.researchSpace) common.push("--research-space", this.options.researchSpace);
     if (this.options.catalog) common.push("--catalog", this.options.catalog);
     return new Promise((resolve, reject) => {
       const child = spawn(program, [...prefix, ...common, ...args], {
@@ -86,9 +99,13 @@ export class SeedEnv {
     });
   }
 
-  search(query = "", offset = 0, limit = 20, signal?: AbortSignal) {
+  browse(field?: string, signal?: AbortSignal) {
+    return this.request<Navigation>(["browse", ...(field ? ["--field", field] : [])], signal);
+  }
+  search(query = "", offset = 0, limit = 20, signal?: AbortSignal, scope: SearchScope = {}) {
     return this.request<{items: ModuleSummary[]; total: number; next_offset: number | null}>(
-      ["search", query, "--offset", String(offset), "--limit", String(limit)], signal);
+      ["search", query, "--offset", String(offset), "--limit", String(limit),
+       ...(scope.field ? ["--field", scope.field] : []), ...(scope.direction ? ["--direction", scope.direction] : [])], signal);
   }
   show(name: string, signal?: AbortSignal) { return this.request<Record<string, unknown>>(["show", name], signal); }
   guide(name: string, signal?: AbortSignal) { return this.request<string>(["guide", name], signal, true); }
@@ -108,7 +125,7 @@ export class SeedEnv {
     return this.request<{component: string; command: string[]; location: string}>(["entry", component], signal);
   }
   origoPlan(selections: string[], signal?: AbortSignal) {
-    return this.request<{modules: string[]; preparations: OrigoPreparation[]; connections: PlanAction[]}>(
+    return this.request<{modules: string[]; installation_root: string; preparations: OrigoPreparation[]; connections: PlanAction[]}>(
       ["plan", ...selections, "--host", "origo"], signal);
   }
 }
