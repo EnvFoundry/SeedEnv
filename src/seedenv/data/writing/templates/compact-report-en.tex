@@ -4,9 +4,14 @@
 % Use refs.bib with \cite{...} when references are used.
 % LaTeX supplies section numbers; section titles contain title text only.
 % Long paths, URLs, and commands can use \qpath, \qurl, and \qcode.
+% Writing: see WRITING.md for bilingual guidance, worked examples and reference texts.
+% Explain the problem, mechanism and result with concrete subjects and verbs.
+% Remove AI filler, stock caveats and decorative audit/diagnosis/SHA terminology.
+% Keep conditions that change the conclusion; state them specifically, once.
+% Vary sentence length with meaning. Adapt headings to the actual argument.
 \documentclass[11pt,a4paper]{article}
 
-% ── Report Metadata (agent edits these only) ────────────────
+% ── Report Metadata (edit alongside the manuscript) ────────────────
 \providecommand{\ReportTitle}{Report Title}
 \providecommand{\ReportSubtitle}{Subtitle (optional)}
 \providecommand{\ReportAuthor}{Author Name}
@@ -25,7 +30,7 @@
 \usepackage[dvipsnames,table]{xcolor}
 \usepackage{tikz}
 \usepackage{pgfplots}\pgfplotsset{compat=1.18}
-\graphicspath{{figures/}{figures/}}
+\graphicspath{{figures/}}
 
 % ── Tables (richer for reports) ─────────────────────────────
 \usepackage{booktabs,longtable,array,tabularx,multirow,makecell,threeparttable}
@@ -207,9 +212,9 @@ needed for a reader to follow the rest of the report.
 
 \section{Core Idea and Key Contributions}
 
-Present the central insight and the real contribution of the work. Explain why
-the idea is not merely a restatement of known methods, what changes in
-understanding, and which results or artifacts carry the contribution.
+Present the central idea and the contribution actually made: an explanation,
+construction, measurement, method, replication, synthesis, or negative result.
+Explain what the work establishes and how it relates to the closest prior work.
 
 \section{Theory and Methods}
 
@@ -224,11 +229,11 @@ understanding the result.
 %   \label{eq:main-example}
 % \end{equation}
 
-\section{Experiments and Validation}
+\section{Experiments, Computation, or Proof}
 
-Describe the simulations, experiments, proofs, datasets, comparisons, controls,
-or validation procedures that test the core idea. Explain what was measured or
-computed and why it answers the research problem.
+Describe the experiments, computations, comparisons, or proof that answer the
+research question. Adapt this heading to the work. Explain the decisive steps
+and connect their outcome to the proposed idea.
 
 \begin{figure}[htbp]
 \centering
