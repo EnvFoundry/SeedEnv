@@ -2529,6 +2529,343 @@
         "https://fred.stlouisfed.org/docs/api/fred/"
       ],
       "instructions": "Connect the API key through the host. Select series and vintage dates explicitly; credentials do not belong in module files."
+    },
+    {
+      "id": "python-pymeasure",
+      "title": "PyMeasure",
+      "kind": "python",
+      "sources": [
+        "https://pymeasure.readthedocs.io/en/latest/"
+      ],
+      "requirements": [
+        "pymeasure",
+        "pyvisa-py"
+      ],
+      "imports": [
+        "pymeasure",
+        "pyvisa_py"
+      ],
+      "instructions": "Prepare the Python driver API. Select a supported instrument class and an existing VISA or serial backend; vendor libraries and device connections remain separate."
+    },
+    {
+      "id": "python-qcodes",
+      "title": "QCoDeS",
+      "kind": "python",
+      "sources": [
+        "https://microsoft.github.io/Qcodes/"
+      ],
+      "requirements": [
+        "qcodes",
+        "pyvisa-py"
+      ],
+      "imports": [
+        "qcodes",
+        "pyvisa_py"
+      ],
+      "instructions": "Use an existing instrument driver and a project-local measurement database. Device connections belong to the laboratory host."
+    },
+    {
+      "id": "python-pylablib",
+      "title": "pylablib",
+      "kind": "python",
+      "sources": [
+        "https://pylablib.readthedocs.io/en/stable/devices/stages_root.html"
+      ],
+      "requirements": [
+        "pylablib"
+      ],
+      "imports": [
+        "pylablib"
+      ],
+      "instructions": "Install the driver API; a particular camera or motion controller may also need its vendor SDK, USB driver and matching OS/architecture."
+    },
+    {
+      "id": "python-opendaq",
+      "title": "openDAQ",
+      "kind": "python",
+      "sources": [
+        "https://opendaq.github.io/opendaq/dev/tutorials/quick_start_setting_up_python.html"
+      ],
+      "requirements": [
+        "opendaq"
+      ],
+      "imports": [
+        "opendaq"
+      ],
+      "platforms": [
+        "linux",
+        "windows"
+      ],
+      "instructions": "Use a compatible Python wheel on Linux or Windows. Select a real device connection string and its module, or explicitly select the reference-device simulator."
+    },
+    {
+      "id": "python-pymodbus",
+      "title": "PyModbus",
+      "kind": "python",
+      "sources": [
+        "https://pymodbus.readthedocs.io/en/stable/source/client.html"
+      ],
+      "requirements": [
+        "pymodbus",
+        "pyserial"
+      ],
+      "imports": [
+        "pymodbus",
+        "serial"
+      ]
+    },
+    {
+      "id": "python-can",
+      "title": "python-can",
+      "kind": "python",
+      "sources": [
+        "https://python-can.readthedocs.io/en/stable/"
+      ],
+      "requirements": [
+        "python-can"
+      ],
+      "imports": [
+        "can"
+      ],
+      "instructions": "Physical CAN needs an OS-supported adapter driver, channel and bus configuration. The virtual interface is available without hardware."
+    },
+    {
+      "id": "python-mpremote",
+      "title": "MicroPython mpremote",
+      "kind": "python",
+      "sources": [
+        "https://docs.micropython.org/en/latest/reference/mpremote.html"
+      ],
+      "requirements": [
+        "mpremote"
+      ],
+      "imports": [
+        "mpremote"
+      ],
+      "instructions": "Prepare the host client. The selected board must already run compatible MicroPython firmware; installing mpremote does not flash the board."
+    },
+    {
+      "id": "python-pylsl",
+      "title": "Lab Streaming Layer · 同步数据流",
+      "kind": "python",
+      "sources": [
+        "https://github.com/labstreaminglayer/pylsl"
+      ],
+      "requirements": [
+        "pylsl"
+      ],
+      "imports": [
+        "pylsl"
+      ],
+      "instructions": "Supported wheels include liblsl. On other platforms install the matching upstream native library or bind an existing working interpreter. Device applications publish the actual streams."
+    },
+    {
+      "id": "command-artiq",
+      "title": "ARTIQ",
+      "kind": "command",
+      "sources": [
+        "https://m-labs.hk/artiq/manual/installing.html"
+      ],
+      "commands": [
+        "artiq_run"
+      ],
+      "platforms": [
+        "linux",
+        "windows"
+      ],
+      "instructions": "Connect artiq_run from the experiment host. Use the upstream Nix installation on Linux or MSYS2 on Windows, matching the core-device gateware. Keep device_db.py in the project."
+    },
+    {
+      "id": "environment-labscript",
+      "title": "labscript suite",
+      "kind": "environment",
+      "sources": [
+        "https://docs.labscriptsuite.org/en/latest/installation/"
+      ],
+      "imports": [
+        "labscript",
+        "blacs",
+        "labscript_devices"
+      ],
+      "instructions": "Prepare an upstream labscript-suite environment with its Qt binding and apparatus profile, then bind its Python. BLACS, the connection table and device drivers are configured for the actual apparatus."
+    },
+    {
+      "id": "command-ros2",
+      "title": "ROS 2",
+      "kind": "command",
+      "sources": [
+        "https://github.com/ros2/ros2_documentation"
+      ],
+      "commands": [
+        "ros2"
+      ],
+      "instructions": "Connect ros2 from an already activated ROS 2 workspace on the robot host. Use the distribution installation instructions for that OS. The worker must retain the ROS setup environment; a bare executable path does not activate it."
+    },
+    {
+      "id": "python-pytransform3d",
+      "title": "pytransform3d",
+      "kind": "python",
+      "sources": [
+        "https://dfki-ric.github.io/pytransform3d/"
+      ],
+      "requirements": [
+        "pytransform3d"
+      ],
+      "imports": [
+        "pytransform3d"
+      ]
+    },
+    {
+      "id": "python-mujoco",
+      "title": "MuJoCo",
+      "kind": "python",
+      "sources": [
+        "https://mujoco.readthedocs.io/en/stable/python.html"
+      ],
+      "requirements": [
+        "mujoco"
+      ],
+      "imports": [
+        "mujoco"
+      ],
+      "instructions": "CPU simulation uses the native MuJoCo Python API without a viewer. Rendering backends and robot assets are selected separately."
+    },
+    {
+      "id": "python-pycromanager",
+      "title": "Pycro-Manager",
+      "kind": "python",
+      "sources": [
+        "https://pycro-manager.readthedocs.io/en/latest/setup.html"
+      ],
+      "requirements": [
+        "pycromanager"
+      ],
+      "imports": [
+        "pycromanager"
+      ],
+      "instructions": "Prepare the Python client. Connect an existing Micro-Manager installation with its device adapters and saved hardware configuration; the desktop bridge normally uses port 4827."
+    },
+    {
+      "id": "python-pylabrobot",
+      "title": "PyLabRobot",
+      "kind": "python",
+      "sources": [
+        "https://docs.pylabrobot.org/stable/user_guide/_getting-started/installation.html"
+      ],
+      "requirements": [
+        "pylabrobot"
+      ],
+      "imports": [
+        "pylabrobot"
+      ],
+      "instructions": "Prepare the core protocol and resource model. Choose only the backend extras needed for the selected machine (for example usb or serial), plus its OS driver. The core also supports a hardware-free chatterbox backend."
+    },
+    {
+      "id": "python-alicat",
+      "title": "Alicat flow controller driver",
+      "kind": "python",
+      "sources": [
+        "https://github.com/numat/alicat"
+      ],
+      "requirements": [
+        "alicat"
+      ],
+      "imports": [
+        "alicat"
+      ],
+      "instructions": "Select the physical serial endpoint and controller address. Read its configured gas and flow units; do not assume the numeric values use a universal flow unit."
+    },
+    {
+      "id": "command-sigrok",
+      "title": "sigrok-cli",
+      "kind": "command",
+      "sources": [
+        "https://sigrok.org/wiki/Downloads"
+      ],
+      "commands": [
+        "sigrok-cli"
+      ],
+      "instructions": "Connect the upstream sigrok-cli executable and the acquisition device driver for this OS. PulseView is an optional viewer; it is not needed to read saved captures."
+    },
+    {
+      "id": "environment-soapysdr",
+      "title": "SoapySDR",
+      "kind": "environment",
+      "sources": [
+        "https://github.com/pothosware/SoapySDR/wiki"
+      ],
+      "imports": [
+        "SoapySDR"
+      ],
+      "instructions": "Bind a Python environment with the upstream native SoapySDR library and the plugin for the selected radio. Installing the common API alone does not install every radio driver."
+    },
+    {
+      "id": "python-pyubx2",
+      "title": "pyubx2",
+      "kind": "python",
+      "sources": [
+        "https://github.com/semuconsulting/pyubx2"
+      ],
+      "requirements": [
+        "pyubx2",
+        "pyserial"
+      ],
+      "imports": [
+        "pyubx2",
+        "serial"
+      ]
+    },
+    {
+      "id": "python-phconvert",
+      "title": "phconvert",
+      "kind": "python",
+      "sources": [
+        "https://phconvert.readthedocs.io/en/latest/"
+      ],
+      "requirements": [
+        "phconvert"
+      ],
+      "imports": [
+        "phconvert"
+      ]
+    },
+    {
+      "id": "python-visa-sim",
+      "title": "PyVISA-sim",
+      "kind": "python",
+      "sources": [
+        "https://pyvisa.readthedocs.io/projects/pyvisa-sim/en/latest/"
+      ],
+      "requirements": [
+        "pyvisa-sim"
+      ],
+      "imports": [
+        "pyvisa",
+        "pyvisa_sim"
+      ]
+    },
+    {
+      "id": "connector-laboratory",
+      "title": "Laboratory device connections · 实验设备连接",
+      "kind": "connector",
+      "sources": [
+        "https://github.com/EnvFoundry/IOP"
+      ],
+      "connection": {
+        "type": "laboratory",
+        "fields": [
+          "execution_host",
+          "devices"
+        ],
+        "device_fields": [
+          "name",
+          "driver",
+          "address",
+          "configuration"
+        ],
+        "credentials": "host-managed"
+      },
+      "instructions": "Resolve named devices on the selected laboratory host using its existing device manager, IOP or upstream driver. Each device needs its own driver, address and operating configuration. This shared description is not a device instance; SeedEnv neither opens devices nor declares them connected. Reuse host connections that already exist."
     }
   ],
   "modules": [
@@ -2930,7 +3267,8 @@
         "测量"
       ],
       "components": [
-        "python-instruments"
+        "python-instruments",
+        "connector-laboratory"
       ],
       "includes": [],
       "guide": "guides/instruments.md",
@@ -3900,7 +4238,8 @@
         "光子学"
       ],
       "components": [
-        "python-harvesters"
+        "python-harvesters",
+        "connector-laboratory"
       ],
       "includes": [],
       "guide": "guides/camera-acquisition.md",
@@ -3917,7 +4256,8 @@
         "光子学"
       ],
       "components": [
-        "python-seabreeze"
+        "python-seabreeze",
+        "connector-laboratory"
       ],
       "includes": [],
       "guide": "guides/spectrometer-acquisition.md",
@@ -3934,7 +4274,8 @@
         "光子学"
       ],
       "components": [
-        "python-slmsuite"
+        "python-slmsuite",
+        "connector-laboratory"
       ],
       "includes": [],
       "guide": "guides/slm-wavefront-control.md",
@@ -5569,7 +5910,8 @@
         "串口设备连接"
       ],
       "components": [
-        "python-serial"
+        "python-serial",
+        "connector-laboratory"
       ],
       "includes": [],
       "guide": "guides/serial-devices.md"
@@ -5617,7 +5959,8 @@
         "EPICS 过程变量"
       ],
       "components": [
-        "environment-epics"
+        "environment-epics",
+        "connector-laboratory"
       ],
       "includes": [],
       "guide": "guides/epics-controls.md"
@@ -5717,6 +6060,486 @@
       ],
       "includes": [],
       "guide": "guides/media-tools.md"
+    },
+    {
+      "id": "instrument-procedures",
+      "title": "Instrument procedures · 仪器测量程序",
+      "summary": "把仪器操作、参数扫描与结果输出组织成可编辑测量程序。",
+      "summary_en": "Build editable measurement procedures with instrument drivers and result records.",
+      "tags": [
+        "instrument-procedures",
+        "Instrument procedures",
+        "仪器测量程序"
+      ],
+      "includes": [],
+      "components": [
+        "python-pymeasure",
+        "connector-laboratory"
+      ],
+      "guide": "guides/instrument-procedures.md"
+    },
+    {
+      "id": "source-measure-sweeps",
+      "title": "Source-measure sweeps · 源表与器件电学扫描",
+      "summary": "器件电压电流扫描、四线测量与功率记录。",
+      "summary_en": "Acquire device current–voltage sweeps and source-measure readbacks.",
+      "tags": [
+        "source-measure-sweeps",
+        "Source-measure sweeps",
+        "源表与器件电学扫描"
+      ],
+      "includes": [],
+      "components": [
+        "python-pymeasure",
+        "connector-laboratory"
+      ],
+      "guide": "guides/source-measure-sweeps.md"
+    },
+    {
+      "id": "temperature-control",
+      "title": "Temperature experiments · 温控与热学测量",
+      "summary": "温度传感器读数、稳定等待、设定值扫描与实验关联。",
+      "summary_en": "Read temperature sensors and coordinate settled thermal measurements.",
+      "tags": [
+        "temperature-control",
+        "Temperature experiments",
+        "温控与热学测量"
+      ],
+      "includes": [],
+      "components": [
+        "python-pymeasure",
+        "connector-laboratory"
+      ],
+      "guide": "guides/temperature-control.md"
+    },
+    {
+      "id": "lockin-measurements",
+      "title": "Lock-in measurements · 锁相测量",
+      "summary": "参考频率下的同相、正交分量及扫描测量。",
+      "summary_en": "Measure in-phase and quadrature signals at a reference frequency.",
+      "tags": [
+        "lockin-measurements",
+        "Lock-in measurements",
+        "锁相测量"
+      ],
+      "includes": [],
+      "components": [
+        "python-pymeasure",
+        "connector-laboratory"
+      ],
+      "guide": "guides/lockin-measurements.md"
+    },
+    {
+      "id": "oscilloscope-acquisition",
+      "title": "Oscilloscope acquisition · 示波器波形采集",
+      "summary": "读取触发记录、波形标定与多通道时间轴。",
+      "summary_en": "Acquire triggered waveforms with their scaling and time axes.",
+      "tags": [
+        "oscilloscope-acquisition",
+        "Oscilloscope acquisition",
+        "示波器波形采集"
+      ],
+      "includes": [],
+      "components": [
+        "python-pymeasure",
+        "connector-laboratory"
+      ],
+      "guide": "guides/oscilloscope-acquisition.md"
+    },
+    {
+      "id": "laboratory-measurements",
+      "title": "Parameter measurements · 参数测量与实验数据集",
+      "summary": "仪器参数、扫描坐标与测量结果关联存储。",
+      "summary_en": "Associate instrument parameters, scan coordinates and measured datasets.",
+      "tags": [
+        "laboratory-measurements",
+        "Parameter measurements",
+        "参数测量与实验数据集"
+      ],
+      "includes": [],
+      "components": [
+        "python-qcodes",
+        "connector-laboratory"
+      ],
+      "guide": "guides/laboratory-measurements.md"
+    },
+    {
+      "id": "motion-control",
+      "title": "Motion control · 位移台与运动控制",
+      "summary": "连接电动位移台、执行位移并读取实际位置。",
+      "summary_en": "Connect motion controllers and read actual stage positions.",
+      "tags": [
+        "motion-control",
+        "Motion control",
+        "位移台与运动控制"
+      ],
+      "includes": [],
+      "components": [
+        "python-pylablib",
+        "connector-laboratory"
+      ],
+      "guide": "guides/motion-control.md"
+    },
+    {
+      "id": "daq-streams",
+      "title": "DAQ streams · 连续数据采集",
+      "summary": "多通道采样、设备时间轴和流式数据读取。",
+      "summary_en": "Read multichannel samples with device-provided time domains.",
+      "tags": [
+        "daq-streams",
+        "DAQ streams",
+        "连续数据采集"
+      ],
+      "includes": [],
+      "components": [
+        "python-opendaq",
+        "connector-laboratory"
+      ],
+      "guide": "guides/daq-streams.md"
+    },
+    {
+      "id": "modbus-devices",
+      "title": "Modbus devices · 工业与实验传感器",
+      "summary": "通过 TCP 或串口读取实验设备寄存器。",
+      "summary_en": "Read laboratory or industrial registers over Modbus TCP or serial.",
+      "tags": [
+        "modbus-devices",
+        "Modbus devices",
+        "工业与实验传感器"
+      ],
+      "includes": [],
+      "components": [
+        "python-pymodbus",
+        "connector-laboratory"
+      ],
+      "guide": "guides/modbus-devices.md"
+    },
+    {
+      "id": "can-devices",
+      "title": "CAN devices · CAN 总线设备",
+      "summary": "读取带时间戳的总线帧并连接实验控制器。",
+      "summary_en": "Exchange timestamped frames with CAN-connected equipment.",
+      "tags": [
+        "can-devices",
+        "CAN devices",
+        "CAN 总线设备"
+      ],
+      "includes": [],
+      "components": [
+        "python-can",
+        "connector-laboratory"
+      ],
+      "guide": "guides/can-devices.md",
+      "example": {
+        "component": "python-can",
+        "file": "examples/can_loopback.py"
+      }
+    },
+    {
+      "id": "embedded-boards",
+      "title": "Embedded measurement boards · 嵌入式测量板",
+      "summary": "连接已有 MicroPython 设备并运行板端采集程序。",
+      "summary_en": "Run board-side measurement programs on an existing MicroPython device.",
+      "tags": [
+        "embedded-boards",
+        "Embedded measurement boards",
+        "嵌入式测量板"
+      ],
+      "includes": [],
+      "components": [
+        "python-mpremote",
+        "connector-laboratory"
+      ],
+      "guide": "guides/embedded-boards.md"
+    },
+    {
+      "id": "synchronized-streams",
+      "title": "Synchronized streams · 多设备数据流同步",
+      "summary": "以 LSL 组织带时钟信息的传感器数据和事件标记。",
+      "summary_en": "Combine sensor streams and event markers using Lab Streaming Layer.",
+      "tags": [
+        "synchronized-streams",
+        "Synchronized streams",
+        "多设备数据流同步"
+      ],
+      "includes": [],
+      "components": [
+        "python-pylsl",
+        "connector-laboratory"
+      ],
+      "guide": "guides/synchronized-streams.md"
+    },
+    {
+      "id": "realtime-sequences",
+      "title": "Real-time sequences · 实时时序实验",
+      "summary": "连接 ARTIQ 核心设备运行硬件定时实验程序。",
+      "summary_en": "Run hardware-timed experiments through an existing ARTIQ host.",
+      "tags": [
+        "realtime-sequences",
+        "Real-time sequences",
+        "实时时序实验"
+      ],
+      "includes": [],
+      "components": [
+        "command-artiq",
+        "connector-laboratory"
+      ],
+      "guide": "guides/realtime-sequences.md"
+    },
+    {
+      "id": "triggered-sequences",
+      "title": "Triggered experiment sequences · 触发与实验序列",
+      "summary": "编译实验时序、协调 BLACS 设备并保存 shot 数据。",
+      "summary_en": "Compile experiment timelines and coordinate labscript/BLACS shots.",
+      "tags": [
+        "triggered-sequences",
+        "Triggered experiment sequences",
+        "触发与实验序列"
+      ],
+      "includes": [],
+      "components": [
+        "environment-labscript",
+        "connector-laboratory"
+      ],
+      "guide": "guides/triggered-sequences.md"
+    },
+    {
+      "id": "robot-connections",
+      "title": "Robot connections · 机器人与 ROS 2",
+      "summary": "连接已有机器人节点、传感器话题及动作接口。",
+      "summary_en": "Connect existing robot nodes, sensor topics and action interfaces.",
+      "tags": [
+        "robot-connections",
+        "Robot connections",
+        "机器人与 ROS 2"
+      ],
+      "includes": [],
+      "components": [
+        "command-ros2",
+        "connector-laboratory"
+      ],
+      "guide": "guides/robot-connections.md"
+    },
+    {
+      "id": "robot-geometry",
+      "title": "Robot and sensor frames · 机器人与传感器坐标系",
+      "summary": "组合刚体变换、表达工具和传感器的几何关系。",
+      "summary_en": "Compose rigid transforms between robot, tool, sample and sensor frames.",
+      "tags": [
+        "robot-geometry",
+        "Robot and sensor frames",
+        "机器人与传感器坐标系"
+      ],
+      "includes": [],
+      "components": [
+        "python-pytransform3d"
+      ],
+      "guide": "guides/robot-geometry.md",
+      "example": {
+        "component": "python-pytransform3d",
+        "file": "examples/robot_frames.py"
+      }
+    },
+    {
+      "id": "robot-dynamics",
+      "title": "Robot dynamics simulation · 机器人动力学仿真",
+      "summary": "使用刚体、关节、接触和执行器模型开展物理仿真。",
+      "summary_en": "Simulate articulated bodies, contacts and actuators with MuJoCo.",
+      "tags": [
+        "robot-dynamics",
+        "Robot dynamics simulation",
+        "机器人动力学仿真"
+      ],
+      "includes": [],
+      "components": [
+        "python-mujoco"
+      ],
+      "guide": "guides/robot-dynamics.md",
+      "example": {
+        "component": "python-mujoco",
+        "file": "examples/robot_dynamics.py"
+      }
+    },
+    {
+      "id": "microscope-control",
+      "title": "Microscope acquisition · 显微镜自动采集",
+      "summary": "显微镜多通道、焦面与时间序列采集。",
+      "summary_en": "Acquire microscope channels, focal planes and time series.",
+      "tags": [
+        "microscope-control",
+        "Microscope acquisition",
+        "显微镜自动采集"
+      ],
+      "includes": [],
+      "components": [
+        "python-pycromanager",
+        "connector-laboratory"
+      ],
+      "guide": "guides/microscope-control.md"
+    },
+    {
+      "id": "liquid-handling",
+      "title": "Liquid handling · 液体处理与实验板操作",
+      "summary": "按实验台资源布局组织吸液、分液与实验板操作。",
+      "summary_en": "Compose liquid-handling operations from an explicit deck and resource model.",
+      "tags": [
+        "liquid-handling",
+        "Liquid handling",
+        "液体处理与实验板操作"
+      ],
+      "includes": [],
+      "components": [
+        "python-pylabrobot",
+        "connector-laboratory"
+      ],
+      "guide": "guides/liquid-handling.md",
+      "example": {
+        "component": "python-pylabrobot",
+        "file": "examples/liquid_handling.py"
+      }
+    },
+    {
+      "id": "flow-control",
+      "title": "Flow experiments · 流量与气路实验",
+      "summary": "读取质量流量控制器并关联压力和温度条件。",
+      "summary_en": "Read mass-flow controllers together with pressure and temperature conditions.",
+      "tags": [
+        "flow-control",
+        "Flow experiments",
+        "流量与气路实验"
+      ],
+      "includes": [],
+      "components": [
+        "python-alicat",
+        "connector-laboratory"
+      ],
+      "guide": "guides/flow-control.md"
+    },
+    {
+      "id": "logic-acquisition",
+      "title": "Logic acquisition · 数字信号与协议采集",
+      "summary": "采集数字通道并使用 sigrok 解码总线协议。",
+      "summary_en": "Acquire digital channels and decode bus protocols with sigrok.",
+      "tags": [
+        "logic-acquisition",
+        "Logic acquisition",
+        "数字信号与协议采集"
+      ],
+      "includes": [],
+      "components": [
+        "command-sigrok",
+        "connector-laboratory"
+      ],
+      "guide": "guides/logic-acquisition.md"
+    },
+    {
+      "id": "radio-acquisition",
+      "title": "Radio signal acquisition · 射频信号采集",
+      "summary": "通过 SoapySDR 连接接收设备并获取复数采样。",
+      "summary_en": "Acquire complex radio samples through a native SoapySDR driver.",
+      "tags": [
+        "radio-acquisition",
+        "Radio signal acquisition",
+        "射频信号采集"
+      ],
+      "includes": [],
+      "components": [
+        "environment-soapysdr",
+        "connector-laboratory"
+      ],
+      "guide": "guides/radio-acquisition.md"
+    },
+    {
+      "id": "gnss-streams",
+      "title": "GNSS field data · GNSS 与野外定位数据",
+      "summary": "解析接收机数据并关联野外传感器的坐标和时间。",
+      "summary_en": "Parse receiver streams and associate field measurements with position and time.",
+      "tags": [
+        "gnss-streams",
+        "GNSS field data",
+        "GNSS 与野外定位数据"
+      ],
+      "includes": [],
+      "components": [
+        "python-pyubx2"
+      ],
+      "guide": "guides/gnss-streams.md"
+    },
+    {
+      "id": "photon-event-data",
+      "title": "Photon event data · 单光子事件数据",
+      "summary": "读取时间标记光子文件并整理物理时间及探测器通道。",
+      "summary_en": "Read time-tagged photon files and preserve detector and timing metadata.",
+      "tags": [
+        "photon-event-data",
+        "Photon event data",
+        "单光子事件数据"
+      ],
+      "includes": [],
+      "components": [
+        "python-phconvert"
+      ],
+      "guide": "guides/photon-event-data.md"
+    },
+    {
+      "id": "measurement-calibration",
+      "title": "Measurement calibration · 测量标定与误差传播",
+      "summary": "由参考量与观测量拟合测量响应并传播不确定度。",
+      "summary_en": "Fit a measurement response from standards and propagate parameter uncertainty.",
+      "tags": [
+        "measurement-calibration",
+        "Measurement calibration",
+        "测量标定与误差传播"
+      ],
+      "includes": [],
+      "components": [
+        "python-numerics"
+      ],
+      "guide": "guides/measurement-calibration.md",
+      "example": {
+        "component": "python-numerics",
+        "file": "examples/measurement_calibration.py"
+      }
+    },
+    {
+      "id": "device-emulation",
+      "title": "Instrument emulation · 仪器通信模拟",
+      "summary": "在没有仪器时开发通信及测量程序。",
+      "summary_en": "Develop instrument communication against an explicitly simulated VISA backend.",
+      "tags": [
+        "device-emulation",
+        "Instrument emulation",
+        "仪器通信模拟"
+      ],
+      "includes": [],
+      "components": [
+        "python-visa-sim"
+      ],
+      "guide": "guides/device-emulation.md",
+      "example": {
+        "component": "python-visa-sim",
+        "file": "examples/visa_emulation.py"
+      }
+    },
+    {
+      "id": "adaptive-experiments",
+      "title": "Adaptive experiments · 自适应实验采集",
+      "summary": "将采集、拟合和下一个实验点连接为可编辑闭环。",
+      "summary_en": "Connect measurement, analysis and the next experimental point in an editable loop.",
+      "tags": [
+        "adaptive-experiments",
+        "Adaptive experiments",
+        "自适应实验采集"
+      ],
+      "includes": [],
+      "components": [
+        "python-bluesky"
+      ],
+      "guide": "guides/adaptive-experiments.md",
+      "example": {
+        "component": "python-bluesky",
+        "file": "examples/adaptive_experiment.py"
+      }
     }
   ],
   "fields": [
@@ -5785,7 +6608,9 @@
             "photovoltaic-devices",
             "quantum-wells",
             "laser-rate-equations",
-            "circuits"
+            "circuits",
+            "source-measure-sweeps",
+            "temperature-control"
           ]
         },
         {
@@ -5825,7 +6650,10 @@
             "quantum-trajectories",
             "photon-correlations",
             "linear-quantum-photonics",
-            "continuous-variable-photonics"
+            "continuous-variable-photonics",
+            "photon-event-data",
+            "realtime-sequences",
+            "triggered-sequences"
           ]
         },
         {
@@ -5846,7 +6674,14 @@
             "camera-acquisition",
             "spectrometer-acquisition",
             "slm-wavefront-control",
-            "experiment-scans"
+            "experiment-scans",
+            "motion-control",
+            "daq-streams",
+            "lockin-measurements",
+            "oscilloscope-acquisition",
+            "measurement-calibration",
+            "adaptive-experiments",
+            "microscope-control"
           ]
         },
         {
@@ -5955,6 +6790,17 @@
             "networks",
             "vector-search"
           ]
+        },
+        {
+          "id": "physical-ai",
+          "title": "Physical AI · 物理交互与具身智能",
+          "modules": [
+            "robot-dynamics",
+            "robot-geometry",
+            "robot-connections",
+            "adaptive-experiments",
+            "synchronized-streams"
+          ]
         }
       ],
       "resources": [
@@ -6013,7 +6859,16 @@
             "experiment-scans",
             "signal-processing",
             "statistical-models",
-            "uncertainty-propagation"
+            "uncertainty-propagation",
+            "laboratory-measurements",
+            "lockin-measurements",
+            "temperature-control",
+            "daq-streams",
+            "realtime-sequences",
+            "triggered-sequences",
+            "photon-event-data",
+            "adaptive-experiments",
+            "measurement-calibration"
           ]
         }
       ],
@@ -6068,6 +6923,18 @@
             "molecular-spectra",
             "binding-assays",
             "statistical-models"
+          ]
+        },
+        {
+          "id": "laboratory",
+          "title": "Laboratory automation · 实验自动化",
+          "modules": [
+            "liquid-handling",
+            "flow-control",
+            "temperature-control",
+            "instrument-procedures",
+            "laboratory-measurements",
+            "adaptive-experiments"
           ]
         }
       ],
@@ -6124,7 +6991,13 @@
           "modules": [
             "images",
             "molecular-spectra",
-            "spectrometer-acquisition"
+            "spectrometer-acquisition",
+            "source-measure-sweeps",
+            "temperature-control",
+            "lockin-measurements",
+            "motion-control",
+            "laboratory-measurements",
+            "measurement-calibration"
           ]
         }
       ],
@@ -6184,7 +7057,10 @@
             "images",
             "camera-acquisition",
             "tissue-light-transport",
-            "volume-processing"
+            "volume-processing",
+            "microscope-control",
+            "motion-control",
+            "photon-event-data"
           ]
         },
         {
@@ -6194,6 +7070,17 @@
             "statistical-models",
             "bayesian-models",
             "r-statistics"
+          ]
+        },
+        {
+          "id": "laboratory",
+          "title": "Laboratory automation · 实验自动化",
+          "modules": [
+            "liquid-handling",
+            "flow-control",
+            "instrument-procedures",
+            "synchronized-streams",
+            "adaptive-experiments"
           ]
         }
       ],
@@ -6231,7 +7118,10 @@
           "modules": [
             "electrophysiology",
             "signal-processing",
-            "time-series"
+            "time-series",
+            "synchronized-streams",
+            "daq-streams",
+            "measurement-calibration"
           ]
         },
         {
@@ -6296,7 +7186,12 @@
           "modules": [
             "binding-assays",
             "compartment-models",
-            "reaction-kinetics"
+            "reaction-kinetics",
+            "liquid-handling",
+            "microscope-control",
+            "instrument-procedures",
+            "laboratory-measurements",
+            "adaptive-experiments"
           ]
         },
         {
@@ -6363,7 +7258,23 @@
             "instruments",
             "experiment-scans",
             "images",
-            "serial-devices"
+            "serial-devices",
+            "motion-control",
+            "daq-streams",
+            "can-devices",
+            "modbus-devices",
+            "measurement-calibration"
+          ]
+        },
+        {
+          "id": "robotics",
+          "title": "Robotics · 机器人",
+          "modules": [
+            "robot-connections",
+            "robot-geometry",
+            "robot-dynamics",
+            "embedded-boards",
+            "synchronized-streams"
           ]
         }
       ],
@@ -6414,7 +7325,23 @@
           "modules": [
             "instruments",
             "serial-devices",
-            "experiment-scans"
+            "experiment-scans",
+            "source-measure-sweeps",
+            "oscilloscope-acquisition",
+            "lockin-measurements",
+            "logic-acquisition",
+            "radio-acquisition",
+            "daq-streams"
+          ]
+        },
+        {
+          "id": "embedded",
+          "title": "Embedded systems · 嵌入式系统",
+          "modules": [
+            "embedded-boards",
+            "can-devices",
+            "modbus-devices",
+            "realtime-sequences"
           ]
         }
       ],
@@ -6469,6 +7396,19 @@
             "statistical-models",
             "bayesian-models"
           ]
+        },
+        {
+          "id": "field-instruments",
+          "title": "Field instruments · 野外观测设备",
+          "modules": [
+            "gnss-streams",
+            "modbus-devices",
+            "mqtt-streams",
+            "embedded-boards",
+            "synchronized-streams",
+            "daq-streams",
+            "measurement-calibration"
+          ]
         }
       ],
       "resources": []
@@ -6518,7 +7458,12 @@
             "fourier-imaging",
             "adaptive-optics",
             "wavefront-analysis",
-            "images"
+            "images",
+            "camera-acquisition",
+            "motion-control",
+            "radio-acquisition",
+            "synchronized-streams",
+            "measurement-calibration"
           ]
         }
       ],
@@ -6594,7 +7539,10 @@
             "instruments",
             "serial-devices",
             "camera-acquisition",
-            "spectrometer-acquisition"
+            "spectrometer-acquisition",
+            "instrument-procedures",
+            "laboratory-measurements",
+            "device-emulation"
           ]
         },
         {
@@ -6603,7 +7551,12 @@
           "modules": [
             "opc-ua",
             "mqtt-streams",
-            "epics-controls"
+            "epics-controls",
+            "modbus-devices",
+            "can-devices",
+            "embedded-boards",
+            "flow-control",
+            "temperature-control"
           ]
         },
         {
@@ -6612,7 +7565,15 @@
           "modules": [
             "experiment-scans",
             "control-systems",
-            "hdf5-data"
+            "hdf5-data",
+            "daq-streams",
+            "microscope-control",
+            "source-measure-sweeps",
+            "lockin-measurements",
+            "oscilloscope-acquisition",
+            "logic-acquisition",
+            "radio-acquisition",
+            "gnss-streams"
           ]
         },
         {
@@ -6623,7 +7584,38 @@
             "images",
             "molecular-spectra",
             "uncertainty-propagation",
-            "physical-units"
+            "physical-units",
+            "measurement-calibration",
+            "photon-event-data"
+          ]
+        },
+        {
+          "id": "motion",
+          "title": "Motion and robotics · 运动与机器人",
+          "modules": [
+            "motion-control",
+            "robot-connections",
+            "robot-geometry",
+            "robot-dynamics"
+          ]
+        },
+        {
+          "id": "timing",
+          "title": "Timing and synchronization · 时序与同步",
+          "modules": [
+            "synchronized-streams",
+            "realtime-sequences",
+            "triggered-sequences"
+          ]
+        },
+        {
+          "id": "procedures",
+          "title": "Experimental procedures · 实验程序",
+          "modules": [
+            "adaptive-experiments",
+            "liquid-handling",
+            "instrument-procedures",
+            "laboratory-measurements"
           ]
         }
       ],

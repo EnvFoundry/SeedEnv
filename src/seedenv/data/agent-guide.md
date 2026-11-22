@@ -27,6 +27,16 @@ Related resources and specialist labs remain explicit connections. Do not infer
 that a dataset, model weight, plugin or account is ready merely from a module
 selection. A conda recipe uses the host's existing conda-family manager.
 
+For physical experiments, select the measurement, acquisition, motion or timing
+task. Prepare its software, then resolve the named devices through the host's
+existing laboratory connections. A shared laboratory connector describes setup;
+each instrument retains its own driver, address, units and experiment settings.
+Use actual device readbacks and timestamps in research records. Keep simulated
+and loopback examples identified as such. Timing-critical control stays with the
+device controller; the agent chooses and analyzes experiments through its native
+interface. Software preparation does not move equipment, flash boards or start
+an acquisition.
+
 After preparation, obtain the actual invocation with `seedenv_entry`. Write and
 run complete programs using the software's native API. Read a starting program
 with `seedenv_example`, or copy it with `seedenv example MODULE --output program.py`,
