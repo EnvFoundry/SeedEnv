@@ -13,6 +13,10 @@ def field(kind, description=""):
 SELECTION = {"type": "array", "items": {"type": "string"}}
 
 
+class MethodNotFound(ValueError):
+    pass
+
+
 def tools():
     definitions = [
         ("seedenv_browse", "Browse fields, then research directions. Navigation never selects or installs all modules in a field.",
@@ -111,6 +115,8 @@ def dispatch(manager, request):
                               for name, item in visible.items()] +
                              [{"uri": "seedenv://examples/" + name, "name": item["title"] + " example", "mimeType": "text/plain"}
                               for name, item in visible.items() if item.get("example")]}
+    if method == "resources/templates/list":
+        return {"resourceTemplates": []}
     if method == "resources/read":
         uri = params["uri"]
         if uri.startswith("seedenv://examples/"):
@@ -122,10 +128,12 @@ def dispatch(manager, request):
     if method == "prompts/list":
         return {"prompts": [{"name": "start-research", "description": "Start working with an installed research module",
                              "arguments": [{"name": "module", "description": "Module ID", "required": True}]}]}
-    if method == "prompts/get" and params.get("name") == "start-research":
+    if method == "prompts/get":
+        if params.get("name") != "start-research":
+            raise ValueError("Unknown prompt")
         context = manager.context([params.get("arguments", {})["module"]])
         return {"messages": [{"role": "user", "content": {"type": "text", "text": json.dumps(context, ensure_ascii=False)}}]}
-    raise ValueError(f"Unknown method: {method}")
+    raise MethodNotFound(f"Unknown method: {method}")
 
 
 def serve(manager=None):
@@ -142,6 +150,9 @@ def serve(manager=None):
             if "id" not in request:
                 continue
             response = {"jsonrpc": "2.0", "id": request["id"], "result": dispatch(manager, request)}
+        except MethodNotFound as error:
+            response = {"jsonrpc": "2.0", "id": request["id"],
+                        "error": {"code": -32601, "message": str(error)}}
         except Exception as error:
             response = {"jsonrpc": "2.0", "id": request.get("id") if isinstance(request, dict) else None,
                         "error": {"code": -32600, "message": str(error)}}
