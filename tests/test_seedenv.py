@@ -418,16 +418,22 @@ class SeedEnvTests(unittest.TestCase):
             {"jsonrpc": "2.0", "id": 3, "method": "tools/call", "params": {"name": "seedenv_prepare", "arguments": {"selections": []}}},
             {"jsonrpc": "2.0", "id": 4, "method": "resources/read", "params": {"uri": "seedenv://guides/fixture"}},
             {"jsonrpc": "2.0", "id": 5, "method": "resources/read", "params": {"uri": "seedenv://examples/thin-films"}},
+            {"jsonrpc": "2.0", "id": 6, "method": "resources/templates/list"},
+            {"jsonrpc": "2.0", "id": 7, "method": "unknown/method"},
+            {"jsonrpc": "2.0", "id": 8, "method": "prompts/get", "params": {"name": "missing"}},
         ]
         result = self.cli("mcp", input="".join(json.dumps(x) + "\n" for x in requests))
         self.assertEqual(result.returncode, 0, result.stderr)
         responses = [json.loads(line) for line in result.stdout.splitlines()]
-        self.assertEqual([x["id"] for x in responses], [1, 2, 3, 4, 5])
+        self.assertEqual([x["id"] for x in responses], [1, 2, 3, 4, 5, 6, 7, 8])
         self.assertEqual(responses[0]["result"]["protocolVersion"], "2025-11-25")
         empty = json.loads(responses[2]['result']['content'][0]['text'])
         self.assertEqual((empty['state'], empty['job']), ('ready', None))
         self.assertIn("complete API", responses[3]["result"]["contents"][0]["text"])
         self.assertIn("coh_tmm", responses[4]["result"]["contents"][0]["text"])
+        self.assertEqual(responses[5]["result"], {"resourceTemplates": []})
+        self.assertEqual(responses[6]["error"]["code"], -32601)
+        self.assertEqual(responses[7]["error"]["code"], -32600)
         request = origo_requests(self.manager, ["fixture"])["preparations"][0]["request"]
         self.assertEqual(request["requirements"], ["seedenv-fixture==1.0"])
         self.assertIn("execution_id", request)
