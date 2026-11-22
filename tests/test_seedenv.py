@@ -69,6 +69,131 @@ class SeedEnvTests(unittest.TestCase):
         self.assertFalse(result["failed"], result)
         return result["ready"][0]
 
+    def test_template_only_flow_and_relocated_writing_export(self):
+        from seedenv.writing import templates, create_manuscript
+        self.assertEqual(len(templates()["items"]), 22)
+        self.assertEqual(len(templates(language="zh", form="article")["items"]), 3)
+        self.assertEqual(self.manager.start(["writing-templates"])["job"], None)
+        paper = self.root / "manuscript 中文"
+        create_manuscript("compact-article-zh", paper)
+        self.assertTrue((paper / "main.tex").is_file())
+        self.assertTrue((paper / "sn-nature.bst").is_file())
+        self.assertFalse(self.home.exists())
+        with self.assertRaises(FileExistsError):
+            create_manuscript("standard-article-en", paper)
+        exported = self.root / "writing export"
+        export_plugin(exported, "mcp", selections=["writing-templates"])
+        moved = self.root / "moved writing"
+        exported.rename(moved)
+        env = {**os.environ, "SEEDENV_HOME": str(self.home)}
+        env.pop("PYTHONPATH", None)
+        request = {"jsonrpc":"2.0", "id":1, "method":"tools/call", "params":{
+            "name":"seedenv_manuscript", "arguments":{"template":"standard-book-en", "output":str(self.root/"book")}}}
+        result = subprocess.run([sys.executable, str(moved/"server.py")], input=json.dumps(request)+"\n",
+                                capture_output=True, text=True, cwd=self.root, env=env, timeout=30)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertNotIn('"isError": true', result.stdout)
+        self.assertTrue((self.root/"book/main.tex").is_file())
+        self.assertFalse(self.home.exists())
+        export_plugin(self.root/"numeric export", "mcp", selections=["numerical-computing"])
+        self.assertFalse((self.root/"numeric export/seedenv/data/writing").exists())
+
+    def test_host_request_reuses_an_external_interpreter_without_a_second_install(self):
+        original = self.prepare()
+        other = self.root / "host owned space"
+        request = {"selections":["fixture"], "existing":[{"command":original["command"]}], "options":{"offline":True}}
+        result = subprocess.run([sys.executable,"-m","seedenv","--home",str(other),"--catalog",str(self.extra),"prepare-request"],
+                                input=json.dumps(request), capture_output=True, text=True,
+                                env={**os.environ,"PYTHONPATH":str(ROOT/"src")}, timeout=30)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        value = json.loads(result.stdout)
+        self.assertEqual(value["ready"][0]["command"], original["command"])
+        self.assertFalse(value["ready"][0]["managed"])
+        self.assertFalse((other/"environments").exists())
+        self.assertFalse((other/"jobs").exists())
+        repeat = Manager(other, Catalog(self.extra)).prepare_request({"selections":["fixture"],"options":{"offline":True}})
+        self.assertEqual(repeat["ready"][0]["command"], original["command"])
+        roundtrip = self.manager.prepare_request(request)["ready"][0]
+        self.assertTrue(roundtrip["managed"])
+        self.assertEqual(roundtrip["location"], original["location"])
+
+    def test_interrupted_python_destination_is_reused_on_retry(self):
+        failed = self.manager.prepare(["fixture"], offline=True)
+        self.assertEqual(len(failed["failed"]), 1)
+        record = self.home/"preparing/fixture-python.json"
+        prefix = Path(json.loads(record.read_text())["location"])
+        self.assertEqual(self.manager.state.list(), [])
+        result = self.prepare()
+        self.assertEqual(Path(result["location"]), prefix)
+        self.assertFalse(record.exists())
+        self.assertEqual(len(list((self.home/"environments").iterdir())), 1)
+        self.assertEqual(self.cli("run","fixture-python","--","-c","from seedenv_fixture import square; print(square(7))").stdout.strip(), "49")
+
+    def test_existing_legacy_location_is_preserved_and_new_spaces_use_system(self):
+        space = self.root/"research"
+        self.assertEqual(Manager(research_space=space).home, space/"System/env/seedenv")
+        legacy = space/"system/seedenv"
+        legacy.mkdir(parents=True)
+        self.assertEqual(Manager(research_space=space).home, legacy)
+        self.assertEqual(Manager(home=self.home, research_space=space).home, self.home)
+
+    def test_tex_archive_continues_an_interrupted_http_transfer(self):
+        import http.server
+        import threading
+        from seedenv.tex import _download
+        payload = b"TeX archive bytes" * 1000
+        ranges = []
+        class Handler(http.server.BaseHTTPRequestHandler):
+            def do_GET(self):
+                requested = self.headers.get("Range")
+                ranges.append(requested)
+                if requested:
+                    start = int(requested.removeprefix("bytes=").removesuffix("-"))
+                    if start == len(payload):
+                        self.send_response(416)
+                        self.send_header("Content-Range", f"bytes */{len(payload)}")
+                        self.end_headers()
+                        return
+                    self.send_response(206)
+                    self.send_header("Content-Range", f"bytes {start}-{len(payload)-1}/{len(payload)}")
+                    self.send_header("Content-Length", str(len(payload)-start))
+                    self.end_headers()
+                    self.wfile.write(payload[start:])
+                else:
+                    self.send_response(200)
+                    self.send_header("Content-Length", str(len(payload)))
+                    self.end_headers()
+                    self.wfile.write(payload[:1000])
+            def log_message(self, *args): pass
+        server = http.server.ThreadingHTTPServer(("127.0.0.1",0), Handler)
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        archive = self.root/"archive.tar.xz"
+        try:
+            url = f"http://127.0.0.1:{server.server_port}/tex"
+            with self.assertRaises((RuntimeError, OSError)):
+                _download(url, archive)
+            self.assertFalse(archive.exists())
+            _download(url, archive)
+            self.assertEqual(archive.read_bytes(), payload)
+            self.assertEqual(ranges, [None, "bytes=1000-"])
+            archive.replace(archive.with_suffix(".xz.partial"))
+            _download(url, archive)
+            self.assertEqual(archive.read_bytes(), payload)
+            self.assertEqual(ranges[-1], f"bytes={len(payload)}-")
+        finally:
+            server.shutdown(); server.server_close(); thread.join()
+
+    def test_shared_foundation_selections_do_not_install_a_group(self):
+        basics = self.manager.catalog.browse("scientific-basics")
+        self.assertEqual(self.manager.catalog.browse("research-essentials"), basics)
+        with self.assertRaisesRegex(ValueError, "is a field"):
+            self.manager.prepare(["scientific-writing"])
+        plan = self.manager.plan(["scientific-python", "numerical-computing", "symbolic-mathematics", "scientific-plotting"])
+        self.assertEqual([a["action"] for a in plan["actions"]], ["install","share","share","share"])
+        self.assertEqual(self.manager.prepare(["writing-methods","writing-templates"])["ready"], [])
+        self.assertFalse(self.home.exists())
+
     def test_composition_and_software_search(self):
         modules, components = self.manager.catalog.select(["fixture", "fixture-composed"])
         self.assertEqual(components, ["fixture-python", "fixture-native"])
@@ -118,7 +243,7 @@ class SeedEnvTests(unittest.TestCase):
         optics = catalog.browse('optics')
         self.assertIn('optical-lab', [r['id'] for r in optics['resources']])
         self.assertTrue(all('optical-lab' not in d['modules'] for d in catalog.fields['optics']['directions']))
-        self.assertEqual(next(f for f in optics['fields'] if f['id'] == 'research-essentials')['kind'], 'shared')
+        self.assertEqual(next(f for f in optics['fields'] if f['id'] == 'scientific-basics')['kind'], 'shared')
 
     def test_prepared_software_keeps_laboratory_connection_with_host(self):
         self.definition['modules'].append({'id': 'fixture-experiment', 'title': 'Experiment',
@@ -195,7 +320,7 @@ class SeedEnvTests(unittest.TestCase):
     def test_user_research_space_and_external_solver_binding(self):
         user_space = self.root / "user research space"
         manager = Manager(catalog=self.manager.catalog, research_space=user_space)
-        expected = user_space / "system" / "seedenv"
+        expected = user_space / "System" / "env" / "seedenv"
         self.assertEqual(manager.home, expected)
         plan = manager.plan(["thin-films"])
         self.assertEqual(plan["storage"]["root"], str(expected))
@@ -246,7 +371,8 @@ class SeedEnvTests(unittest.TestCase):
         self.assertEqual(result["failed"][0]["component"], "fixture-missing")
         self.assertEqual(result["pending"][0]["action"], "setup")
         self.assertEqual(self.manager.entry("fixture-python")["command"], original["command"])
-        self.assertEqual(len(list((self.home / "environments").iterdir())), 1)
+        self.assertEqual(len(list((self.home / "environments").iterdir())), 2)
+        self.assertTrue((self.home / "preparing" / "fixture-missing.json").is_file())
 
     def test_background_job_survives_request_process_exit(self):
         started = self.cli("prepare", "fixture", "--background", "--offline", "--find-links", str(self.wheels))
@@ -381,7 +507,7 @@ class SeedEnvTests(unittest.TestCase):
                                     capture_output=True, text=True, cwd=self.root, env=env, timeout=30)
         self.assertEqual(configured.returncode, 0, configured.stderr)
         config = json.loads((moved / 'mcp.json').read_text())['mcpServers']['seedenv']
-        self.assertEqual(config['env']['SEEDENV_HOME'], str(space / 'system' / 'seedenv'))
+        self.assertEqual(config['env']['SEEDENV_HOME'], str(space / 'System' / 'env' / 'seedenv'))
         result = subprocess.run([config['command'], *config['args']], input=''.join(json.dumps(r)+'\n' for r in requests),
                                 capture_output=True, text=True, cwd=self.root, env={**env, **config['env']}, timeout=30)
         self.assertEqual(result.returncode, 0, result.stderr)

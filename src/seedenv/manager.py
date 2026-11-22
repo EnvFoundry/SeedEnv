@@ -14,6 +14,14 @@ import uuid
 from .catalog import Catalog
 from .process import Cancelled, installation_lock, run
 from .state import State
+from . import tex
+
+
+def research_home(space):
+    """Use the product's System spelling, preserving an existing older location."""
+    space = Path(space).expanduser()
+    current, legacy = space / "System" / "env" / "seedenv", space / "system" / "seedenv"
+    return legacy if legacy.exists() and not current.exists() else current
 
 
 def executable(value):
@@ -48,7 +56,7 @@ def conda_command():
 class Manager:
     def __init__(self, home=None, catalog=None, research_space=None):
         space = research_space or os.environ.get("SEEDENV_RESEARCH_SPACE")
-        default = Path(space).expanduser() / "system" / "seedenv" if space else Path.home() / ".seedenv"
+        default = research_home(space) if space else Path.home() / ".seedenv"
         location = home or (default if research_space else os.environ.get("SEEDENV_HOME", default))
         self.home = Path(os.path.abspath(Path(location).expanduser()))
         self.catalog = catalog or Catalog(os.environ.get("SEEDENV_CATALOG"))
@@ -64,6 +72,11 @@ class Manager:
         fields = ("kind", "requirements", "imports")
         if saved and Path(saved["command"][0]).is_file() and all(
                 saved["definition"].get(key) == item.get(key) for key in fields):
+            if item.get("preparer") == "tex":
+                try:
+                    tex.describe(saved["command"])
+                except (OSError, ValueError, subprocess.TimeoutExpired):
+                    return None
             if item["kind"] not in {"python", "environment"} or python_works(saved["command"], item["imports"]):
                 return saved
         # A smaller module may use a previously prepared larger environment.
@@ -119,9 +132,14 @@ class Manager:
                 else:
                     row.update(action="install", requirements=item["requirements"], python=item.get("python", "3.11+"))
             elif item["kind"] == "command":
-                found = next((shutil.which(x) for x in item["commands"] if shutil.which(x)), None) if local else None
-                row.update(action="connect" if found else "setup", command=[str(Path(found).absolute())] if found else None,
+                command = tex.find_existing() if local and item.get("preparer") == "tex" else None
+                found = next((shutil.which(x) for x in item["commands"] if shutil.which(x)), None) if local and not item.get("preparer") else None
+                command = command or ([str(Path(found).absolute())] if found else None)
+                managed = item.get("preparer") == "tex"
+                row.update(action="connect" if command else "install" if managed else "setup", command=command,
                            instructions=item.get("instructions", ""), sources=item.get("sources", []))
+                if managed:
+                    row["preparer"] = "tex"
             elif item["kind"] == "environment":
                 installer = conda_command() if local and item.get("conda") else None
                 row.update(action="install" if installer else "setup", imports=item["imports"], instructions=item["instructions"], sources=item.get("sources", []))
@@ -164,9 +182,13 @@ class Manager:
             if item["kind"] in {"python", "environment"} and python_works(candidate, item["imports"]):
                 result.append({"component": name, "command": candidate, "action": "bind"})
             elif item["kind"] == "command":
-                found = next((shutil.which(x) for x in item["commands"] if shutil.which(x)), None)
-                if found:
-                    result.append({"component": name, "command": [str(Path(found).absolute())], "action": "bind"})
+                if item.get("preparer") == "tex":
+                    command = tex.find_existing()
+                else:
+                    found = next((shutil.which(x) for x in item["commands"] if shutil.which(x)), None)
+                    command = [str(Path(found).absolute())] if found else None
+                if command:
+                    result.append({"component": name, "command": command, "action": "bind"})
         return {"found": result}
 
     def bind(self, name, command):
@@ -178,7 +200,12 @@ class Manager:
         command = [executable(command[0]), *command[1:]]
         if item["kind"] in {"python", "environment"} and not python_works(command, item["imports"]):
             raise ValueError(f"This interpreter cannot import the packages required by {name}")
+        if item.get("preparer") == "tex":
+            tex.describe(command)
         with installation_lock(self.home / "locks" / (name + ".lock")):
+            existing = self.state.get(name)
+            if existing and existing["command"] == command:
+                return self.state.bind(name, item, command, existing["location"], existing["managed"])
             return self.state.bind(name, item, command, Path(command[0]).parent, False)
 
     def _prepare_managed(self, item, *, python=None, offline=False, find_links=(), cancel=None):
@@ -192,7 +219,18 @@ class Manager:
             base = executable(python or sys.executable)
             directory = self.home / "environments"
             directory.mkdir(parents=True, exist_ok=True)
-            prefix = Path(tempfile.mkdtemp(prefix=name + "-", dir=directory))
+            pending = self.home / "preparing" / (name + ".json")
+            request = {"component": name, "definition": item, "python": base}
+            saved_request = json.loads(pending.read_text(encoding="utf-8")) if pending.is_file() else None
+            if saved_request and saved_request["request"] == request:
+                prefix = Path(saved_request["location"])
+                if prefix.parent != directory or not prefix.name.startswith(name + "-"):
+                    raise ValueError("Unfinished environment is outside this component's installation directory")
+            else:
+                prefix = Path(tempfile.mkdtemp(prefix=name + "-", dir=directory))
+                if item["kind"] == "python":
+                    pending.parent.mkdir(parents=True, exist_ok=True)
+                    pending.write_text(json.dumps({"request": request, "location": str(prefix)}) + "\n", encoding="utf-8")
             # Explicit pip options own the target. Environment variables may supply
             # an index or certificate but cannot redirect installation elsewhere.
             env = dict(os.environ)
@@ -220,8 +258,9 @@ class Manager:
                         launch += ["--root-prefix", str(self.home / "cache" / "mamba")]
                     launch.append(str(interpreter))
                 else:
-                    run([base, "-I", "-m", "venv", str(prefix)], env=env, cancel=cancel)
                     interpreter = prefix / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
+                    if not interpreter.is_file() or not python_works([str(interpreter)], ["pip"]):
+                        run([base, "-I", "-m", "venv", str(prefix)], env=env, cancel=cancel)
                     options = ["--no-index"] if offline else []
                     for location in find_links:
                         options.extend(["--find-links", str(location)])
@@ -231,10 +270,14 @@ class Manager:
                     raise RuntimeError(f"Installed packages for {name} could not be imported")
                 if cancel and cancel.exists():
                     raise Cancelled("Preparation cancelled")
-                return self.state.bind(name, item, launch, prefix, True)
+                result = self.state.bind(name, item, launch, prefix, True)
+                pending.unlink(missing_ok=True)
+                return result
             except BaseException:
-                # This directory was created by this call and never published.
-                shutil.rmtree(prefix, ignore_errors=True)
+                # pip can continue this private destination on the next request.
+                # An unfinished environment is never returned as ready.
+                if item["kind"] != "python":
+                    shutil.rmtree(prefix, ignore_errors=True)
                 raise
 
     def prepare(self, selections, *, python=None, offline=False, find_links=(), cancel=None):
@@ -250,6 +293,9 @@ class Manager:
                     if action["action"] == "share" and not self._available(item):
                         raise RuntimeError(f"Selected shared software {action['provided_by']} is not ready")
                     saved = self._prepare_managed(item, python=python, offline=offline, find_links=find_links, cancel=cancel)
+                elif action["action"] == "install" and item.get("preparer") == "tex":
+                    command, location = tex.prepare(self.home, offline=offline, cancel=cancel)
+                    saved = self.state.bind(name, item, command, location, True)
                 elif action["action"] == "reuse":
                     saved = self._available(item)
                 elif action["action"] == "connect":
@@ -257,7 +303,7 @@ class Manager:
                 else:
                     result["pending"].append(action)
                     continue
-                result["ready"].append({k: saved[k] for k in ("component", "command", "location", "managed")})
+                result["ready"].append({**self.entry(name), "managed": saved["managed"]})
             except (OSError, RuntimeError, ValueError, TimeoutError) as error:
                 result["failed"].append({"component": name, "error": str(error)})
         return result
@@ -266,12 +312,86 @@ class Manager:
         saved = self._available(self._component(component))
         if saved is None or not Path(saved["command"][0]).is_file():
             raise ValueError(f"Prepare or bind {component} first")
-        return {"component": component, "command": saved["command"], "location": saved["location"]}
+        value = {"component": component, "command": saved["command"], "location": saved["location"]}
+        if self._component(component).get("preparer") == "tex":
+            value["commands"] = tex.describe(saved["command"])
+            if saved["managed"]:
+                value["environment"] = tex.environment(self.home, saved["command"])
+        return value
+
+    def reuse(self, selections, environments):
+        """Bind only requested components to entries supplied by this host.
+
+        Each entry supplies command and optional components. The host selects
+        the execution machine before calling; no remote paths are guessed here.
+        """
+        _, ids = self.catalog.select(selections)
+        found, remaining = [], list(ids)
+        for entry in environments:
+            command = entry.get("command")
+            if not isinstance(command, list) or not command or any(not isinstance(x, str) or not x for x in command):
+                raise ValueError("Each existing environment needs a command array")
+            candidates = entry.get("components", remaining)
+            if not isinstance(candidates, list) or any(not isinstance(x, str) for x in candidates):
+                raise ValueError("Existing environment components must be an array of component IDs")
+            for name in list(remaining):
+                item = self._component(name)
+                if name not in candidates or item["kind"] in {"plugin", "connector"}:
+                    continue
+                # Unlabelled entries are Python interpreters. Native commands
+                # must name their components, so a solver cannot become latexmk.
+                if item["kind"] == "command" and "components" not in entry:
+                    continue
+                try:
+                    self.bind(name, command)
+                except (ValueError, OSError, subprocess.TimeoutExpired):
+                    continue
+                found.append(self.entry(name))
+                remaining.remove(name)
+        return {"reused": found, "unmatched": remaining}
+
+    def prepare_request(self, request, *, cancel=None):
+        """Synchronous worker entry: the caller owns scheduling and cancellation."""
+        if not isinstance(request, dict) or set(request) - {"selections", "existing", "options"}:
+            raise ValueError("Use selections, existing and options in a preparation request")
+        selections = request.get("selections", [])
+        if not isinstance(selections, list) or any(not isinstance(x, str) for x in selections):
+            raise ValueError("selections must be an array of module or component IDs")
+        existing = request.get("existing", [])
+        if not isinstance(existing, list) or any(not isinstance(x, dict) for x in existing):
+            raise ValueError("existing must be an array of host environment entries")
+        options = request.get("options", {})
+        if not isinstance(options, dict) or set(options) - {"python", "offline", "find_links"}:
+            raise ValueError("Preparation options are python, offline and find_links")
+        if "offline" in options and not isinstance(options["offline"], bool):
+            raise ValueError("offline must be true or false")
+        if "python" in options and options["python"] is not None and not isinstance(options["python"], str):
+            raise ValueError("python must be an executable path")
+        links = options.get("find_links", [])
+        if not isinstance(links, list) or any(not isinstance(p, str) for p in links):
+            raise ValueError("find_links must be an array of paths or URLs")
+        if cancel and cancel.exists():
+            raise Cancelled("Preparation cancelled")
+        self.reuse(selections, existing)
+        return self.prepare(selections, cancel=cancel, **options)
+
+    def build(self, source, *, output=None, build_dir=None, engine="lualatex", latexmk=None):
+        from .writing import build_manuscript
+        environment = None
+        if latexmk is None and "tool-tex" in self.catalog.components:
+            saved = self._available(self._component("tool-tex"))
+            if saved:
+                entry = self.entry("tool-tex")
+                latexmk = entry["command"][0]
+                environment = entry.get("environment")
+        return build_manuscript(Path(source), output=Path(output) if output else None,
+                                build_dir=Path(build_dir) if build_dir else None,
+                                engine=engine, latexmk=latexmk or "latexmk", environment=environment)
 
     def start(self, selections, **options):
-        self.catalog.select(selections)
-        if not selections:
-            return {"job": None, "state": "ready", "result": {"modules": [], "ready": [], "pending": [], "failed": []}}
+        modules, components = self.catalog.select(selections)
+        if not components:
+            return {"job": None, "state": "ready", "result": {"modules": modules, "ready": [], "pending": [], "failed": []}}
         job = uuid.uuid4().hex
         folder = self.home / "jobs" / job
         folder.mkdir(parents=True)

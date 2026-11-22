@@ -10,14 +10,50 @@ environments, data connections, plugins and practical guidance. Specialist
 environments such as Optics-Photonics-AI-Lab and IOP retain their own scientific
 methods, knowledge and experimental workflows.
 
+## Scientific Basics and Scientific Writing
+
+These are shared groups of optional modules. They can be used independently of
+Origo; experimental science retains its separate shared navigation group.
+
+| Group | Choose what the task needs |
+| --- | --- |
+| **Scientific Basics** | Scientific Python, numerical and symbolic computing, statistics, optimization, units and uncertainty, tables, databases, arrays, notebooks and figures |
+| **Scientific Writing** | Composition, English/Chinese manuscript templates, TeX preparation, references and bibliography formatting |
+
+```sh
+seedenv browse --field scientific-basics
+seedenv prepare scientific-python
+seedenv templates --language zh --form article
+seedenv manuscript standard-article-zh --output my-paper
+seedenv prepare writing
+seedenv build my-paper/main.tex
+```
+
+Copying templates and reading writing guidance do not install scientific packages
+or TeX. The 22 layout choices share 17 distinct source files, consolidated from
+Origo's writing resources. A connected TeX is reused; otherwise the writing module
+can prepare TinyTeX, compilers, bibliography tools and fonts on its own. Perl is
+needed on Unix hosts. The software stays separate from editable manuscripts.
+
+Export either group's metadata, guides and resources for another agent:
+
+```sh
+seedenv connect mcp --group scientific-basics --output basics-agent
+seedenv connect mcp --group scientific-writing --output writing-agent
+```
+
+The receiving host chooses its modules before installing software. Products can
+call the synchronous [preparation interface](docs/integration.md#host-owned-preparation)
+inside their existing jobs, supplying already installed interpreters/toolchains.
+
 ## Choose research tools
 
 Browse **field → research direction → module**. Fields and directions are
 navigation, not installation bundles. Nothing is selected by default. Search by
 task or software also supports selections across fields.
 
-The catalogue has **14 research fields and 2 shared groups**, with 94 directions
-and groupings, **198 distinct task modules**, and 8 related resources. Optics and
+The catalogue has **14 research fields and 3 shared groups**, with 99 directions
+and groupings, **202 distinct task modules**, and 8 related resources. Optics and
 photonics has 13 research directions and 63 task modules. Datasets and specialist
 labs appear separately as related resources. See the complete
 [field, direction and module catalogue](docs/catalogue.md). These are selectable
@@ -78,7 +114,7 @@ seedenv --research-space /path/to/user-space run python-tmm -- thin_film.py
 ```
 
 `--research-space` names the **user-level research space**, shared across projects
-and sessions. Software and installation state live in its `system/seedenv`.
+and sessions. Software and installation state live in its `System/env/seedenv`.
 Research programs, inputs and outputs stay in their own projects. Do not pass a
 temporary session workspace. `SEEDENV_RESEARCH_SPACE` provides the same setting.
 

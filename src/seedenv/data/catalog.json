@@ -326,7 +326,8 @@
         "https://yihui.org/tinytex/"
       ],
       "origo_preset": "research-tex",
-      "instructions": "Connect an existing latexmk installation. Origo can prepare its research-tex preset; standalone installations use the upstream TeX installer."
+      "instructions": "Reuse an existing TeX toolchain, or prepare TinyTeX with the compilers, bibliography tools and fonts for the included templates. Templates can be obtained separately.",
+      "preparer": "tex"
     },
     {
       "id": "tool-r",
@@ -6540,6 +6541,75 @@
         "component": "python-bluesky",
         "file": "examples/adaptive_experiment.py"
       }
+    },
+    {
+      "id": "scientific-python",
+      "title": "Scientific Python · 科研 Python 基础",
+      "summary": "数组、数值求解、符号数学、绘图和数据框的共用 Python 起点。",
+      "summary_en": "Prepare a reusable Python base for arrays, numerical methods, symbolic mathematics, plotting and data frames.",
+      "tags": [
+        "python",
+        "common",
+        "基础"
+      ],
+      "components": [
+        "python-science"
+      ],
+      "includes": [],
+      "guide": "guides/scientific-python.md",
+      "example": {
+        "component": "python-science",
+        "file": "examples/fit.py"
+      }
+    },
+    {
+      "id": "writing-methods",
+      "title": "Scientific composition · 科研写作方法",
+      "summary": "从研究材料组织论文、报告、书稿与补充材料，保留作者的论证与表达。",
+      "summary_en": "Develop papers, reports and books from the actual research and author intent.",
+      "tags": [
+        "writing",
+        "写作",
+        "论文"
+      ],
+      "components": [],
+      "includes": [],
+      "guide": "guides/writing-methods.md"
+    },
+    {
+      "id": "writing-templates",
+      "title": "Manuscript templates · 中英文文稿模板",
+      "summary": "分别取得论文、报告、书稿和补充材料模板，无需先安装 TeX。",
+      "summary_en": "Obtain editable English or Chinese article, report, book and supplementary layouts independently of TeX.",
+      "tags": [
+        "latex",
+        "templates",
+        "writing",
+        "模板"
+      ],
+      "components": [],
+      "includes": [],
+      "guide": "guides/writing-templates.md",
+      "resources": [
+        "writing/templates.json"
+      ]
+    },
+    {
+      "id": "bibliographies",
+      "title": "Bibliographies · 参考文献编排",
+      "summary": "使用真实的 BibTeX/BibLaTeX 记录与文稿引用，沿用同一 TeX 环境。",
+      "summary_en": "Maintain bibliography records and citations using the same TeX environment.",
+      "tags": [
+        "bibtex",
+        "biblatex",
+        "biber",
+        "文献"
+      ],
+      "components": [
+        "tool-tex"
+      ],
+      "includes": [],
+      "guide": "guides/bibliographies.md"
     }
   ],
   "fields": [
@@ -7624,17 +7694,28 @@
       ]
     },
     {
-      "id": "research-essentials",
-      "title": "Research essentials · 通用研究工具",
+      "id": "scientific-basics",
+      "title": "Scientific Basics · 科研基础",
       "kind": "shared",
       "directions": [
         {
           "id": "computing",
           "title": "Computing · 计算",
           "modules": [
+            "scientific-python",
             "numerical-computing",
             "symbolic-mathematics",
             "julia-science",
+            "r-statistics"
+          ]
+        },
+        {
+          "id": "methods",
+          "title": "Statistics & models · 统计与模型",
+          "modules": [
+            "optimization",
+            "differential-equations",
+            "uncertainty-propagation",
             "physical-units"
           ]
         },
@@ -7650,18 +7731,10 @@
         },
         {
           "id": "interactive",
-          "title": "Interactive research · 交互式研究",
+          "title": "Notebooks & figures · 笔记本与图表",
           "modules": [
             "notebooks",
-            "parameterized-notebooks"
-          ]
-        },
-        {
-          "id": "writing",
-          "title": "Writing & figures · 写作与图表",
-          "modules": [
-            "writing",
-            "references",
+            "parameterized-notebooks",
             "scientific-plotting",
             "media-tools"
           ]
@@ -7670,6 +7743,50 @@
       "resources": [
         "experiment-tracking"
       ]
+    },
+    {
+      "id": "scientific-writing",
+      "title": "Scientific Writing · 科研写作",
+      "kind": "shared",
+      "directions": [
+        {
+          "id": "composition",
+          "title": "Composition · 论证与写作",
+          "modules": [
+            "writing-methods"
+          ]
+        },
+        {
+          "id": "manuscripts",
+          "title": "Manuscripts · 文稿与模板",
+          "modules": [
+            "writing-templates"
+          ]
+        },
+        {
+          "id": "typesetting",
+          "title": "Typesetting · 排版与编译",
+          "modules": [
+            "writing"
+          ]
+        },
+        {
+          "id": "references",
+          "title": "References · 文献与引用",
+          "modules": [
+            "references",
+            "bibliographies"
+          ]
+        },
+        {
+          "id": "figures",
+          "title": "Figures · 科学图表",
+          "modules": [
+            "scientific-plotting"
+          ]
+        }
+      ],
+      "resources": []
     }
   ]
 }

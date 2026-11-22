@@ -3,6 +3,7 @@ import json
 import sys
 
 from .manager import Manager
+from .writing import templates, create_manuscript
 
 
 def field(kind, description=""):
@@ -42,6 +43,13 @@ def tools():
         ("seedenv_installed", "List persistent software installations and their invocation commands.", {}, [], True),
         ("seedenv_entry", "Get the exact command for a prepared component; use it to run full native research programs.",
          {"component": field("string")}, ["component"], True),
+        ("seedenv_templates", "List editable scientific writing layouts by language, form or style. Does not install software.",
+         {"language": field("string"), "form": field("string"), "style": field("string")}, [], True),
+        ("seedenv_manuscript", "Copy a selected writing template into a new project directory. Does not download TeX or replace an existing project.",
+         {"template": field("string"), "output": field("string")}, ["template", "output"], False),
+        ("seedenv_build", "Compile an existing LaTeX manuscript with prepared TeX or an explicitly supplied latexmk. Never installs software.",
+         {"source": field("string"), "output": field("string"), "build_dir": field("string"),
+          "engine": {"type":"string", "enum":["lualatex", "xelatex"]}, "latexmk": field("string")}, ["source"], False),
     ]
     return [{"name": name, "description": description,
              "inputSchema": {"type": "object", "properties": properties, "required": required, "additionalProperties": False},
@@ -73,6 +81,8 @@ def call(manager, name, args):
         "seedenv_bind": manager.bind, "seedenv_prepare": manager.start,
         "seedenv_status": manager.status, "seedenv_cancel": manager.cancel,
         "seedenv_installed": manager.state.list, "seedenv_entry": manager.entry,
+        "seedenv_templates": templates, "seedenv_manuscript": create_manuscript,
+        "seedenv_build": manager.build,
     }
     return operations[name](**args)
 

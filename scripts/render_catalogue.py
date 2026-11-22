@@ -31,7 +31,7 @@ def software_row(name):
     software = []
     for identity in ids:
         item = catalog.components[identity]
-        mode = 'pip' if item['kind'] == 'python' else 'conda / bind' if item.get('conda') else {
+        mode = 'TinyTeX / bind' if item.get('preparer') == 'tex' else 'pip' if item['kind'] == 'python' else 'conda / bind' if item.get('conda') else {
             'environment': 'bind interpreter / 连接解释器', 'command': 'connect command / 连接程序',
             'connector': 'connect service / 连接服务', 'plugin': 'connect plugin / 连接插件'}[item['kind']]
         software.append(f"{item['title']} ({mode})")

@@ -14,7 +14,8 @@ def main():
     root = Path(__file__).resolve().parent
     environment = {}
     if args.research_space:
-        environment['SEEDENV_HOME'] = str(Path(args.research_space).expanduser().absolute() / 'system' / 'seedenv')
+        from seedenv.manager import research_home
+        environment['SEEDENV_HOME'] = str(research_home(Path(args.research_space).expanduser().absolute()))
     elif args.home:
         environment['SEEDENV_HOME'] = str(Path(args.home).expanduser().absolute())
     value = {'mcpServers': {'seedenv': {'command': sys.executable,

@@ -1,14 +1,14 @@
 # Implementation · 2026-11-22
 
-SeedEnv has 14 research fields and 2 shared entry groups, with 94 directions and
-groupings, 198 distinct task modules, 188 shared components and 8 related resources. The
+SeedEnv has 14 research fields and 3 shared entry groups, with 99 directions and
+groupings, 202 distinct task modules, 188 shared components and 8 related resources. The
 [catalogue](catalogue.md) is generated from the same data used by the CLI, MCP,
 TypeScript picker and Rust client. Several directions may reference one module;
 several modules may use one software component.
 
 The picker starts with no selection. Browsing and empty preparation create no
 software directory or background job. Selected software is prepared beneath the
-user research space's `system/seedenv`, with isolated environments, local caches
+user research space's `System/env/seedenv`, with isolated environments, local caches
 and persistent SQLite state. Existing interpreters and executables can be bound.
 Known compatible larger environments supply smaller modules; selection order
 does not cause duplicate installation. Preparation supports background progress,
@@ -30,8 +30,29 @@ contain only chosen modules and local catalogue extensions. A copied generic MCP
 package includes `configure.py` to regenerate paths on its receiving machine.
 Exporting the package does not claim its scientific software has been installed.
 
-This round prepared and ran the following new examples on Linux x86-64 / Python
-3.12. Inputs are illustrative, not empirical research results.
+Scientific Basics now groups 17 tasks under four directions. Scientific Writing
+groups six tasks under five directions, including software-free methods and
+templates. The 22 English/Chinese layout choices share 17 distinct source files;
+only the chosen template is copied into a new manuscript project. TeX preparation,
+templates, composition guidance and the manuscript builder are maintained here
+for standalone use and product consumption.
+
+The current integration was exercised on Linux: a fresh scientific Python venv
+ran the fitting example; native TinyTeX compiled all 17 distinct templates. LuaLaTeX
+with BibTeX and Biber, and XeLaTeX with BibTeX, also produced Chinese/English PDFs.
+Repeated offline preparation returned the same Python and TeX commands. The new
+writing workflow exercises native TinyTeX and these templates on Linux and Windows.
+
+The synchronous `prepare-request` interface accepts the selected modules and
+existing command entries from the product worker, and returns actual invocation
+commands and locations. The host owns its job, execution host and environment
+registry. TypeScript and Rust call this same interface. Cancellation uses a host
+file on every platform; unfinished pip destinations and TeX downloads are retained
+for retry. Existing managed entries keep their location and management state when
+the host passes them back.
+
+Earlier development prepared and ran the following examples on Linux x86-64 /
+Python 3.12. Inputs are illustrative, not empirical research results.
 
 | Software | Executed calculation | Result |
 | --- | --- | --- |
@@ -73,21 +94,20 @@ Earlier work exercised the base scientific stack and optics programs, including
 thin films, RCWA, paraxial imaging, polarization, coherence, speckle statistics,
 quantum evolution and a DEVSIM capacitor. The catalogue's other installation
 routes have not all been exercised on every platform. Native GPU workloads,
-instruments and external accounts were not connected in this round. The earlier
-host TeX installation lacked its XeLaTeX formats; a working TeX installation or
-the host's TeX preparation flow is still needed for that writing example.
+instruments and external accounts were not connected in this round.
 
-Twenty-three Python process tests pass, covering real local-wheel installation,
+Twenty-nine Python process tests pass, covering real local-wheel installation,
 reuse across processes, cancellation, failed additions, empty selection, shared
 environments, selected context, local extensions, relocated MCP packages and
-prepared software with a still-pending laboratory connection.
-The TypeScript client/picker tests and Rust client tests pass. Repository CI runs
-the Python process tests on Linux, Windows and macOS; this tests SeedEnv's core,
+prepared software with a still-pending laboratory connection. They also exercise
+the host's existing-environment handoff, interrupted preparation retry and templates
+without software installation. The two TypeScript client/picker tests and the
+Rust client test also pass locally. Repository CI runs the Python process tests on Linux, Windows and macOS; this tests SeedEnv's core,
 not every upstream scientific package on those operating systems.
 
-The Origo package and preparation adapter are implemented. The native Origo
-adapter translates pip and TeX requests; conda preparation runs through SeedEnv on
-the selected worker. Wiring the picker and persistent user-space mapping into
-Origo's shipped installer is a separate product change and has not been made in
-this repository. Other agent hosts can use the CLI, Python API or exported MCP
-package directly.
+The Origo export and earlier preset adapter remain available. The shared
+`prepare-request` route prepares pip, TeX and supported conda recipes on the selected
+worker. Origo still needs to wire its picker, persistent location, task progress
+and environment registration to this interface, then retire its duplicate recipes
+and writing assets. That product change has not been made in this repository.
+Other agent hosts can use the CLI, Python API or exported MCP package directly.

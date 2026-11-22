@@ -23,7 +23,7 @@ def origo_requests(manager, selections, destination="environments"):
                 "destination": destination.rstrip("/") + "/" + item["component"] + "-" + token,
                 "requirements": component["requirements"],
             }})
-        elif component.get("origo_preset") and item["action"] == "setup":
+        elif component.get("origo_preset") and item["action"] in {"setup", "install"}:
             token = uuid.uuid4().hex[:12]
             requests.append({"component": item["component"], "request": {
                 "execution_id": "seedenv-" + uuid.uuid4().hex,
@@ -51,6 +51,8 @@ def export_plugin(output, host="origo", home=None, catalog=None, selections=None
     output.mkdir(parents=True)
     shutil.copytree(Path(__file__).parent, output / "seedenv", ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
     data = output / "seedenv" / "data"
+    if "writing-templates" not in names:
+        shutil.rmtree(data / "writing", ignore_errors=True)
     for directory in ("guides", "examples"):
         shutil.rmtree(data / directory)
         (data / directory).mkdir()

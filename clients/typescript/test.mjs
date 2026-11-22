@@ -25,6 +25,12 @@ test('TypeScript uses the real catalogue and host request format', async () => {
     assert.equal((await api.search('--a-search-term')).items.length, 0);
     assert.deepEqual((await api.plan([])).actions, []);
     assert.equal((await api.prepare([])).job, null);
+    assert.equal((await api.prepare(['writing-templates'])).job, null);
+    assert.deepEqual((await api.prepareOnHost({selections:[]})).ready, []);
+    assert.equal((await api.templates({form:'article',language:'zh'})).items.length, 3);
+    const manuscript = await api.manuscript('standard-article-zh', resolve(home,'paper'));
+    assert.equal(manuscript.source, resolve(home,'paper/main.tex'));
+    await assert.rejects(api.manuscript('standard-article-zh', resolve(home,'paper')), /exist/);
     assert.equal((await api.context(['thin-films'])).modules[0].id, 'thin-films');
     assert.match((await api.example('thin-films')).content, /coh_tmm/);
     assert.equal((await api.browse('optics')).resources.some(m => m.id === 'optical-lab'), true);

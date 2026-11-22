@@ -1,0 +1,350 @@
+% Research Supplementary Material Template
+% Compile with LuaLaTeX.
+% Keep figure files under figures/.
+% Use refs.bib with \cite{...} when references are used.
+% LaTeX supplies section numbers; section titles contain title text only.
+% Supplementary equations, figures, and tables use S-numbered labels.
+% Use TeX-distributed fonts on every OS, without proprietary system fonts.
+\documentclass[10pt,a4paper,fontset=fandol]{ctexart}
+% --- Inlined Research final production style. Keep this template standalone. ---
+
+\usepackage[
+  a4paper,
+  top=9mm,
+  bottom=14mm,
+  left=13.2mm,
+  right=13.2mm,
+  headheight=24pt,
+  headsep=4mm,
+  footskip=8mm,
+  includehead
+]{geometry}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{newtxtext}
+  \usepackage{newtxmath}
+  \usepackage[scaled=0.92]{helvet}
+  \usepackage{microtype}
+\else
+  \usepackage{fontspec}
+  \defaultfontfeatures{Ligatures=TeX}
+  \IfFontExistsTF{TeX Gyre Termes}
+    {\setmainfont{TeX Gyre Termes}}
+    {\setmainfont{Latin Modern Roman}}
+  \IfFontExistsTF{TeX Gyre Heros}
+    {\setsansfont{TeX Gyre Heros}[Scale=0.92]}
+    {\setsansfont{Latin Modern Sans}[Scale=0.92]}
+  \setmonofont{Latin Modern Mono}[Scale=0.90]
+\fi
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage{xcolor}
+\usepackage{textcomp}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{bm}
+\usepackage{siunitx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{makecell}
+\usepackage{xurl}
+\usepackage{tikz}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{multicol}
+\usepackage{fancyhdr}
+\usepackage{eso-pic}
+\usepackage[numbers,sort&compress,super]{natbib}
+\usepackage[colorlinks=true,linkcolor=black,citecolor=black,urlcolor=black]{hyperref}
+\usepackage{bookmark}
+\usepackage{cleveref}
+\providecommand{\bibcommenthead}{}
+
+\definecolor{NatureBlue}{HTML}{1F4E79}
+\definecolor{NatureGrey}{HTML}{4A4A4A}
+\definecolor{NatureLightGrey}{HTML}{E8E8E8}
+\definecolor{NatureOrange}{HTML}{D55E00}
+\definecolor{NatureSkyBlue}{HTML}{0072B2}
+\definecolor{NatureGreen}{HTML}{009E73}
+\definecolor{ResearchBlue}{HTML}{003F88}
+\definecolor{ResearchBlueDark}{HTML}{123A63}
+\definecolor{ResearchBlueLight}{HTML}{EAF2FB}
+
+\setlength{\columnsep}{8mm}
+\setlength{\parindent}{1em}
+\setlength{\parskip}{0pt}
+\setlength{\textfloatsep}{9pt plus 2pt minus 2pt}
+\setlength{\floatsep}{8pt plus 2pt minus 2pt}
+\setlength{\intextsep}{8pt plus 2pt minus 2pt}
+\sisetup{detect-all=true,per-mode=symbol}
+\pretolerance=1000
+\tolerance=2500
+\emergencystretch=2em
+\allowdisplaybreaks
+\raggedbottom
+\clubpenalty=10000
+\widowpenalty=10000
+\displaywidowpenalty=10000
+\hbadness=3500
+\vbadness=3500
+\hfuzz=0.3pt
+
+\graphicspath{{figures/}{./}}
+\Urlmuskip=0mu plus 2mu
+\newcolumntype{Y}{>{\raggedright\arraybackslash\hspace{0pt}}X}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash\hspace{0pt}}p{#1}}
+\DeclareUrlCommand\SafePath{\urlstyle{tt}\footnotesize}
+\DeclareUrlCommand\SafeURL{\urlstyle{same}\footnotesize}
+\DeclareUrlCommand\SafeCode{\urlstyle{tt}\footnotesize}
+\newcommand{\SafeImage}[2][]{\includegraphics[max width=\linewidth,keepaspectratio,#1]{#2}}
+\newcommand{\SafeWideImage}[2][]{\includegraphics[max width=\textwidth,keepaspectratio,#1]{#2}}
+\newcommand{\ResearchTableFont}{\footnotesize}
+\NewDocumentEnvironment{SafeTabularX}{m +b}{%
+  \begingroup\ResearchTableFont
+  \setlength{\tabcolsep}{3.5pt}%
+  \renewcommand{\arraystretch}{1.08}%
+  \begin{tabularx}{\linewidth}{#1}#2\end{tabularx}%
+  \endgroup
+}{}
+\NewDocumentEnvironment{SafeLongTable}{m +b}{%
+  \begingroup\ResearchTableFont
+  \setlength{\tabcolsep}{3.5pt}%
+  \renewcommand{\arraystretch}{1.08}%
+  \begin{longtable}{#1}#2\end{longtable}%
+  \endgroup
+}{}
+
+\providecommand{\dd}{\mathop{}\!\mathrm{d}}
+\providecommand{\dv}[2]{\frac{\dd #1}{\dd #2}}
+\providecommand{\pdv}[2]{\frac{\partial #1}{\partial #2}}
+\providecommand{\vect}[1]{\boldsymbol{#1}}
+\providecommand{\mat}[1]{\mathbf{#1}}
+\providecommand{\E}{\mathbb{E}}
+\providecommand{\Var}{\operatorname{Var}}
+\providecommand{\argmin}{\operatorname*{arg\,min}}
+
+\newtheorem{theorem}{定理}
+\newtheorem{proposition}{命题}
+\newtheorem{lemma}{引理}
+\newtheorem{corollary}{推论}
+\theoremstyle{definition}
+\newtheorem{definition}{定义}
+\theoremstyle{remark}
+\newtheorem{remark}{注}
+
+\newcommand{\NatureRunningLabel}{Article}
+\newcommand{\setnaturerunninglabel}[1]{\gdef\NatureRunningLabel{#1}}
+
+\pagestyle{fancy}
+\setlength{\headheight}{24pt}
+\fancyhf{}
+\fancyhead[L]{\ifodd\value{page}\sffamily\fontsize{13}{14}\selectfont\bfseries\color{black}\NatureRunningLabel\fi}
+\fancyfoot[L]{\ifodd\value{page}\else\sffamily\footnotesize\thepage\fi}
+\fancyfoot[R]{\ifodd\value{page}\sffamily\footnotesize\thepage\fi}
+\renewcommand{\headrulewidth}{0.45pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{black}\leaders\hrule height \headrulewidth\hfill}}
+\renewcommand{\footrulewidth}{0.25pt}
+\renewcommand{\footrule}{\hbox to\headwidth{\color{ResearchBlue!18}\leaders\hrule height \footrulewidth\hfill}}
+\AddToShipoutPictureBG{%
+  \AtPageLowerLeft{%
+    \put(\LenToUnit{9.5mm},\LenToUnit{12mm}){%
+      \color{black}\rule{0.35pt}{\dimexpr\paperheight-22mm\relax}}}}
+
+\captionsetup{
+  font=small,
+  labelfont={bf,color=ResearchBlueDark},
+  labelsep=period,
+  justification=raggedright,
+  singlelinecheck=false,
+  hypcap=false
+}
+
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{1}{0pt}%
+  {9pt plus 2pt minus 1pt}{4pt}%
+  {\sffamily\large\bfseries\color{ResearchBlueDark}\raggedright}}
+\renewcommand{\subsection}{\@startsection{subsection}{2}{0pt}%
+  {7pt plus 1pt minus 1pt}{3pt}%
+  {\sffamily\normalsize\bfseries\color{ResearchBlueDark}\raggedright}}
+\renewcommand{\paragraph}[1]{\par\noindent{\sffamily\small\bfseries\color{ResearchBlueDark} #1.}\ }
+
+\newcommand{\naturetoprule}{%
+  \noindent{\color{ResearchBlue}\rule{\textwidth}{0.55pt}}\par}
+\newcommand{\naturearticlelabel}[1]{%
+  \noindent{\sffamily\fontsize{10.5}{12}\selectfont\bfseries\color{ResearchBlue} #1}\par\vspace{2pt}}
+\newcommand{\naturemetarow}[3]{%
+  \naturearticlelabel{#1}}
+
+\newcommand{\naturetitle}[1]{%
+  {\raggedright\rmfamily\bfseries\color{black!94}\fontsize{26}{28}\selectfont #1\par}}
+
+\newcommand{\natureauthors}[1]{%
+  \vspace{6pt}{\raggedright\sffamily\bfseries\fontsize{8.8}{10.5}\selectfont #1\par}}
+
+\newcommand{\natureaffiliations}[1]{%
+  \vspace{2pt}{\raggedright\rmfamily\fontsize{7.6}{9}\selectfont #1\par}}
+
+\newcommand{\naturemark}[1]{%
+  \raisebox{0.58ex}{\sffamily\fontsize{6}{6}\selectfont #1}}
+
+\newcommand{\naturelead}[1]{%
+  \vspace{6pt}
+  {\noindent\color{ResearchBlueDark}\bfseries #1\par}
+  \vspace{4pt}}
+
+\newcommand{\naturehistory}[1]{%
+  \vspace{5pt}{\sffamily\footnotesize #1\par}\vspace{5pt}}
+
+\newcommand{\naturesectionbreak}{\par\vspace{4pt}}
+
+% Use these inside multicols for full-width display items.
+\long\def\naturewidefigure#1{%
+  \end{multicols}\par\vspace{4pt}\noindent\begin{minipage}{\textwidth}\centering
+  #1%
+  \end{minipage}\par\vspace{6pt}\begin{multicols}{2}}
+
+\long\def\naturewidetable#1{%
+  \end{multicols}\par\vspace{4pt}\noindent\begin{minipage}{\textwidth}
+  #1%
+  \end{minipage}\par\vspace{6pt}\begin{multicols}{2}}
+
+\long\def\naturewideequation#1{%
+  \end{multicols}\par\vspace{4pt}\noindent\begin{minipage}{\textwidth}\small
+  #1%
+  \end{minipage}\par\vspace{6pt}\begin{multicols}{2}}
+
+\newcommand{\naturepanelbox}[3]{%
+  \begin{tikzpicture}[x=1mm,y=1mm]
+    \draw[black!35,line width=0.35pt] (0,0) rectangle (#2,#3);
+    \node[anchor=north west,font=\sffamily\bfseries\fontsize{8}{8}\selectfont]
+      at (1,#3-1) {#1};
+  \end{tikzpicture}}
+
+\newcommand{\natureplotpanel}[3]{%
+  \begin{tikzpicture}[x=1mm,y=1mm]
+    \draw[ResearchBlue!35,line width=0.35pt] (0,0) rectangle (#2,#3);
+    \node[anchor=north west,font=\sffamily\bfseries\fontsize{8}{8}\selectfont,
+      text=ResearchBlueDark]
+      at (1,#3-1) {#1};
+    \draw[black!70,line width=0.35pt] (8,7) -- (#2-6,7);
+    \draw[black!70,line width=0.35pt] (8,7) -- (8,#3-7);
+    \draw[NatureSkyBlue,line width=0.8pt] plot[smooth] coordinates
+      {(9,9) (16,12) (24,22) (34,27) (#2-8,#3-8)};
+    \draw[NatureOrange,line width=0.8pt] plot[smooth] coordinates
+      {(9,10) (16,11) (24,16) (34,22) (#2-8,#3-11)};
+    \node[font=\sffamily\fontsize{6}{6}\selectfont] at (#2/2,3.2) {Input};
+    \node[rotate=90,font=\sffamily\fontsize{6}{6}\selectfont] at (3.2,#3/2)
+      {Response};
+  \end{tikzpicture}}
+
+\newcommand{\natureimagepanel}[4]{%
+  \begin{tikzpicture}[x=1mm,y=1mm]
+    \shade[left color=black!12,right color=black!3] (0,0) rectangle (#2,#3);
+    \draw[ResearchBlue!35,line width=0.35pt] (0,0) rectangle (#2,#3);
+    \node[anchor=north west,font=\sffamily\bfseries\fontsize{8}{8}\selectfont,
+      text=ResearchBlueDark]
+      at (1,#3-1) {#1};
+    \foreach \rx/\ry in {0.25/0.32,0.42/0.62,0.64/0.42,0.82/0.70,0.58/0.80} {
+      \fill[black!27] ({#2*\rx},{#3*\ry}) circle (2.2);
+    }
+    \draw[black,line width=0.9pt] (#2-19,5) -- (#2-6,5);
+    \node[black,font=\sffamily\fontsize{6}{6}\selectfont,anchor=south]
+      at (#2-12.5,5.6) {50 \textmu m};
+    \node[font=\sffamily\fontsize{6}{6}\selectfont,fill=white,inner sep=1pt]
+      at (#2/2,#3-5) {#4};
+  \end{tikzpicture}}
+
+\newenvironment{naturemethods}
+  {\section*{Methods}\small}
+  {\normalsize}
+
+\newcommand{\natureendnote}[2]{%
+  \par\noindent{\sffamily\small\bfseries\color{ResearchBlueDark} #1.}\quad{\small #2}\par}
+
+\makeatother
+% --- End inlined Research final production style. ---
+
+
+\setnaturerunninglabel{补充信息}
+
+\renewcommand{\thefigure}{S\arabic{figure}}
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\theequation}{S\arabic{equation}}
+\renewcommand{\contentsname}{补充信息目录}
+
+\newcommand{\ArticleTitle}{一个直接陈述中心科学突破的论文标题}
+\newcommand{\SupplementAuthors}{Institution}
+
+\begin{document}
+
+\naturetitle{补充材料：论文标题}
+\natureauthors{Author Name}
+\natureaffiliations{补充材料。}
+
+\vspace{5pt}
+\tableofcontents
+\vspace{6pt}
+
+\section*{补充材料 1：定义与记号}
+\addcontentsline{toc}{section}{补充材料 1：定义与记号}
+正文。
+
+\section*{补充材料 2：推导与证明}
+\addcontentsline{toc}{section}{补充材料 2：推导与证明}
+正文。
+
+\begin{equation}
+  \mathcal{A}(u,v) = \mathcal{B}(u,v) + \mathcal{R}(u,v).
+\end{equation}
+
+\section*{补充材料 3：方法协议}
+\addcontentsline{toc}{section}{补充材料 3：方法协议}
+正文。
+
+\section*{补充材料 4：附加结果}
+\addcontentsline{toc}{section}{补充材料 4：附加结果}
+正文。
+
+\vspace{4pt}
+\noindent\begin{minipage}{\textwidth}
+\centering
+\natureplotpanel{a}{54}{36}\hspace{4mm}
+\natureplotpanel{b}{54}{36}\hspace{4mm}
+\natureimagepanel{c}{54}{36}{图像}
+\captionof{figure}{\textbf{补充图 S1.} 图注。}
+\label{fig:s1-zh}
+\end{minipage}
+
+\section*{补充材料 5：表格}
+\addcontentsline{toc}{section}{补充材料 5：表格}
+正文。
+
+\begin{center}
+\captionof{table}{\textbf{补充表 S1.} 表注。}
+\begin{SafeTabularX}{YYY}
+\toprule
+列 A & 列 B & 列 C \\
+\midrule
+-- & -- & -- \\
+-- & -- & -- \\
+\bottomrule
+\end{SafeTabularX}
+\label{tab:s1-zh}
+\end{center}
+
+\section*{补充参考文献}
+\addcontentsline{toc}{section}{补充参考文献}
+
+\IfFileExists{refs.bib}{%
+  \IfFileExists{sn-nature.bst}{\bibliographystyle{sn-nature}}{\bibliographystyle{unsrtnat}}%
+  \bibliography{refs}%
+}{}
+
+\end{document}
+

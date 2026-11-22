@@ -28,6 +28,7 @@ export interface PlanAction {
   kind: "python" | "environment" | "command" | "plugin" | "connector";
   action: "reuse" | "share" | "install" | "connect" | "setup" | "choose-host" | "add-plugin" | "configure-connector";
   provided_by?: string;
+  preparer?: "tex";
   command?: string[] | null;
   requirements?: string[];
   packages?: string[];
@@ -85,6 +86,36 @@ export interface OrigoPreparation {
   };
 }
 
+export interface SoftwareEntry {
+  component: string;
+  command: string[];
+  location: string;
+  managed?: boolean;
+  commands?: Record<string, string>;
+  environment?: Record<string, string>;
+}
+export interface HostPreparationRequest {
+  selections: string[];
+  existing?: { command: string[]; components?: string[] }[];
+  options?: { python?: string; offline?: boolean; find_links?: string[] };
+}
+export interface HostPreparationResult {
+  modules: string[];
+  ready: SoftwareEntry[];
+  pending: PlanAction[];
+  failed: { component: string; error: string }[];
+}
+export interface WritingTemplate {
+  id: string;
+  title: string;
+  form: "article" | "report" | "book" | "supplementary";
+  language: "en" | "zh";
+  style: "standard" | "compact" | "submission";
+  engine: "lualatex";
+  file: string;
+  assets: string[];
+}
+
 /** A local Python command. Remote products provide their own transport bridge. */
 export class SeedEnv {
   constructor(readonly options: {
@@ -97,7 +128,7 @@ export class SeedEnv {
     if (!options.command.length) throw new Error("Provide the Python command on the execution host");
   }
 
-  private request<T>(args: string[], signal?: AbortSignal, text = false): Promise<T> {
+  private request<T>(args: string[], signal?: AbortSignal, text = false, input?: unknown): Promise<T> {
     const [program, ...prefix] = this.options.command;
     const common = ["-m", "seedenv"];
     if (this.options.home) common.push("--home", this.options.home);
@@ -105,9 +136,11 @@ export class SeedEnv {
     if (this.options.catalog) common.push("--catalog", this.options.catalog);
     return new Promise((resolve, reject) => {
       const child = spawn(program, [...prefix, ...common, ...args], {
-        stdio: ["ignore", "pipe", "pipe"], shell: false,
+        stdio: ["pipe", "pipe", "pipe"], shell: false,
         env: this.options.env ?? process.env, signal,
       });
+      child.stdin.on("error", () => { /* Process failure is reported by close/error. */ });
+      child.stdin.end(input === undefined ? undefined : JSON.stringify(input));
       let stdout = "", stderr = "", size = 0;
       child.stdout.setEncoding("utf8");
       child.stderr.setEncoding("utf8");
@@ -121,7 +154,8 @@ export class SeedEnv {
       child.stderr.on("data", (chunk: string) => { stderr = (stderr + chunk).slice(-6000); });
       child.on("error", reject);
       child.on("close", (code) => {
-        if (code !== 0) return reject(new Error(stderr || `SeedEnv exited with status ${code}`));
+        if (code !== 0 && !(code === 2 && ["prepare-request", "build"].includes(args[0])))
+          return reject(new Error(stderr || `SeedEnv exited with status ${code}`));
         try { resolve((text ? stdout : JSON.parse(stdout)) as T); }
         catch (error) { reject(error); }
       });
@@ -157,7 +191,23 @@ export class SeedEnv {
     return this.request<Record<string, unknown>>(["bind", component, "--", ...command], signal);
   }
   entry(component: string, signal?: AbortSignal) {
-    return this.request<{component: string; command: string[]; location: string}>(["entry", component], signal);
+    return this.request<SoftwareEntry>(["entry", component], signal);
+  }
+  /** Run in the host's job. Create cancelFile to stop the installer on any OS. */
+  prepareOnHost(request: HostPreparationRequest, cancelFile?: string) {
+    return this.request<HostPreparationResult>(["prepare-request", ...(cancelFile ? ["--cancel-file", cancelFile] : [])], undefined, false, request);
+  }
+  templates(filter: Partial<Pick<WritingTemplate, "language" | "form" | "style">> = {}, signal?: AbortSignal) {
+    return this.request<{items: WritingTemplate[]}>(["templates", ...Object.entries(filter).flatMap(([key, value]) => [`--${key}`, value])], signal);
+  }
+  manuscript(template: string, output: string, signal?: AbortSignal) {
+    return this.request<{template: string; path: string; source: string; engine: string; build: string[]}>(["manuscript", template, "--output", output], signal);
+  }
+  build(source: string, options: {output?: string; buildDir?: string; engine?: "lualatex" | "xelatex"; latexmk?: string} = {}) {
+    return this.request<{status: "built" | "failed"; returncode: number; pdf?: string; error?: string; transcript?: string}>(
+      ["build", source, ...(options.output ? ["--output", options.output] : []),
+       ...(options.buildDir ? ["--build-dir", options.buildDir] : []), ...(options.engine ? ["--engine", options.engine] : []),
+       ...(options.latexmk ? ["--latexmk", options.latexmk] : [])]);
   }
   connect(host: "origo" | "mcp", output: string, selections?: string[], signal?: AbortSignal) {
     return this.request<{host: string; path: string; modules: string[]; installed: false; next: string}>(

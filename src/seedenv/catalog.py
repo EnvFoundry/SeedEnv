@@ -132,6 +132,7 @@ class Catalog:
         return modules, components
 
     def browse(self, field=None):
+        field = "scientific-basics" if field == "research-essentials" else field
         if field is not None and field not in self.fields:
             raise ValueError(f"Unknown field: {field}")
         fields = [{"id": item["id"], "title": item["title"],
@@ -156,6 +157,7 @@ class Catalog:
                 "software": [{k: self.components[x][k] for k in ("id", "title", "kind")} for x in components]}
 
     def search(self, query="", limit=20, offset=0, field=None, direction=None):
+        field = "scientific-basics" if field == "research-essentials" else field
         if not 1 <= limit <= 100 or offset < 0:
             raise ValueError("Use limit 1–100 and offset >= 0")
         if field is not None and field not in self.fields:

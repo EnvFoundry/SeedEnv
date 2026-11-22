@@ -1,7 +1,7 @@
 //! Thin invocation client for native hosts. The Python implementation owns
 //! catalogue composition and preparation; hosts retain their job scheduler.
 use std::ffi::{OsStr, OsString};
-use std::io;
+use std::io::{self, Write};
 use std::path::PathBuf;
 use std::process::{Command, Stdio};
 
@@ -31,13 +31,24 @@ impl Client {
     /// pass through a shell. Run from the native host's blocking worker pool.
     pub fn request<I, S>(&self, arguments: I) -> io::Result<String>
     where I: IntoIterator<Item = S>, S: AsRef<OsStr> {
+        self.request_input(arguments, None)
+    }
+
+    fn request_input<I, S>(&self, arguments: I, input: Option<&str>) -> io::Result<String>
+    where I: IntoIterator<Item = S>, S: AsRef<OsStr> {
+        let arguments: Vec<OsString> = arguments.into_iter().map(|s| s.as_ref().to_owned()).collect();
+        let partial = arguments.first().is_some_and(|s| s == "prepare-request" || s == "build");
         let mut command = Command::new(&self.program);
         command.args(&self.prefix).args(["-m", "seedenv"]);
         if let Some(home) = &self.home { command.arg("--home").arg(home); }
         else if let Some(space) = &self.research_space { command.arg("--research-space").arg(space); }
         if let Some(catalog) = &self.catalog { command.arg("--catalog").arg(catalog); }
-        let output = command.args(arguments).stdin(Stdio::null()).output()?;
-        if !output.status.success() {
+        let mut child = command.args(arguments).stdin(Stdio::piped()).stdout(Stdio::piped()).stderr(Stdio::piped()).spawn()?;
+        if let Some(mut stdin) = child.stdin.take() {
+            if let Some(input) = input { stdin.write_all(input.as_bytes())?; }
+        }
+        let output = child.wait_with_output()?;
+        if !output.status.success() && !(partial && output.status.code() == Some(2)) {
             return Err(io::Error::other(String::from_utf8_lossy(&output.stderr).into_owned()));
         }
         String::from_utf8(output.stdout).map_err(|error| io::Error::new(io::ErrorKind::InvalidData, error))
@@ -84,6 +95,22 @@ impl Client {
     pub fn status(&self, job: &str) -> io::Result<String> { self.request(["status", job]) }
     pub fn cancel(&self, job: &str) -> io::Result<String> { self.request(["cancel", job]) }
     pub fn entry(&self, component: &str) -> io::Result<String> { self.request(["entry", component]) }
+    pub fn templates(&self) -> io::Result<String> { self.request(["templates"]) }
+    pub fn manuscript(&self, template: &str, output: &OsStr) -> io::Result<String> {
+        self.request([OsStr::new("manuscript"), OsStr::new(template), OsStr::new("--output"), output])
+    }
+    pub fn build(&self, source: &OsStr, output: Option<&OsStr>) -> io::Result<String> {
+        let mut args = vec![OsString::from("build"), source.into()];
+        if let Some(path) = output { args.extend(["--output".into(), path.into()]); }
+        self.request(args)
+    }
+    /// The product runs this on its selected worker and owns the job. JSON input
+    /// supplies selections, existing command arrays and preparation options.
+    pub fn prepare_on_host(&self, request: &str, cancel_file: Option<&OsStr>) -> io::Result<String> {
+        let mut args = vec![OsString::from("prepare-request")];
+        if let Some(path) = cancel_file { args.extend(["--cancel-file".into(), path.into()]); }
+        self.request_input(args, Some(request))
+    }
 }
 
 #[cfg(test)]
@@ -105,5 +132,7 @@ mod tests {
         assert!(devices.contains("semiconductor-transport"));
         assert!(!devices.contains("fiber-pulses"));
         assert!(client.search("--a-search-term").unwrap().contains("\"total\": 0"));
+        assert!(client.templates().unwrap().contains("standard-article-zh"));
+        assert!(client.prepare_on_host("{\"selections\":[]}", None).unwrap().contains("\"ready\": []"));
     }
 }

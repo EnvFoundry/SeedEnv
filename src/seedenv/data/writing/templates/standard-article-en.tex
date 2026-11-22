@@ -1,0 +1,117 @@
+% Research Article Template
+% Compile with LuaLaTeX.
+% Keep figure files under figures/.
+% Use refs.bib with \cite{...} when references are used.
+% LaTeX supplies section numbers; section titles contain title text only.
+% REVTeX: figure is one-column, figure* is full-width, widetext is for wide equations.
+\documentclass[aps,twocolumn,10pt,superscriptaddress,nofootinbib,longbibliography]{revtex4-2}
+
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb,mathtools,bm}
+\usepackage{amsthm}
+\usepackage{siunitx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{xurl}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue!55!black,citecolor=blue!55!black,urlcolor=blue!55!black]{hyperref}
+
+\graphicspath{{figures/}{./}}
+\sisetup{detect-all=true,per-mode=symbol}
+\Urlmuskip=0mu plus 2mu
+\emergencystretch=1.5em
+
+\providecommand{\dd}{\mathop{}\!\mathrm{d}}
+\providecommand{\dv}[2]{\frac{\dd #1}{\dd #2}}
+\providecommand{\pdv}[2]{\frac{\partial #1}{\partial #2}}
+\providecommand{\vect}[1]{\boldsymbol{#1}}
+\providecommand{\mat}[1]{\mathbf{#1}}
+\providecommand{\E}{\mathbb{E}}
+\providecommand{\Var}{\operatorname{Var}}
+\providecommand{\argmin}{\operatorname*{arg\,min}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+\begin{document}
+
+\title{Article Title}
+
+\author{Author Name}
+\affiliation{Institution}
+
+\date{\today}
+
+\begin{abstract}
+Abstract text.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+
+Text.
+
+\section{Methods}
+
+Text.
+
+\begin{equation}
+  \mathcal{L}u = f .
+  \label{eq:example}
+\end{equation}
+
+\begin{figure}[t]
+  \centering
+  \fbox{\rule{0pt}{1.35in}\rule{0.90\columnwidth}{0pt}}
+  \caption{Figure caption.\label{fig:example}}
+\end{figure}
+
+\section{Results}
+
+Text.
+
+\begin{widetext}
+\begin{equation}
+  \int_{\Omega} A(x)\,B(x)\,\dd x
+  =
+  \int_{\Omega} C(x)\,\dd x .
+  \label{eq:wide-example}
+\end{equation}
+\end{widetext}
+
+\begin{table}[b]
+  \caption{Table caption.\label{tab:example}}
+  \begin{ruledtabular}
+  \begin{tabular}{lcc}
+  Row & Column A & Column B \\
+  \colrule
+  A & -- & -- \\
+  B & -- & -- \\
+  \end{tabular}
+  \end{ruledtabular}
+\end{table}
+
+\section{Discussion}
+
+Text.
+
+\section{Conclusion}
+
+Text.
+
+\begin{acknowledgments}
+Institution.
+\end{acknowledgments}
+
+\IfFileExists{refs.bib}{\bibliography{refs}}{}
+
+\end{document}
+
