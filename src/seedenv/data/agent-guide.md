@@ -11,6 +11,19 @@ selection is valid. Read the matching module
 with `seedenv_show`; use `seedenv_guide` when its working instructions are needed.
 Choose modules for the actual task. Common components are shared across modules.
 
+Scientific Basics and Scientific Writing are shared navigation groups. Select
+`scientific-python` for the common NumPy/SciPy/SymPy/Matplotlib/pandas base, or
+individual computing tasks for smaller installations. Keep specialist software
+optional and use the interpreter returned for the chosen task.
+
+For writing, read `writing-methods` only when composition guidance helps. Use
+`seedenv_templates` to select a layout and `seedenv_manuscript` to copy it into a
+new manuscript directory. Templates alone do not require TeX. Reuse an existing
+manuscript and author choices. Prepare `writing` only when a compiler is needed;
+`seedenv_build` compiles the existing source without installing anything. It
+returns the actual PDF path or the compiler output location. Keep references
+and figures with the manuscript; adapt section names to the research argument.
+
 Call `seedenv_plan` for a combined selection. Reuse registered software. If the
 user has an interpreter or native installation, inspect it with `seedenv_discover`
 and register the selected command with `seedenv_bind`.
@@ -20,6 +33,12 @@ Start missing software with `seedenv_prepare`; retain a returned job ID and use
 retains completed components. A partial result names the specific software,
 external installation or plugin still needed. Configure those through their
 upstream or host interface.
+
+Repeat the same request after an interrupted installation. Python retains its
+unfinished destination; TeX retains its archive and extracted installation.
+In a product job, the host calls `prepare-request` synchronously and supplies its
+existing environment entries. The host owns scheduling and registration; this
+route does not create an additional background worker.
 
 Use `seedenv_context` with only the selected modules to obtain their working
 guides, editable examples, real invocation commands and outstanding setup.
