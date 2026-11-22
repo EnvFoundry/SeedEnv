@@ -21,4 +21,4 @@ seedenv = "seedenv.cli:main"
 where = ["src"]
 
 [tool.setuptools.package-data]
-seedenv = ["data/*.json", "data/*.sql", "data/*.md", "data/*.py", "data/guides/*.md", "data/examples/*"]
+seedenv = ["data/*.json", "data/*.sql", "data/*.md", "data/*.py", "data/guides/*.md", "data/examples/*", "data/writing/*.json", "data/writing/*.md", "data/writing/templates/*"]

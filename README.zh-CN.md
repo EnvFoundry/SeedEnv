@@ -8,13 +8,48 @@ SeedEnv 为 Origo 首次设置和日常环境管理提供同一套软件选择�
 模块可以包含软件、环境、数据连接、插件和简短工作说明。深入的研究方法、知识库
 和实验流程继续由光学光子学 AI 实验室、IOP 等专业环境提供。
 
+## Scientific Basics 与 Scientific Writing
+
+这两组公共能力都由可选模块组成，可以脱离 Origo 独立使用。实验科学继续保留
+单独的公共入口，各专业领域引用相同的软件组件。
+
+| 公共能力 | 按任务选择 |
+| --- | --- |
+| **Scientific Basics · 科研基础** | 科研 Python、数值与符号计算、统计、优化、单位与不确定度、表格、数据库、数组、笔记本和绘图 |
+| **Scientific Writing · 科研写作** | 写作方法、中英文文稿模板、TeX 环境、文献来源与参考文献编排 |
+
+```sh
+seedenv browse --field scientific-basics
+seedenv prepare scientific-python
+seedenv templates --language zh --form article
+seedenv manuscript standard-article-zh --output my-paper
+seedenv prepare writing
+seedenv build my-paper/main.tex
+```
+
+模板和写作说明可以单独取得，不触发科研软件或 TeX 下载。整合 Origo 的 22 种
+模板选择，完全相同的内容共用源文件，实际维护 17 份不同模板。已有 TeX 优先复用；
+缺少时，写作模块可以独立准备 TinyTeX、编译器、参考文献工具、宏包和字体。
+Unix 执行主机需要 Perl。软件长期保留，文稿和图表属于具体研究项目。
+
+可以将任一组的目录、说明和资源交给其他 Agent：
+
+```sh
+seedenv connect mcp --group scientific-basics --output basics-agent
+seedenv connect mcp --group scientific-writing --output writing-agent
+```
+
+导出资源不代表安装其中的软件，接收方仍可逐项选择。产品可以通过
+[同步准备接口](docs/integration.md#host-owned-preparation)传入已有解释器和工具链，
+在产品自己的任务中完成准备、读取进度并登记结果。
+
 ## 选择研究环境
 
 浏览顺序是 **领域 → 研究方向 → 具体模块**。领域和方向只用于导航，默认不勾选
 模块。也可以直接搜索任务或软件，跨领域组合所需内容。
 
-当前有 **14 个研究领域、2 个公共能力入口**，合计 94 个方向与分组、
-**198 个不同任务模块、8 个关联资源**。光学与光子学有 13 个研究方向、63 个任务模块；
+当前有 **14 个研究领域、3 个公共能力入口**，合计 99 个方向与分组、
+**202 个不同任务模块、8 个关联资源**。光学与光子学有 13 个研究方向、63 个任务模块；
 数据来源与专业实验室作为关联资源单独展示。完整对应关系见 [研究目录](docs/catalogue.md)。
 这些是可以选择的研究起点，覆盖范围仍可按实际需要扩展。
 
@@ -67,7 +102,7 @@ seedenv --research-space /path/to/user-space run python-tmm -- thin_film.py
 ```
 
 `--research-space` 指向**用户层级的研究空间**。软件与登记信息放在其中的
-`system/seedenv`，研究代码、数据和输出留在各自项目中。各会话传入同一个用户
+`System/env/seedenv`，研究代码、数据和输出留在各自项目中。各会话传入同一个用户
 空间即可复用环境，不要传入每次会话的临时目录。也可设置 `SEEDENV_RESEARCH_SPACE`。
 
 已有的 `--home` / `SEEDENV_HOME` 仍直接指定环境目录；没有位置配置的独立命令
