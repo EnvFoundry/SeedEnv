@@ -101,7 +101,8 @@ class Manager:
         for name in ordered:
             item = self._component(name)
             saved = self._available(item) if local else None
-            row = {"component": name, "title": item["title"], "kind": item["kind"]}
+            row = {"component": name, "title": item["title"], "kind": item["kind"],
+                   "modules": [m for m in modules if name in self.catalog.modules[m].get("components", [])]}
             if item.get("instructions"):
                 row["instructions"] = item["instructions"]
             if item.get("sources"):
