@@ -1081,7 +1081,11 @@
         "linux",
         "darwin"
       ],
-      "instructions": "Use conda-forge pymeep on Linux/macOS, then bind this environment’s Python. On Windows choose WSL or a Linux server. The PyPI package named meep is unrelated."
+      "instructions": "Prepare pymeep through an existing conda-family manager on Linux/WSL or macOS, or connect an existing Meep Python. The unrelated PyPI package named meep is not this solver.",
+      "conda": [
+        "python=3.12",
+        "pymeep"
+      ]
     },
     {
       "id": "environment-raysect",
@@ -1282,6 +1286,1586 @@
         "selection": "specific materials and wavelength ranges"
       },
       "instructions": "Select the required material records from the upstream YAML database or connect a local copy. This selection does not download the entire database."
+    },
+    {
+      "id": "python-mpmath",
+      "title": "mpmath",
+      "kind": "python",
+      "requirements": [
+        "mpmath"
+      ],
+      "imports": [
+        "mpmath"
+      ],
+      "sources": [
+        "https://mpmath.org/doc/current/"
+      ]
+    },
+    {
+      "id": "python-ortools",
+      "title": "OR-Tools",
+      "kind": "python",
+      "requirements": [
+        "ortools"
+      ],
+      "imports": [
+        "ortools"
+      ],
+      "sources": [
+        "https://developers.google.com/optimization/install/python"
+      ]
+    },
+    {
+      "id": "python-pymc",
+      "title": "PyMC / ArviZ",
+      "kind": "python",
+      "requirements": [
+        "pymc",
+        "arviz"
+      ],
+      "imports": [
+        "pymc",
+        "arviz"
+      ],
+      "sources": [
+        "https://www.pymc.io/projects/docs/en/stable/installation.html"
+      ]
+    },
+    {
+      "id": "python-uncertainties",
+      "title": "uncertainties",
+      "kind": "python",
+      "requirements": [
+        "uncertainties"
+      ],
+      "imports": [
+        "uncertainties"
+      ],
+      "sources": [
+        "https://uncertainties.readthedocs.io/en/latest/"
+      ]
+    },
+    {
+      "id": "python-dowhy",
+      "title": "DoWhy",
+      "kind": "python",
+      "requirements": [
+        "dowhy"
+      ],
+      "imports": [
+        "dowhy"
+      ],
+      "sources": [
+        "https://www.pywhy.org/dowhy/main/getting_started/install.html"
+      ]
+    },
+    {
+      "id": "python-xgboost",
+      "title": "XGBoost",
+      "kind": "python",
+      "requirements": [
+        "xgboost"
+      ],
+      "imports": [
+        "xgboost"
+      ],
+      "sources": [
+        "https://xgboost.readthedocs.io/en/stable/install.html"
+      ]
+    },
+    {
+      "id": "python-datasets",
+      "title": "Hugging Face Datasets",
+      "kind": "python",
+      "requirements": [
+        "datasets"
+      ],
+      "imports": [
+        "datasets"
+      ],
+      "sources": [
+        "https://huggingface.co/docs/datasets/installation"
+      ]
+    },
+    {
+      "id": "python-optuna",
+      "title": "Optuna",
+      "kind": "python",
+      "requirements": [
+        "optuna"
+      ],
+      "imports": [
+        "optuna"
+      ],
+      "sources": [
+        "https://optuna.readthedocs.io/en/stable/"
+      ]
+    },
+    {
+      "id": "python-dask",
+      "title": "Dask",
+      "kind": "python",
+      "requirements": [
+        "dask[array,dataframe,distributed]"
+      ],
+      "imports": [
+        "dask",
+        "distributed"
+      ],
+      "sources": [
+        "https://docs.dask.org/en/stable/install.html"
+      ]
+    },
+    {
+      "id": "python-quimb",
+      "title": "quimb",
+      "kind": "python",
+      "requirements": [
+        "quimb"
+      ],
+      "imports": [
+        "quimb",
+        "quimb.tensor"
+      ],
+      "sources": [
+        "https://quimb.readthedocs.io/en/latest/installation.html"
+      ]
+    },
+    {
+      "id": "python-plasmapy",
+      "title": "PlasmaPy",
+      "kind": "python",
+      "requirements": [
+        "plasmapy"
+      ],
+      "imports": [
+        "plasmapy"
+      ],
+      "sources": [
+        "https://docs.plasmapy.org/en/stable/install.html"
+      ]
+    },
+    {
+      "id": "python-pyscf",
+      "title": "PySCF",
+      "kind": "python",
+      "requirements": [
+        "pyscf"
+      ],
+      "imports": [
+        "pyscf"
+      ],
+      "sources": [
+        "https://pyscf.org/user/install.html"
+      ],
+      "platforms": [
+        "linux",
+        "darwin"
+      ]
+    },
+    {
+      "id": "python-openmm",
+      "title": "OpenMM",
+      "kind": "python",
+      "requirements": [
+        "openmm"
+      ],
+      "imports": [
+        "openmm"
+      ],
+      "sources": [
+        "https://docs.openmm.org/latest/userguide/application/01_getting_started.html"
+      ]
+    },
+    {
+      "id": "python-cantera",
+      "title": "Cantera",
+      "kind": "python",
+      "requirements": [
+        "cantera"
+      ],
+      "imports": [
+        "cantera"
+      ],
+      "sources": [
+        "https://cantera.org/stable/install/index.html"
+      ]
+    },
+    {
+      "id": "python-thermo",
+      "title": "thermo",
+      "kind": "python",
+      "requirements": [
+        "thermo"
+      ],
+      "imports": [
+        "thermo"
+      ],
+      "sources": [
+        "https://thermo.readthedocs.io/"
+      ]
+    },
+    {
+      "id": "python-mdanalysis",
+      "title": "MDAnalysis",
+      "kind": "python",
+      "requirements": [
+        "MDAnalysis"
+      ],
+      "imports": [
+        "MDAnalysis"
+      ],
+      "sources": [
+        "https://userguide.mdanalysis.org/stable/installation.html"
+      ]
+    },
+    {
+      "id": "python-lmfit",
+      "title": "lmfit",
+      "kind": "python",
+      "requirements": [
+        "lmfit"
+      ],
+      "imports": [
+        "lmfit"
+      ],
+      "sources": [
+        "https://lmfit.github.io/lmfit-py/installation.html"
+      ]
+    },
+    {
+      "id": "python-matminer",
+      "title": "matminer",
+      "kind": "python",
+      "requirements": [
+        "matminer"
+      ],
+      "imports": [
+        "matminer"
+      ],
+      "sources": [
+        "https://hackingmaterials.lbl.gov/matminer/installation.html"
+      ]
+    },
+    {
+      "id": "python-pysam",
+      "title": "pysam",
+      "kind": "python",
+      "requirements": [
+        "pysam"
+      ],
+      "imports": [
+        "pysam"
+      ],
+      "sources": [
+        "https://pysam.readthedocs.io/en/latest/installation.html"
+      ],
+      "platforms": [
+        "linux",
+        "darwin"
+      ]
+    },
+    {
+      "id": "python-scanpy",
+      "title": "Scanpy",
+      "kind": "python",
+      "requirements": [
+        "scanpy",
+        "igraph",
+        "leidenalg"
+      ],
+      "imports": [
+        "scanpy",
+        "igraph",
+        "leidenalg"
+      ],
+      "sources": [
+        "https://scanpy.readthedocs.io/en/stable/installation.html"
+      ]
+    },
+    {
+      "id": "python-squidpy",
+      "title": "Squidpy",
+      "kind": "python",
+      "requirements": [
+        "squidpy"
+      ],
+      "imports": [
+        "squidpy"
+      ],
+      "sources": [
+        "https://squidpy.readthedocs.io/en/stable/installation.html"
+      ]
+    },
+    {
+      "id": "python-pyteomics",
+      "title": "Pyteomics",
+      "kind": "python",
+      "requirements": [
+        "pyteomics",
+        "lxml",
+        "numpy"
+      ],
+      "imports": [
+        "pyteomics.mzml",
+        "pyteomics.mass"
+      ],
+      "sources": [
+        "https://pyteomics.readthedocs.io/en/latest/installation.html"
+      ]
+    },
+    {
+      "id": "python-dendropy",
+      "title": "DendroPy",
+      "kind": "python",
+      "requirements": [
+        "dendropy"
+      ],
+      "imports": [
+        "dendropy"
+      ],
+      "sources": [
+        "https://jeetsukumaran.github.io/DendroPy/"
+      ]
+    },
+    {
+      "id": "python-cobra",
+      "title": "COBRApy",
+      "kind": "python",
+      "requirements": [
+        "cobra"
+      ],
+      "imports": [
+        "cobra"
+      ],
+      "sources": [
+        "https://cobrapy.readthedocs.io/en/latest/"
+      ]
+    },
+    {
+      "id": "python-simpleitk",
+      "title": "SimpleITK",
+      "kind": "python",
+      "requirements": [
+        "SimpleITK"
+      ],
+      "imports": [
+        "SimpleITK"
+      ],
+      "sources": [
+        "https://simpleitk.readthedocs.io/en/master/gettingStarted.html"
+      ]
+    },
+    {
+      "id": "python-ants",
+      "title": "ANTsPy",
+      "kind": "python",
+      "requirements": [
+        "antspyx"
+      ],
+      "imports": [
+        "ants"
+      ],
+      "sources": [
+        "https://antspy.readthedocs.io/en/latest/"
+      ]
+    },
+    {
+      "id": "python-mne",
+      "title": "MNE-Python",
+      "kind": "python",
+      "requirements": [
+        "mne"
+      ],
+      "imports": [
+        "mne"
+      ],
+      "sources": [
+        "https://mne.tools/stable/install/index.html"
+      ]
+    },
+    {
+      "id": "python-lifelines",
+      "title": "lifelines",
+      "kind": "python",
+      "requirements": [
+        "lifelines"
+      ],
+      "imports": [
+        "lifelines"
+      ],
+      "sources": [
+        "https://lifelines.readthedocs.io/en/latest/"
+      ]
+    },
+    {
+      "id": "python-meshio",
+      "title": "meshio",
+      "kind": "python",
+      "requirements": [
+        "meshio"
+      ],
+      "imports": [
+        "meshio"
+      ],
+      "sources": [
+        "https://github.com/nschloe/meshio"
+      ]
+    },
+    {
+      "id": "python-control",
+      "title": "python-control",
+      "kind": "python",
+      "requirements": [
+        "control"
+      ],
+      "imports": [
+        "control"
+      ],
+      "sources": [
+        "https://python-control.readthedocs.io/en/latest/"
+      ]
+    },
+    {
+      "id": "python-simpy",
+      "title": "SimPy",
+      "kind": "python",
+      "requirements": [
+        "simpy"
+      ],
+      "imports": [
+        "simpy"
+      ],
+      "sources": [
+        "https://simpy.readthedocs.io/en/latest/"
+      ]
+    },
+    {
+      "id": "python-skrf",
+      "title": "scikit-rf",
+      "kind": "python",
+      "requirements": [
+        "scikit-rf"
+      ],
+      "imports": [
+        "skrf"
+      ],
+      "sources": [
+        "https://scikit-rf.readthedocs.io/en/latest/tutorials/Installation.html"
+      ]
+    },
+    {
+      "id": "python-rioxarray",
+      "title": "rioxarray",
+      "kind": "python",
+      "requirements": [
+        "rioxarray"
+      ],
+      "imports": [
+        "rioxarray"
+      ],
+      "sources": [
+        "https://corteva.github.io/rioxarray/stable/getting_started/getting_started.html"
+      ]
+    },
+    {
+      "id": "python-obspy",
+      "title": "ObsPy",
+      "kind": "python",
+      "requirements": [
+        "obspy"
+      ],
+      "imports": [
+        "obspy"
+      ],
+      "sources": [
+        "https://docs.obspy.org/"
+      ]
+    },
+    {
+      "id": "python-simpeg",
+      "title": "SimPEG",
+      "kind": "python",
+      "requirements": [
+        "simpeg"
+      ],
+      "imports": [
+        "simpeg"
+      ],
+      "sources": [
+        "https://docs.simpeg.xyz/latest/content/getting_started/installing.html"
+      ]
+    },
+    {
+      "id": "python-metpy",
+      "title": "MetPy",
+      "kind": "python",
+      "requirements": [
+        "metpy"
+      ],
+      "imports": [
+        "metpy"
+      ],
+      "sources": [
+        "https://unidata.github.io/MetPy/latest/userguide/installguide.html"
+      ]
+    },
+    {
+      "id": "python-xclim",
+      "title": "xclim",
+      "kind": "python",
+      "requirements": [
+        "xclim"
+      ],
+      "imports": [
+        "xclim"
+      ],
+      "sources": [
+        "https://xclim.readthedocs.io/en/stable/installation.html"
+      ]
+    },
+    {
+      "id": "python-skyfield",
+      "title": "Skyfield",
+      "kind": "python",
+      "requirements": [
+        "skyfield"
+      ],
+      "imports": [
+        "skyfield"
+      ],
+      "sources": [
+        "https://rhodesmill.org/skyfield/installation.html"
+      ]
+    },
+    {
+      "id": "python-specutils",
+      "title": "specutils",
+      "kind": "python",
+      "requirements": [
+        "specutils"
+      ],
+      "imports": [
+        "specutils"
+      ],
+      "sources": [
+        "https://specutils.readthedocs.io/en/stable/"
+      ]
+    },
+    {
+      "id": "python-lightkurve",
+      "title": "Lightkurve",
+      "kind": "python",
+      "requirements": [
+        "lightkurve"
+      ],
+      "imports": [
+        "lightkurve"
+      ],
+      "sources": [
+        "https://lightkurve.github.io/lightkurve/"
+      ]
+    },
+    {
+      "id": "python-sunpy",
+      "title": "SunPy",
+      "kind": "python",
+      "requirements": [
+        "sunpy"
+      ],
+      "imports": [
+        "sunpy"
+      ],
+      "sources": [
+        "https://docs.sunpy.org/en/stable/installation.html"
+      ]
+    },
+    {
+      "id": "python-rebound",
+      "title": "REBOUND",
+      "kind": "python",
+      "requirements": [
+        "rebound"
+      ],
+      "imports": [
+        "rebound"
+      ],
+      "sources": [
+        "https://rebound.readthedocs.io/en/latest/quickstart_installation/"
+      ],
+      "platforms": [
+        "linux",
+        "darwin"
+      ]
+    },
+    {
+      "id": "python-linearmodels",
+      "title": "linearmodels",
+      "kind": "python",
+      "requirements": [
+        "linearmodels"
+      ],
+      "imports": [
+        "linearmodels"
+      ],
+      "sources": [
+        "https://bashtage.github.io/linearmodels/"
+      ]
+    },
+    {
+      "id": "python-arch",
+      "title": "ARCH",
+      "kind": "python",
+      "requirements": [
+        "arch"
+      ],
+      "imports": [
+        "arch"
+      ],
+      "sources": [
+        "https://bashtage.github.io/arch/"
+      ]
+    },
+    {
+      "id": "python-quantlib",
+      "title": "QuantLib",
+      "kind": "python",
+      "requirements": [
+        "QuantLib"
+      ],
+      "imports": [
+        "QuantLib"
+      ],
+      "sources": [
+        "https://www.quantlib.org/install.shtml"
+      ]
+    },
+    {
+      "id": "python-portfolio",
+      "title": "PyPortfolioOpt",
+      "kind": "python",
+      "requirements": [
+        "PyPortfolioOpt"
+      ],
+      "imports": [
+        "pypfopt"
+      ],
+      "sources": [
+        "https://pyportfolioopt.readthedocs.io/en/latest/"
+      ]
+    },
+    {
+      "id": "python-mesa",
+      "title": "Mesa",
+      "kind": "python",
+      "requirements": [
+        "mesa"
+      ],
+      "imports": [
+        "mesa"
+      ],
+      "sources": [
+        "https://mesa.readthedocs.io/en/stable/"
+      ]
+    },
+    {
+      "id": "python-ccxt",
+      "title": "CCXT",
+      "kind": "python",
+      "requirements": [
+        "ccxt"
+      ],
+      "imports": [
+        "ccxt"
+      ],
+      "sources": [
+        "https://docs.ccxt.com/"
+      ]
+    },
+    {
+      "id": "python-serial",
+      "title": "pySerial",
+      "kind": "python",
+      "requirements": [
+        "pyserial"
+      ],
+      "imports": [
+        "serial"
+      ],
+      "sources": [
+        "https://pyserial.readthedocs.io/en/latest/"
+      ]
+    },
+    {
+      "id": "python-opcua",
+      "title": "asyncua",
+      "kind": "python",
+      "requirements": [
+        "asyncua"
+      ],
+      "imports": [
+        "asyncua"
+      ],
+      "sources": [
+        "https://opcua-asyncio.readthedocs.io/en/latest/"
+      ]
+    },
+    {
+      "id": "python-mqtt",
+      "title": "Eclipse Paho MQTT",
+      "kind": "python",
+      "requirements": [
+        "paho-mqtt"
+      ],
+      "imports": [
+        "paho.mqtt.client"
+      ],
+      "sources": [
+        "https://eclipse.dev/paho/files/paho.mqtt.python/html/"
+      ]
+    },
+    {
+      "id": "python-pint",
+      "title": "Pint",
+      "kind": "python",
+      "requirements": [
+        "pint"
+      ],
+      "imports": [
+        "pint"
+      ],
+      "sources": [
+        "https://pint.readthedocs.io/en/stable/"
+      ]
+    },
+    {
+      "id": "python-hdf5",
+      "title": "h5py",
+      "kind": "python",
+      "requirements": [
+        "h5py"
+      ],
+      "imports": [
+        "h5py"
+      ],
+      "sources": [
+        "https://docs.h5py.org/en/stable/"
+      ]
+    },
+    {
+      "id": "python-zarr",
+      "title": "Zarr",
+      "kind": "python",
+      "requirements": [
+        "zarr"
+      ],
+      "imports": [
+        "zarr"
+      ],
+      "sources": [
+        "https://zarr.readthedocs.io/en/stable/"
+      ]
+    },
+    {
+      "id": "python-jupyter",
+      "title": "JupyterLab",
+      "kind": "python",
+      "requirements": [
+        "jupyterlab",
+        "ipykernel"
+      ],
+      "imports": [
+        "jupyterlab",
+        "ipykernel"
+      ],
+      "sources": [
+        "https://jupyterlab.readthedocs.io/en/stable/getting_started/installation.html"
+      ]
+    },
+    {
+      "id": "python-papermill",
+      "title": "Papermill",
+      "kind": "python",
+      "requirements": [
+        "papermill"
+      ],
+      "imports": [
+        "papermill"
+      ],
+      "sources": [
+        "https://papermill.readthedocs.io/en/latest/installation.html"
+      ]
+    },
+    {
+      "id": "environment-sage",
+      "title": "SageMath",
+      "kind": "environment",
+      "imports": [
+        "sage.all"
+      ],
+      "sources": [
+        "https://doc.sagemath.org/html/en/installation/conda.html"
+      ],
+      "instructions": "Prepare with an existing conda-family manager or connect a SageMath Python. Use Linux/WSL or macOS.",
+      "conda": [
+        "python=3.12",
+        "sage"
+      ],
+      "platforms": [
+        "linux",
+        "darwin"
+      ]
+    },
+    {
+      "id": "environment-transformers",
+      "title": "Transformers / PyTorch",
+      "kind": "environment",
+      "imports": [
+        "transformers",
+        "torch"
+      ],
+      "sources": [
+        "https://huggingface.co/docs/transformers/installation"
+      ],
+      "instructions": "Select the CPU/CUDA backend on the execution host, install transformers in that environment, and bind its Python. Model weights are selected separately."
+    },
+    {
+      "id": "environment-pyg",
+      "title": "PyTorch Geometric",
+      "kind": "environment",
+      "imports": [
+        "torch",
+        "torch_geometric"
+      ],
+      "sources": [
+        "https://pytorch-geometric.readthedocs.io/en/latest/install/installation.html"
+      ],
+      "instructions": "Install PyTorch and the matching PyG extensions on the chosen host, then bind its Python. CUDA extensions must match the existing PyTorch build."
+    },
+    {
+      "id": "environment-faiss",
+      "title": "Faiss CPU",
+      "kind": "environment",
+      "imports": [
+        "faiss"
+      ],
+      "sources": [
+        "https://github.com/facebookresearch/faiss/blob/main/INSTALL.md"
+      ],
+      "instructions": "Prepare the CPU library with conda-forge or bind an existing Faiss interpreter. GPU builds are a separate host choice.",
+      "conda": [
+        "python=3.12",
+        "faiss-cpu"
+      ]
+    },
+    {
+      "id": "environment-hoomd",
+      "title": "HOOMD-blue",
+      "kind": "environment",
+      "imports": [
+        "hoomd"
+      ],
+      "sources": [
+        "https://hoomd-blue.readthedocs.io/en/stable/installation.html"
+      ],
+      "instructions": "Prepare the CPU build or connect an existing GPU build. The simulation specifies its device explicitly.",
+      "conda": [
+        "python=3.12",
+        "hoomd=*=*cpu*"
+      ],
+      "platforms": [
+        "linux",
+        "darwin"
+      ]
+    },
+    {
+      "id": "environment-fenicsx",
+      "title": "FEniCSx",
+      "kind": "environment",
+      "imports": [
+        "dolfinx",
+        "mpi4py",
+        "petsc4py"
+      ],
+      "sources": [
+        "https://fenicsproject.org/download/"
+      ],
+      "instructions": "Prepare DOLFINx and its MPI/PETSc libraries together or connect an existing interpreter. Use Linux/WSL or macOS.",
+      "conda": [
+        "python=3.12",
+        "fenics-dolfinx",
+        "mpich"
+      ],
+      "platforms": [
+        "linux",
+        "darwin"
+      ]
+    },
+    {
+      "id": "environment-root",
+      "title": "ROOT",
+      "kind": "environment",
+      "imports": [
+        "ROOT"
+      ],
+      "sources": [
+        "https://root.cern/install/"
+      ],
+      "instructions": "Connect PyROOT from a complete ROOT installation; its Python must match the ROOT build.",
+      "conda": [
+        "python=3.12",
+        "root"
+      ],
+      "platforms": [
+        "linux",
+        "darwin"
+      ]
+    },
+    {
+      "id": "environment-phonopy",
+      "title": "Phonopy",
+      "kind": "environment",
+      "imports": [
+        "phonopy"
+      ],
+      "sources": [
+        "https://phonopy.github.io/phonopy/install.html"
+      ],
+      "instructions": "Prepare through conda-forge or connect an existing Phonopy interpreter. Force constants still come from the chosen force calculator.",
+      "conda": [
+        "python=3.12",
+        "phonopy"
+      ]
+    },
+    {
+      "id": "environment-radiomics",
+      "title": "PyRadiomics",
+      "kind": "environment",
+      "imports": [
+        "radiomics"
+      ],
+      "sources": [
+        "https://pyradiomics.readthedocs.io/en/latest/installation.html"
+      ],
+      "instructions": "Connect a PyRadiomics environment with its compiled image feature extensions and supported NumPy. Image and mask inputs are supplied by the project."
+    },
+    {
+      "id": "environment-monai",
+      "title": "MONAI / PyTorch",
+      "kind": "environment",
+      "imports": [
+        "monai",
+        "torch"
+      ],
+      "sources": [
+        "https://github.com/Project-MONAI/MONAI/blob/dev/docs/source/installation.md"
+      ],
+      "instructions": "Choose the host PyTorch CPU/CUDA backend, install MONAI there, and connect that interpreter. Select model weights and datasets separately."
+    },
+    {
+      "id": "environment-openff",
+      "title": "OpenFF Toolkit",
+      "kind": "environment",
+      "imports": [
+        "openff.toolkit"
+      ],
+      "sources": [
+        "https://docs.openforcefield.org/projects/toolkit/en/stable/installation.html"
+      ],
+      "instructions": "Prepare OpenFF Toolkit with RDKit through conda-forge or bind an existing interpreter. AmberTools charge methods and their platform support require a separate choice.",
+      "conda": [
+        "python=3.12",
+        "openff-toolkit-base",
+        "rdkit"
+      ]
+    },
+    {
+      "id": "environment-gmsh",
+      "title": "Gmsh Python",
+      "kind": "environment",
+      "imports": [
+        "gmsh"
+      ],
+      "sources": [
+        "https://gmsh.info/doc/texinfo/"
+      ],
+      "instructions": "Prepare Gmsh and its native libraries with conda-forge or bind an existing Python. Headless Linux needs the native libraries even without opening a window.",
+      "conda": [
+        "python=3.12",
+        "gmsh",
+        "python-gmsh"
+      ]
+    },
+    {
+      "id": "environment-epics",
+      "title": "PyEPICS",
+      "kind": "environment",
+      "imports": [
+        "epics"
+      ],
+      "sources": [
+        "https://pyepics.github.io/pyepics/installation.html"
+      ],
+      "instructions": "Connect Python with PyEPICS and the EPICS Channel Access library. Resolve the laboratory network and process variable names through the host connection settings."
+    },
+    {
+      "id": "tool-lammps",
+      "title": "LAMMPS",
+      "kind": "command",
+      "commands": [
+        "lmp",
+        "lammps"
+      ],
+      "sources": [
+        "https://docs.lammps.org/Manual.html"
+      ],
+      "instructions": "Connect a LAMMPS executable built with the interaction styles needed by the selected potential. Choose MPI/GPU builds on the execution host."
+    },
+    {
+      "id": "tool-qe",
+      "title": "Quantum ESPRESSO",
+      "kind": "command",
+      "commands": [
+        "pw.x"
+      ],
+      "sources": [
+        "https://www.quantum-espresso.org/Doc/user_guide/"
+      ],
+      "instructions": "Connect pw.x on Linux/WSL or macOS. Pseudopotentials and the MPI launcher belong to the chosen calculation.",
+      "platforms": [
+        "linux",
+        "darwin"
+      ]
+    },
+    {
+      "id": "tool-mumax",
+      "title": "MuMax3",
+      "kind": "command",
+      "commands": [
+        "mumax3"
+      ],
+      "sources": [
+        "https://mumax.github.io/"
+      ],
+      "instructions": "Connect MuMax3 on a Linux execution host with a supported NVIDIA GPU and driver.",
+      "platforms": [
+        "linux"
+      ]
+    },
+    {
+      "id": "tool-minimap2",
+      "title": "minimap2",
+      "kind": "command",
+      "commands": [
+        "minimap2"
+      ],
+      "sources": [
+        "https://github.com/lh3/minimap2"
+      ],
+      "instructions": "Connect minimap2 on Linux/WSL or macOS. Download only the reference assembly required for the selected analysis.",
+      "platforms": [
+        "linux",
+        "darwin"
+      ]
+    },
+    {
+      "id": "tool-fastp",
+      "title": "fastp",
+      "kind": "command",
+      "commands": [
+        "fastp"
+      ],
+      "sources": [
+        "https://github.com/OpenGene/fastp"
+      ],
+      "instructions": "Connect fastp on Linux/WSL or macOS; preserve paired-read order when writing filtered FASTQ files.",
+      "platforms": [
+        "linux",
+        "darwin"
+      ]
+    },
+    {
+      "id": "tool-vina",
+      "title": "AutoDock Vina",
+      "kind": "command",
+      "commands": [
+        "vina"
+      ],
+      "sources": [
+        "https://autodock-vina.readthedocs.io/en/latest/installation.html"
+      ],
+      "instructions": "Connect the official Vina executable. Installing the Vina Python bindings alone does not install this command."
+    },
+    {
+      "id": "tool-openfoam",
+      "title": "OpenFOAM",
+      "kind": "command",
+      "commands": [
+        "foamRun",
+        "simpleFoam"
+      ],
+      "sources": [
+        "https://openfoam.org/download/"
+      ],
+      "instructions": "Connect a configured OpenFOAM runtime on Linux/WSL. Its library paths and solver modules must be available in the host process.",
+      "platforms": [
+        "linux"
+      ]
+    },
+    {
+      "id": "tool-iverilog",
+      "title": "Icarus Verilog",
+      "kind": "command",
+      "commands": [
+        "iverilog"
+      ],
+      "sources": [
+        "https://steveicarus.github.io/iverilog/"
+      ],
+      "instructions": "Connect Icarus Verilog and the accompanying vvp executable. Compile HDL sources, then run the resulting simulation with vvp."
+    },
+    {
+      "id": "tool-kicad",
+      "title": "KiCad",
+      "kind": "command",
+      "commands": [
+        "kicad-cli"
+      ],
+      "sources": [
+        "https://docs.kicad.org/"
+      ],
+      "instructions": "Connect kicad-cli from a KiCad installation. Project symbol and footprint libraries remain explicit project inputs."
+    },
+    {
+      "id": "tool-phreeqc",
+      "title": "PHREEQC",
+      "kind": "command",
+      "commands": [
+        "phreeqc"
+      ],
+      "sources": [
+        "https://www.usgs.gov/software/phreeqc-version-3"
+      ],
+      "instructions": "Connect the PHREEQC executable and select the thermodynamic database used by the model."
+    },
+    {
+      "id": "tool-ffmpeg",
+      "title": "FFmpeg",
+      "kind": "command",
+      "commands": [
+        "ffmpeg"
+      ],
+      "sources": [
+        "https://ffmpeg.org/documentation.html"
+      ],
+      "instructions": "Connect an FFmpeg build with the codecs needed by the experiment. Input and output media stay in the research project."
+    },
+    {
+      "id": "connector-mlflow",
+      "title": "MLflow tracking",
+      "kind": "connector",
+      "connection": {
+        "protocol": "https",
+        "endpoint": "http://localhost:5000",
+        "authentication": "host-managed"
+      },
+      "sources": [
+        "https://mlflow.org/docs/latest/"
+      ],
+      "instructions": "Connect the project tracking service through the host. Starting a server or connecting an account is separate from selecting this module."
+    },
+    {
+      "id": "connector-pubchem",
+      "title": "PubChem PUG REST",
+      "kind": "connector",
+      "connection": {
+        "protocol": "https",
+        "endpoint": "https://pubchem.ncbi.nlm.nih.gov/rest/pug",
+        "authentication": "none"
+      },
+      "sources": [
+        "https://pubchem.ncbi.nlm.nih.gov/docs/pug-rest"
+      ],
+      "instructions": "Query specific compound identifiers and selected properties; cache responses in the project. Do not download the complete database by default."
+    },
+    {
+      "id": "connector-pdb",
+      "title": "RCSB PDB",
+      "kind": "connector",
+      "connection": {
+        "protocol": "https",
+        "endpoint": "https://data.rcsb.org",
+        "authentication": "none"
+      },
+      "sources": [
+        "https://data.rcsb.org/"
+      ],
+      "instructions": "Retrieve selected structure identifiers and assemblies. Preserve mmCIF identifiers and the biological assembly selection."
+    },
+    {
+      "id": "connector-physionet",
+      "title": "PhysioNet",
+      "kind": "connector",
+      "connection": {
+        "protocol": "https",
+        "endpoint": "https://physionet.org",
+        "authentication": "dataset-dependent"
+      },
+      "sources": [
+        "https://physionet.org/about/database/"
+      ],
+      "instructions": "Choose a specific dataset. Use the host account connection if that dataset requires access; selection does not grant access or download records."
+    },
+    {
+      "id": "connector-fred",
+      "title": "FRED / ALFRED",
+      "kind": "connector",
+      "connection": {
+        "protocol": "https",
+        "endpoint": "https://api.stlouisfed.org/fred",
+        "authentication": "host-managed"
+      },
+      "sources": [
+        "https://fred.stlouisfed.org/docs/api/fred/"
+      ],
+      "instructions": "Connect the API key through the host. Select series and vintage dates explicitly; credentials do not belong in module files."
+    },
+    {
+      "id": "python-pymeasure",
+      "title": "PyMeasure",
+      "kind": "python",
+      "sources": [
+        "https://pymeasure.readthedocs.io/en/latest/"
+      ],
+      "requirements": [
+        "pymeasure",
+        "pyvisa-py"
+      ],
+      "imports": [
+        "pymeasure",
+        "pyvisa_py"
+      ],
+      "instructions": "Prepare the Python driver API. Select a supported instrument class and an existing VISA or serial backend; vendor libraries and device connections remain separate."
+    },
+    {
+      "id": "python-qcodes",
+      "title": "QCoDeS",
+      "kind": "python",
+      "sources": [
+        "https://microsoft.github.io/Qcodes/"
+      ],
+      "requirements": [
+        "qcodes",
+        "pyvisa-py"
+      ],
+      "imports": [
+        "qcodes",
+        "pyvisa_py"
+      ],
+      "instructions": "Use an existing instrument driver and a project-local measurement database. Device connections belong to the laboratory host."
+    },
+    {
+      "id": "python-pylablib",
+      "title": "pylablib",
+      "kind": "python",
+      "sources": [
+        "https://pylablib.readthedocs.io/en/stable/devices/stages_root.html"
+      ],
+      "requirements": [
+        "pylablib"
+      ],
+      "imports": [
+        "pylablib"
+      ],
+      "instructions": "Install the driver API; a particular camera or motion controller may also need its vendor SDK, USB driver and matching OS/architecture."
+    },
+    {
+      "id": "python-opendaq",
+      "title": "openDAQ",
+      "kind": "python",
+      "sources": [
+        "https://opendaq.github.io/opendaq/dev/tutorials/quick_start_setting_up_python.html"
+      ],
+      "requirements": [
+        "opendaq"
+      ],
+      "imports": [
+        "opendaq"
+      ],
+      "platforms": [
+        "linux",
+        "windows"
+      ],
+      "instructions": "Use a compatible Python wheel on Linux or Windows. Select a real device connection string and its module, or explicitly select the reference-device simulator."
+    },
+    {
+      "id": "python-pymodbus",
+      "title": "PyModbus",
+      "kind": "python",
+      "sources": [
+        "https://pymodbus.readthedocs.io/en/stable/source/client.html"
+      ],
+      "requirements": [
+        "pymodbus",
+        "pyserial"
+      ],
+      "imports": [
+        "pymodbus",
+        "serial"
+      ]
+    },
+    {
+      "id": "python-can",
+      "title": "python-can",
+      "kind": "python",
+      "sources": [
+        "https://python-can.readthedocs.io/en/stable/"
+      ],
+      "requirements": [
+        "python-can"
+      ],
+      "imports": [
+        "can"
+      ],
+      "instructions": "Physical CAN needs an OS-supported adapter driver, channel and bus configuration. The virtual interface is available without hardware."
+    },
+    {
+      "id": "python-mpremote",
+      "title": "MicroPython mpremote",
+      "kind": "python",
+      "sources": [
+        "https://docs.micropython.org/en/latest/reference/mpremote.html"
+      ],
+      "requirements": [
+        "mpremote"
+      ],
+      "imports": [
+        "mpremote"
+      ],
+      "instructions": "Prepare the host client. The selected board must already run compatible MicroPython firmware; installing mpremote does not flash the board."
+    },
+    {
+      "id": "python-pylsl",
+      "title": "Lab Streaming Layer · 同步数据流",
+      "kind": "python",
+      "sources": [
+        "https://github.com/labstreaminglayer/pylsl"
+      ],
+      "requirements": [
+        "pylsl"
+      ],
+      "imports": [
+        "pylsl"
+      ],
+      "instructions": "Supported wheels include liblsl. On other platforms install the matching upstream native library or bind an existing working interpreter. Device applications publish the actual streams."
+    },
+    {
+      "id": "command-artiq",
+      "title": "ARTIQ",
+      "kind": "command",
+      "sources": [
+        "https://m-labs.hk/artiq/manual/installing.html"
+      ],
+      "commands": [
+        "artiq_run"
+      ],
+      "platforms": [
+        "linux",
+        "windows"
+      ],
+      "instructions": "Connect artiq_run from the experiment host. Use the upstream Nix installation on Linux or MSYS2 on Windows, matching the core-device gateware. Keep device_db.py in the project."
+    },
+    {
+      "id": "environment-labscript",
+      "title": "labscript suite",
+      "kind": "environment",
+      "sources": [
+        "https://docs.labscriptsuite.org/en/latest/installation/"
+      ],
+      "imports": [
+        "labscript",
+        "blacs",
+        "labscript_devices"
+      ],
+      "instructions": "Prepare an upstream labscript-suite environment with its Qt binding and apparatus profile, then bind its Python. BLACS, the connection table and device drivers are configured for the actual apparatus."
+    },
+    {
+      "id": "command-ros2",
+      "title": "ROS 2",
+      "kind": "command",
+      "sources": [
+        "https://github.com/ros2/ros2_documentation"
+      ],
+      "commands": [
+        "ros2"
+      ],
+      "instructions": "Connect ros2 from an already activated ROS 2 workspace on the robot host. Use the distribution installation instructions for that OS. The worker must retain the ROS setup environment; a bare executable path does not activate it."
+    },
+    {
+      "id": "python-pytransform3d",
+      "title": "pytransform3d",
+      "kind": "python",
+      "sources": [
+        "https://dfki-ric.github.io/pytransform3d/"
+      ],
+      "requirements": [
+        "pytransform3d"
+      ],
+      "imports": [
+        "pytransform3d"
+      ]
+    },
+    {
+      "id": "python-mujoco",
+      "title": "MuJoCo",
+      "kind": "python",
+      "sources": [
+        "https://mujoco.readthedocs.io/en/stable/python.html"
+      ],
+      "requirements": [
+        "mujoco"
+      ],
+      "imports": [
+        "mujoco"
+      ],
+      "instructions": "CPU simulation uses the native MuJoCo Python API without a viewer. Rendering backends and robot assets are selected separately."
+    },
+    {
+      "id": "python-pycromanager",
+      "title": "Pycro-Manager",
+      "kind": "python",
+      "sources": [
+        "https://pycro-manager.readthedocs.io/en/latest/setup.html"
+      ],
+      "requirements": [
+        "pycromanager"
+      ],
+      "imports": [
+        "pycromanager"
+      ],
+      "instructions": "Prepare the Python client. Connect an existing Micro-Manager installation with its device adapters and saved hardware configuration; the desktop bridge normally uses port 4827."
+    },
+    {
+      "id": "python-pylabrobot",
+      "title": "PyLabRobot",
+      "kind": "python",
+      "sources": [
+        "https://docs.pylabrobot.org/stable/user_guide/_getting-started/installation.html"
+      ],
+      "requirements": [
+        "pylabrobot"
+      ],
+      "imports": [
+        "pylabrobot"
+      ],
+      "instructions": "Prepare the core protocol and resource model. Choose only the backend extras needed for the selected machine (for example usb or serial), plus its OS driver. The core also supports a hardware-free chatterbox backend."
+    },
+    {
+      "id": "python-alicat",
+      "title": "Alicat flow controller driver",
+      "kind": "python",
+      "sources": [
+        "https://github.com/numat/alicat"
+      ],
+      "requirements": [
+        "alicat"
+      ],
+      "imports": [
+        "alicat"
+      ],
+      "instructions": "Select the physical serial endpoint and controller address. Read its configured gas and flow units; do not assume the numeric values use a universal flow unit."
+    },
+    {
+      "id": "command-sigrok",
+      "title": "sigrok-cli",
+      "kind": "command",
+      "sources": [
+        "https://sigrok.org/wiki/Downloads"
+      ],
+      "commands": [
+        "sigrok-cli"
+      ],
+      "instructions": "Connect the upstream sigrok-cli executable and the acquisition device driver for this OS. PulseView is an optional viewer; it is not needed to read saved captures."
+    },
+    {
+      "id": "environment-soapysdr",
+      "title": "SoapySDR",
+      "kind": "environment",
+      "sources": [
+        "https://github.com/pothosware/SoapySDR/wiki"
+      ],
+      "imports": [
+        "SoapySDR"
+      ],
+      "instructions": "Bind a Python environment with the upstream native SoapySDR library and the plugin for the selected radio. Installing the common API alone does not install every radio driver."
+    },
+    {
+      "id": "python-pyubx2",
+      "title": "pyubx2",
+      "kind": "python",
+      "sources": [
+        "https://github.com/semuconsulting/pyubx2"
+      ],
+      "requirements": [
+        "pyubx2",
+        "pyserial"
+      ],
+      "imports": [
+        "pyubx2",
+        "serial"
+      ]
+    },
+    {
+      "id": "python-phconvert",
+      "title": "phconvert",
+      "kind": "python",
+      "sources": [
+        "https://phconvert.readthedocs.io/en/latest/"
+      ],
+      "requirements": [
+        "phconvert"
+      ],
+      "imports": [
+        "phconvert"
+      ]
+    },
+    {
+      "id": "python-visa-sim",
+      "title": "PyVISA-sim",
+      "kind": "python",
+      "sources": [
+        "https://pyvisa.readthedocs.io/projects/pyvisa-sim/en/latest/"
+      ],
+      "requirements": [
+        "pyvisa-sim"
+      ],
+      "imports": [
+        "pyvisa",
+        "pyvisa_sim"
+      ]
+    },
+    {
+      "id": "connector-laboratory",
+      "title": "Laboratory device connections · 实验设备连接",
+      "kind": "connector",
+      "sources": [
+        "https://github.com/EnvFoundry/IOP"
+      ],
+      "connection": {
+        "type": "laboratory",
+        "fields": [
+          "execution_host",
+          "devices"
+        ],
+        "device_fields": [
+          "name",
+          "driver",
+          "address",
+          "configuration"
+        ],
+        "credentials": "host-managed"
+      },
+      "instructions": "Resolve named devices on the selected laboratory host using its existing device manager, IOP or upstream driver. Each device needs its own driver, address and operating configuration. This shared description is not a device instance; SeedEnv neither opens devices nor declares them connected. Reuse host connections that already exist."
     }
   ],
   "modules": [
@@ -1307,7 +2891,8 @@
         "component": "python-science",
         "file": "examples/fit.py"
       },
-      "summary_en": "Numerical computing, symbolic mathematics, plotting and data frames."
+      "summary_en": "Numerical computing, symbolic mathematics, plotting and data frames.",
+      "hidden": true
     },
     {
       "id": "tables",
@@ -1682,7 +3267,8 @@
         "测量"
       ],
       "components": [
-        "python-instruments"
+        "python-instruments",
+        "connector-laboratory"
       ],
       "includes": [],
       "guide": "guides/instruments.md",
@@ -1818,7 +3404,8 @@
       ],
       "includes": [],
       "guide": "guides/optical-lab.md",
-      "summary_en": "Connect the specialist Optics-Photonics-AI-Lab environment."
+      "summary_en": "Connect the specialist Optics-Photonics-AI-Lab environment.",
+      "kind": "resource"
     },
     {
       "id": "experimental-lab",
@@ -1837,7 +3424,8 @@
       ],
       "includes": [],
       "guide": "guides/experimental-lab.md",
-      "summary_en": "Connect an existing IOP instrument and experiment service."
+      "summary_en": "Connect an existing IOP instrument and experiment service.",
+      "kind": "resource"
     },
     {
       "id": "references",
@@ -2650,7 +4238,8 @@
         "光子学"
       ],
       "components": [
-        "python-harvesters"
+        "python-harvesters",
+        "connector-laboratory"
       ],
       "includes": [],
       "guide": "guides/camera-acquisition.md",
@@ -2667,7 +4256,8 @@
         "光子学"
       ],
       "components": [
-        "python-seabreeze"
+        "python-seabreeze",
+        "connector-laboratory"
       ],
       "includes": [],
       "guide": "guides/spectrometer-acquisition.md",
@@ -2684,7 +4274,8 @@
         "光子学"
       ],
       "components": [
-        "python-slmsuite"
+        "python-slmsuite",
+        "connector-laboratory"
       ],
       "includes": [],
       "guide": "guides/slm-wavefront-control.md",
@@ -2756,7 +4347,8 @@
       ],
       "includes": [],
       "guide": "guides/optical-material-data.md",
-      "summary_en": "Select material refractive-index and extinction-coefficient records."
+      "summary_en": "Select material refractive-index and extinction-coefficient records.",
+      "kind": "resource"
     },
     {
       "id": "numerical-computing",
@@ -2949,6 +4541,2005 @@
       "includes": [],
       "guide": "guides/differentiable-computing.md",
       "summary_en": "Connect JAX automatic differentiation, vectorization and compilation."
+    },
+    {
+      "id": "differential-equations",
+      "title": "Differential equations · 常微分与边值问题",
+      "summary": "求解常微分方程与边值问题。",
+      "summary_en": "Integrate ODEs and solve boundary-value problems.",
+      "tags": [
+        "differential-equations",
+        "Differential equations",
+        "常微分与边值问题"
+      ],
+      "components": [
+        "python-numerics"
+      ],
+      "includes": [],
+      "guide": "guides/differential-equations.md"
+    },
+    {
+      "id": "sparse-linear-algebra",
+      "title": "Sparse linear algebra · 稀疏线性代数",
+      "summary": "稀疏方程组、部分特征谱与迭代求解。",
+      "summary_en": "Solve sparse systems and partial eigenspectra.",
+      "tags": [
+        "sparse-linear-algebra",
+        "Sparse linear algebra",
+        "稀疏线性代数"
+      ],
+      "components": [
+        "python-numerics"
+      ],
+      "includes": [],
+      "guide": "guides/sparse-linear-algebra.md"
+    },
+    {
+      "id": "computational-geometry",
+      "title": "Computational geometry · 计算几何",
+      "summary": "空间近邻、三角剖分与凸包。",
+      "summary_en": "Construct spatial queries, triangulations and convex hulls.",
+      "tags": [
+        "computational-geometry",
+        "Computational geometry",
+        "计算几何"
+      ],
+      "components": [
+        "python-numerics"
+      ],
+      "includes": [],
+      "guide": "guides/computational-geometry.md"
+    },
+    {
+      "id": "arbitrary-precision",
+      "title": "Arbitrary precision · 任意精度计算",
+      "summary": "指定精度的特殊函数、积分与求根。",
+      "summary_en": "Evaluate special functions, quadratures and roots at chosen precision.",
+      "tags": [
+        "arbitrary-precision",
+        "Arbitrary precision",
+        "任意精度计算"
+      ],
+      "components": [
+        "python-mpmath"
+      ],
+      "includes": [],
+      "guide": "guides/arbitrary-precision.md"
+    },
+    {
+      "id": "sage-mathematics",
+      "title": "Computer algebra · 计算代数与数论",
+      "summary": "精确代数、数论与组合结构。",
+      "summary_en": "Work with exact algebraic, number-theoretic and combinatorial structures.",
+      "tags": [
+        "sage-mathematics",
+        "Computer algebra",
+        "计算代数与数论"
+      ],
+      "components": [
+        "environment-sage"
+      ],
+      "includes": [],
+      "guide": "guides/sage-mathematics.md"
+    },
+    {
+      "id": "discrete-optimization",
+      "title": "Discrete optimization · 离散优化与调度",
+      "summary": "整数约束、路径规划与调度模型。",
+      "summary_en": "Model integer constraints, routing and schedules.",
+      "tags": [
+        "discrete-optimization",
+        "Discrete optimization",
+        "离散优化与调度"
+      ],
+      "components": [
+        "python-ortools"
+      ],
+      "includes": [],
+      "guide": "guides/discrete-optimization.md",
+      "example": {
+        "component": "python-ortools",
+        "file": "examples/discrete_schedule.py"
+      }
+    },
+    {
+      "id": "bayesian-models",
+      "title": "Bayesian models · 贝叶斯建模",
+      "summary": "概率模型、后验推断与预测。",
+      "summary_en": "Build probabilistic models and inspect posterior predictions.",
+      "tags": [
+        "bayesian-models",
+        "Bayesian models",
+        "贝叶斯建模"
+      ],
+      "components": [
+        "python-pymc"
+      ],
+      "includes": [],
+      "guide": "guides/bayesian-models.md"
+    },
+    {
+      "id": "uncertainty-propagation",
+      "title": "Uncertainty propagation · 不确定度传播",
+      "summary": "传播测量不确定度与相关性。",
+      "summary_en": "Propagate correlated measurement uncertainties.",
+      "tags": [
+        "uncertainty-propagation",
+        "Uncertainty propagation",
+        "不确定度传播"
+      ],
+      "components": [
+        "python-uncertainties"
+      ],
+      "includes": [],
+      "guide": "guides/uncertainty-propagation.md"
+    },
+    {
+      "id": "causal-models",
+      "title": "Causal models · 因果建模",
+      "summary": "表达因果假设并估计可识别的效应。",
+      "summary_en": "Represent causal assumptions and estimate identified effects.",
+      "tags": [
+        "causal-models",
+        "Causal models",
+        "因果建模"
+      ],
+      "components": [
+        "python-dowhy"
+      ],
+      "includes": [],
+      "guide": "guides/causal-models.md"
+    },
+    {
+      "id": "gradient-boosting",
+      "title": "Gradient boosting · 梯度提升与表格学习",
+      "summary": "表格数据的梯度提升树训练。",
+      "summary_en": "Train boosted-tree models on tabular data.",
+      "tags": [
+        "gradient-boosting",
+        "Gradient boosting",
+        "梯度提升与表格学习"
+      ],
+      "components": [
+        "python-xgboost"
+      ],
+      "includes": [],
+      "guide": "guides/gradient-boosting.md"
+    },
+    {
+      "id": "model-datasets",
+      "title": "Model datasets · 模型数据集处理",
+      "summary": "读取、变换与流式处理选定的数据集。",
+      "summary_en": "Load, transform and stream selected training datasets.",
+      "tags": [
+        "model-datasets",
+        "Model datasets",
+        "模型数据集处理"
+      ],
+      "components": [
+        "python-datasets"
+      ],
+      "includes": [],
+      "guide": "guides/model-datasets.md"
+    },
+    {
+      "id": "transformer-models",
+      "title": "Transformer models · Transformer 模型使用",
+      "summary": "在选定运行环境中使用分词器与预训练模型。",
+      "summary_en": "Use tokenizers and pretrained model APIs in a chosen runtime.",
+      "tags": [
+        "transformer-models",
+        "Transformer models",
+        "Transformer 模型使用"
+      ],
+      "components": [
+        "environment-transformers"
+      ],
+      "includes": [],
+      "guide": "guides/transformer-models.md"
+    },
+    {
+      "id": "graph-learning",
+      "title": "Graph learning · 图机器学习",
+      "summary": "节点、边与图表示上的模型训练。",
+      "summary_en": "Train models on node, edge and graph representations.",
+      "tags": [
+        "graph-learning",
+        "Graph learning",
+        "图机器学习"
+      ],
+      "components": [
+        "environment-pyg"
+      ],
+      "includes": [],
+      "guide": "guides/graph-learning.md"
+    },
+    {
+      "id": "vector-search",
+      "title": "Vector search · 向量近邻检索",
+      "summary": "构建精确或近似向量索引。",
+      "summary_en": "Build exact and approximate vector indexes.",
+      "tags": [
+        "vector-search",
+        "Vector search",
+        "向量近邻检索"
+      ],
+      "components": [
+        "environment-faiss"
+      ],
+      "includes": [],
+      "guide": "guides/vector-search.md"
+    },
+    {
+      "id": "hyperparameter-search",
+      "title": "Hyperparameter search · 超参数搜索",
+      "summary": "搜索明确的模型或算法配置空间。",
+      "summary_en": "Explore a defined model or algorithm search space.",
+      "tags": [
+        "hyperparameter-search",
+        "Hyperparameter search",
+        "超参数搜索"
+      ],
+      "components": [
+        "python-optuna"
+      ],
+      "includes": [],
+      "guide": "guides/hyperparameter-search.md"
+    },
+    {
+      "id": "distributed-arrays",
+      "title": "Distributed arrays · 分块与分布式数据计算",
+      "summary": "处理超出单个工作进程内存的数组与表格。",
+      "summary_en": "Process arrays and tables larger than one worker memory.",
+      "tags": [
+        "distributed-arrays",
+        "Distributed arrays",
+        "分块与分布式数据计算"
+      ],
+      "components": [
+        "python-dask"
+      ],
+      "includes": [],
+      "guide": "guides/distributed-arrays.md"
+    },
+    {
+      "id": "experiment-tracking",
+      "title": "Experiment tracking · 实验记录服务连接",
+      "summary": "连接选定的实验记录服务。",
+      "summary_en": "Connect to a selected experiment tracking service.",
+      "tags": [
+        "experiment-tracking",
+        "Experiment tracking",
+        "实验记录服务连接"
+      ],
+      "components": [
+        "connector-mlflow"
+      ],
+      "includes": [],
+      "guide": "guides/experiment-tracking.md",
+      "kind": "resource"
+    },
+    {
+      "id": "tensor-networks",
+      "title": "Tensor networks · 张量网络",
+      "summary": "张量网络表示与多体模型求解。",
+      "summary_en": "Construct tensor networks and solve many-body models.",
+      "tags": [
+        "tensor-networks",
+        "Tensor networks",
+        "张量网络"
+      ],
+      "components": [
+        "python-quimb"
+      ],
+      "includes": [],
+      "guide": "guides/tensor-networks.md"
+    },
+    {
+      "id": "plasma-models",
+      "title": "Plasma models · 等离子体计算",
+      "summary": "等离子体参数与模型计算。",
+      "summary_en": "Calculate plasma parameters and formulate plasma models.",
+      "tags": [
+        "plasma-models",
+        "Plasma models",
+        "等离子体计算"
+      ],
+      "components": [
+        "python-plasmapy"
+      ],
+      "includes": [],
+      "guide": "guides/plasma-models.md"
+    },
+    {
+      "id": "many-particle-dynamics",
+      "title": "Many-particle dynamics · 多粒子动力学",
+      "summary": "具有明确相互作用与积分器的多粒子仿真。",
+      "summary_en": "Simulate particles with explicit interactions and integrators.",
+      "tags": [
+        "many-particle-dynamics",
+        "Many-particle dynamics",
+        "多粒子动力学"
+      ],
+      "components": [
+        "environment-hoomd"
+      ],
+      "includes": [],
+      "guide": "guides/many-particle-dynamics.md"
+    },
+    {
+      "id": "variational-pdes",
+      "title": "Variational PDEs · 变分形式偏微分方程",
+      "summary": "以有限元求解弱形式偏微分方程。",
+      "summary_en": "Solve weak-form PDEs with finite elements.",
+      "tags": [
+        "variational-pdes",
+        "Variational PDEs",
+        "变分形式偏微分方程"
+      ],
+      "components": [
+        "environment-fenicsx"
+      ],
+      "includes": [],
+      "guide": "guides/variational-pdes.md"
+    },
+    {
+      "id": "particle-event-data",
+      "title": "Particle event data · 粒子物理事件数据",
+      "summary": "ROOT 事件树读取与物理分布拟合。",
+      "summary_en": "Read ROOT event trees and fit physics distributions.",
+      "tags": [
+        "particle-event-data",
+        "Particle event data",
+        "粒子物理事件数据"
+      ],
+      "components": [
+        "environment-root"
+      ],
+      "includes": [],
+      "guide": "guides/particle-event-data.md"
+    },
+    {
+      "id": "micromagnetics",
+      "title": "Micromagnetics · 微磁学",
+      "summary": "在 GPU 主机上求解微磁动力学。",
+      "summary_en": "Solve micromagnetic dynamics on a GPU host.",
+      "tags": [
+        "micromagnetics",
+        "Micromagnetics",
+        "微磁学"
+      ],
+      "components": [
+        "tool-mumax"
+      ],
+      "includes": [],
+      "guide": "guides/micromagnetics.md"
+    },
+    {
+      "id": "electronic-molecules",
+      "title": "Molecular electronic structure · 分子电子结构",
+      "summary": "计算分子电子态与能量。",
+      "summary_en": "Compute molecular electronic states and energies.",
+      "tags": [
+        "electronic-molecules",
+        "Molecular electronic structure",
+        "分子电子结构"
+      ],
+      "components": [
+        "python-pyscf"
+      ],
+      "includes": [],
+      "guide": "guides/electronic-molecules.md",
+      "example": {
+        "component": "python-pyscf",
+        "file": "examples/electronic_molecules.py"
+      }
+    },
+    {
+      "id": "molecular-dynamics",
+      "title": "Molecular dynamics · 分子动力学",
+      "summary": "具有明确力场和积分器的分子动力学。",
+      "summary_en": "Run molecular dynamics with explicit forces and integrators.",
+      "tags": [
+        "molecular-dynamics",
+        "Molecular dynamics",
+        "分子动力学"
+      ],
+      "components": [
+        "python-openmm"
+      ],
+      "includes": [],
+      "guide": "guides/molecular-dynamics.md",
+      "example": {
+        "component": "python-openmm",
+        "file": "examples/molecular_dynamics.py"
+      }
+    },
+    {
+      "id": "reaction-kinetics",
+      "title": "Reaction kinetics · 反应动力学",
+      "summary": "反应混合物、反应器与火焰模型。",
+      "summary_en": "Simulate reacting mixtures, reactors and flames.",
+      "tags": [
+        "reaction-kinetics",
+        "Reaction kinetics",
+        "反应动力学"
+      ],
+      "components": [
+        "python-cantera"
+      ],
+      "includes": [],
+      "guide": "guides/reaction-kinetics.md",
+      "example": {
+        "component": "python-cantera",
+        "file": "examples/reaction_kinetics.py"
+      }
+    },
+    {
+      "id": "fluid-thermodynamics",
+      "title": "Fluid thermodynamics · 流体热力学",
+      "summary": "混合物性质与相平衡计算。",
+      "summary_en": "Calculate mixture properties and phase equilibria.",
+      "tags": [
+        "fluid-thermodynamics",
+        "Fluid thermodynamics",
+        "流体热力学"
+      ],
+      "components": [
+        "python-thermo"
+      ],
+      "includes": [],
+      "guide": "guides/fluid-thermodynamics.md"
+    },
+    {
+      "id": "conformer-search",
+      "title": "Conformer search · 分子构象生成",
+      "summary": "生成与比较分子构象。",
+      "summary_en": "Generate and compare molecular conformers.",
+      "tags": [
+        "conformer-search",
+        "Conformer search",
+        "分子构象生成"
+      ],
+      "components": [
+        "python-molecules"
+      ],
+      "includes": [],
+      "guide": "guides/conformer-search.md"
+    },
+    {
+      "id": "trajectory-analysis",
+      "title": "Trajectory analysis · 分子轨迹分析",
+      "summary": "分析分子轨迹与结构随时间的变化。",
+      "summary_en": "Analyze molecular trajectories and time-dependent structures.",
+      "tags": [
+        "trajectory-analysis",
+        "Trajectory analysis",
+        "分子轨迹分析"
+      ],
+      "components": [
+        "python-mdanalysis"
+      ],
+      "includes": [],
+      "guide": "guides/trajectory-analysis.md"
+    },
+    {
+      "id": "molecular-spectra",
+      "title": "Spectral fitting · 光谱与峰形拟合",
+      "summary": "光谱模型与受约束峰族拟合。",
+      "summary_en": "Fit spectral models and constrained peak families.",
+      "tags": [
+        "molecular-spectra",
+        "Spectral fitting",
+        "光谱与峰形拟合"
+      ],
+      "components": [
+        "python-lmfit"
+      ],
+      "includes": [],
+      "guide": "guides/molecular-spectra.md"
+    },
+    {
+      "id": "chemical-data",
+      "title": "Chemical database access · 化学数据库连接",
+      "summary": "读取选定化合物结构与性质。",
+      "summary_en": "Retrieve selected compound structures and properties.",
+      "tags": [
+        "chemical-data",
+        "Chemical database access",
+        "化学数据库连接"
+      ],
+      "components": [
+        "connector-pubchem"
+      ],
+      "includes": [],
+      "guide": "guides/chemical-data.md",
+      "kind": "resource"
+    },
+    {
+      "id": "atomistic-dynamics",
+      "title": "Atomistic dynamics · 原子尺度动力学",
+      "summary": "运行原子与粗粒化动力学计算。",
+      "summary_en": "Run atomistic and coarse-grained simulations.",
+      "tags": [
+        "atomistic-dynamics",
+        "Atomistic dynamics",
+        "原子尺度动力学"
+      ],
+      "components": [
+        "tool-lammps"
+      ],
+      "includes": [],
+      "guide": "guides/atomistic-dynamics.md"
+    },
+    {
+      "id": "plane-wave-dft",
+      "title": "Plane-wave electronic structure · 平面波电子结构",
+      "summary": "周期结构的平面波密度泛函计算。",
+      "summary_en": "Compute periodic electronic structures with plane-wave DFT.",
+      "tags": [
+        "plane-wave-dft",
+        "Plane-wave electronic structure",
+        "平面波电子结构"
+      ],
+      "components": [
+        "tool-qe"
+      ],
+      "includes": [],
+      "guide": "guides/plane-wave-dft.md"
+    },
+    {
+      "id": "phonons",
+      "title": "Lattice dynamics · 晶格动力学与声子",
+      "summary": "构建力常数与声子谱。",
+      "summary_en": "Construct force constants and phonon spectra.",
+      "tags": [
+        "phonons",
+        "Lattice dynamics",
+        "晶格动力学与声子"
+      ],
+      "components": [
+        "environment-phonopy"
+      ],
+      "includes": [],
+      "guide": "guides/phonons.md",
+      "example": {
+        "component": "environment-phonopy",
+        "file": "examples/phonon_displacements.py"
+      }
+    },
+    {
+      "id": "materials-features",
+      "title": "Materials features · 材料特征与数据建模",
+      "summary": "构建成分与结构描述符。",
+      "summary_en": "Construct composition and structure descriptors.",
+      "tags": [
+        "materials-features",
+        "Materials features",
+        "材料特征与数据建模"
+      ],
+      "components": [
+        "python-matminer"
+      ],
+      "includes": [],
+      "guide": "guides/materials-features.md"
+    },
+    {
+      "id": "read-mapping",
+      "title": "Sequence read mapping · 测序读段映射",
+      "summary": "将读段或组装序列映射到选定参考。",
+      "summary_en": "Map reads and assemblies to a chosen reference.",
+      "tags": [
+        "read-mapping",
+        "Sequence read mapping",
+        "测序读段映射"
+      ],
+      "components": [
+        "tool-minimap2"
+      ],
+      "includes": [],
+      "guide": "guides/read-mapping.md"
+    },
+    {
+      "id": "read-quality",
+      "title": "Read preprocessing · 测序读段预处理",
+      "summary": "检查并过滤 FASTQ 读段。",
+      "summary_en": "Inspect and filter FASTQ reads.",
+      "tags": [
+        "read-quality",
+        "Read preprocessing",
+        "测序读段预处理"
+      ],
+      "components": [
+        "tool-fastp"
+      ],
+      "includes": [],
+      "guide": "guides/read-quality.md"
+    },
+    {
+      "id": "genomic-alignments",
+      "title": "Genomic alignment files · 基因组比对文件",
+      "summary": "读取、索引与查询比对及变异文件。",
+      "summary_en": "Read, index and query SAM, BAM, CRAM and variants.",
+      "tags": [
+        "genomic-alignments",
+        "Genomic alignment files",
+        "基因组比对文件"
+      ],
+      "components": [
+        "python-pysam"
+      ],
+      "includes": [],
+      "guide": "guides/genomic-alignments.md"
+    },
+    {
+      "id": "single-cell",
+      "title": "Single-cell analysis · 单细胞分析",
+      "summary": "分析带细胞与基因注释的表达矩阵。",
+      "summary_en": "Analyze expression matrices with cell and gene annotations.",
+      "tags": [
+        "single-cell",
+        "Single-cell analysis",
+        "单细胞分析"
+      ],
+      "components": [
+        "python-scanpy"
+      ],
+      "includes": [],
+      "guide": "guides/single-cell.md",
+      "example": {
+        "component": "python-scanpy",
+        "file": "examples/single_cell.py"
+      }
+    },
+    {
+      "id": "spatial-omics",
+      "title": "Spatial omics · 空间组学",
+      "summary": "分析分子观测与空间邻域的关系。",
+      "summary_en": "Relate molecular observations to spatial neighborhoods.",
+      "tags": [
+        "spatial-omics",
+        "Spatial omics",
+        "空间组学"
+      ],
+      "components": [
+        "python-squidpy"
+      ],
+      "includes": [],
+      "guide": "guides/spatial-omics.md"
+    },
+    {
+      "id": "proteomics",
+      "title": "Proteomics data · 蛋白质组学数据",
+      "summary": "读取质谱谱图与鉴定结果表。",
+      "summary_en": "Read spectra and identification tables.",
+      "tags": [
+        "proteomics",
+        "Proteomics data",
+        "蛋白质组学数据"
+      ],
+      "components": [
+        "python-pyteomics"
+      ],
+      "includes": [],
+      "guide": "guides/proteomics.md"
+    },
+    {
+      "id": "phylogenetics",
+      "title": "Phylogenetic structures · 系统发育结构",
+      "summary": "操作系统发育树、分类单元与性状数据。",
+      "summary_en": "Manipulate trees, taxa and evolutionary character data.",
+      "tags": [
+        "phylogenetics",
+        "Phylogenetic structures",
+        "系统发育结构"
+      ],
+      "components": [
+        "python-dendropy"
+      ],
+      "includes": [],
+      "guide": "guides/phylogenetics.md"
+    },
+    {
+      "id": "metabolic-networks",
+      "title": "Metabolic networks · 代谢网络",
+      "summary": "求解基于约束的代谢网络模型。",
+      "summary_en": "Solve constraint-based metabolic network models.",
+      "tags": [
+        "metabolic-networks",
+        "Metabolic networks",
+        "代谢网络"
+      ],
+      "components": [
+        "python-cobra"
+      ],
+      "includes": [],
+      "guide": "guides/metabolic-networks.md"
+    },
+    {
+      "id": "protein-database",
+      "title": "Protein structure access · 蛋白质结构数据库连接",
+      "summary": "获取选定的大分子结构。",
+      "summary_en": "Retrieve selected macromolecular structures.",
+      "tags": [
+        "protein-database",
+        "Protein structure access",
+        "蛋白质结构数据库连接"
+      ],
+      "components": [
+        "connector-pdb"
+      ],
+      "includes": [],
+      "guide": "guides/protein-database.md",
+      "kind": "resource"
+    },
+    {
+      "id": "volume-processing",
+      "title": "Volume processing · 三维医学影像处理",
+      "summary": "三维影像的滤波、重采样与坐标变换。",
+      "summary_en": "Filter, resample and transform image volumes.",
+      "tags": [
+        "volume-processing",
+        "Volume processing",
+        "三维医学影像处理"
+      ],
+      "components": [
+        "python-simpleitk"
+      ],
+      "includes": [],
+      "guide": "guides/volume-processing.md",
+      "example": {
+        "component": "python-simpleitk",
+        "file": "examples/volume_geometry.py"
+      }
+    },
+    {
+      "id": "image-registration",
+      "title": "Image registration · 影像配准",
+      "summary": "估计并应用影像配准变换。",
+      "summary_en": "Estimate and apply image registration transforms.",
+      "tags": [
+        "image-registration",
+        "Image registration",
+        "影像配准"
+      ],
+      "components": [
+        "python-ants"
+      ],
+      "includes": [],
+      "guide": "guides/image-registration.md"
+    },
+    {
+      "id": "radiomics",
+      "title": "Radiomic features · 影像组学特征",
+      "summary": "提取明确的影像与区域特征。",
+      "summary_en": "Extract defined image and region features.",
+      "tags": [
+        "radiomics",
+        "Radiomic features",
+        "影像组学特征"
+      ],
+      "components": [
+        "environment-radiomics"
+      ],
+      "includes": [],
+      "guide": "guides/radiomics.md"
+    },
+    {
+      "id": "medical-learning",
+      "title": "Medical image learning · 医学影像学习",
+      "summary": "构建含空间变换的影像学习流程。",
+      "summary_en": "Build image-learning pipelines with spatial transforms.",
+      "tags": [
+        "medical-learning",
+        "Medical image learning",
+        "医学影像学习"
+      ],
+      "components": [
+        "environment-monai"
+      ],
+      "includes": [],
+      "guide": "guides/medical-learning.md"
+    },
+    {
+      "id": "electrophysiology",
+      "title": "Electrophysiology · 电生理信号分析",
+      "summary": "分析 EEG、MEG 与事件对齐记录。",
+      "summary_en": "Analyze EEG, MEG and related event-aligned recordings.",
+      "tags": [
+        "electrophysiology",
+        "Electrophysiology",
+        "电生理信号分析"
+      ],
+      "components": [
+        "python-mne"
+      ],
+      "includes": [],
+      "guide": "guides/electrophysiology.md"
+    },
+    {
+      "id": "survival-analysis",
+      "title": "Survival analysis · 生存与事件时间分析",
+      "summary": "包含删失的事件时间建模。",
+      "summary_en": "Model time-to-event data with censoring.",
+      "tags": [
+        "survival-analysis",
+        "Survival analysis",
+        "生存与事件时间分析"
+      ],
+      "components": [
+        "python-lifelines"
+      ],
+      "includes": [],
+      "guide": "guides/survival-analysis.md",
+      "example": {
+        "component": "python-lifelines",
+        "file": "examples/survival.py"
+      }
+    },
+    {
+      "id": "clinical-datasets",
+      "title": "Research dataset access · 医学研究数据连接",
+      "summary": "连接选定的生理与医学研究数据集。",
+      "summary_en": "Connect selected physiology and clinical research datasets.",
+      "tags": [
+        "clinical-datasets",
+        "Research dataset access",
+        "医学研究数据连接"
+      ],
+      "components": [
+        "connector-physionet"
+      ],
+      "includes": [],
+      "guide": "guides/clinical-datasets.md",
+      "kind": "resource"
+    },
+    {
+      "id": "docking",
+      "title": "Molecular docking · 分子对接",
+      "summary": "在指定受体区域搜索配体构象。",
+      "summary_en": "Search ligand poses in a specified receptor region.",
+      "tags": [
+        "docking",
+        "Molecular docking",
+        "分子对接"
+      ],
+      "components": [
+        "tool-vina"
+      ],
+      "includes": [],
+      "guide": "guides/docking.md"
+    },
+    {
+      "id": "molecular-parameters",
+      "title": "Molecular force-field parameters · 分子力场参数化",
+      "summary": "基于明确化学结构与力场分配分子参数。",
+      "summary_en": "Assign molecular parameters with explicit chemistry and force fields.",
+      "tags": [
+        "molecular-parameters",
+        "Molecular force-field parameters",
+        "分子力场参数化"
+      ],
+      "components": [
+        "environment-openff"
+      ],
+      "includes": [],
+      "guide": "guides/molecular-parameters.md"
+    },
+    {
+      "id": "binding-assays",
+      "title": "Assay curve models · 实验响应曲线建模",
+      "summary": "拟合浓度响应与结合模型。",
+      "summary_en": "Fit concentration-response and binding models.",
+      "tags": [
+        "binding-assays",
+        "Assay curve models",
+        "实验响应曲线建模"
+      ],
+      "components": [
+        "python-lmfit"
+      ],
+      "includes": [],
+      "guide": "guides/binding-assays.md"
+    },
+    {
+      "id": "compartment-models",
+      "title": "Compartment dynamics · 房室动力学",
+      "summary": "求解研究用途的房室质量守恒模型。",
+      "summary_en": "Solve mass-balance compartment models for research.",
+      "tags": [
+        "compartment-models",
+        "Compartment dynamics",
+        "房室动力学"
+      ],
+      "components": [
+        "python-numerics"
+      ],
+      "includes": [],
+      "guide": "guides/compartment-models.md"
+    },
+    {
+      "id": "mesh-generation",
+      "title": "Mesh generation · 网格生成",
+      "summary": "根据几何区域生成计算网格。",
+      "summary_en": "Generate meshes from explicit geometric regions.",
+      "tags": [
+        "mesh-generation",
+        "Mesh generation",
+        "网格生成"
+      ],
+      "components": [
+        "environment-gmsh"
+      ],
+      "includes": [],
+      "guide": "guides/mesh-generation.md"
+    },
+    {
+      "id": "mesh-exchange",
+      "title": "Mesh exchange · 网格与场数据互转",
+      "summary": "转换网格及其关联场数据格式。",
+      "summary_en": "Convert meshes and associated fields between formats.",
+      "tags": [
+        "mesh-exchange",
+        "Mesh exchange",
+        "网格与场数据互转"
+      ],
+      "components": [
+        "python-meshio"
+      ],
+      "includes": [],
+      "guide": "guides/mesh-exchange.md"
+    },
+    {
+      "id": "fluid-dynamics",
+      "title": "Computational fluid dynamics · 计算流体动力学",
+      "summary": "运行基于算例目录的有限体积流体仿真。",
+      "summary_en": "Run case-based finite-volume fluid simulations.",
+      "tags": [
+        "fluid-dynamics",
+        "Computational fluid dynamics",
+        "计算流体动力学"
+      ],
+      "components": [
+        "tool-openfoam"
+      ],
+      "includes": [],
+      "guide": "guides/fluid-dynamics.md"
+    },
+    {
+      "id": "control-systems",
+      "title": "Control systems · 控制系统分析",
+      "summary": "动态反馈系统的分析与设计。",
+      "summary_en": "Analyze and design dynamic feedback systems.",
+      "tags": [
+        "control-systems",
+        "Control systems",
+        "控制系统分析"
+      ],
+      "components": [
+        "python-control"
+      ],
+      "includes": [],
+      "guide": "guides/control-systems.md",
+      "example": {
+        "component": "python-control",
+        "file": "examples/control_step.py"
+      }
+    },
+    {
+      "id": "discrete-events",
+      "title": "Discrete-event simulation · 离散事件仿真",
+      "summary": "资源队列与事件驱动过程仿真。",
+      "summary_en": "Simulate resource queues and event-driven processes.",
+      "tags": [
+        "discrete-events",
+        "Discrete-event simulation",
+        "离散事件仿真"
+      ],
+      "components": [
+        "python-simpy"
+      ],
+      "includes": [],
+      "guide": "guides/discrete-events.md"
+    },
+    {
+      "id": "digital-hdl",
+      "title": "Digital HDL simulation · 数字 HDL 仿真",
+      "summary": "编译并运行数字逻辑测试台。",
+      "summary_en": "Compile and simulate digital logic testbenches.",
+      "tags": [
+        "digital-hdl",
+        "Digital HDL simulation",
+        "数字 HDL 仿真"
+      ],
+      "components": [
+        "tool-iverilog"
+      ],
+      "includes": [],
+      "guide": "guides/digital-hdl.md"
+    },
+    {
+      "id": "pcb-design",
+      "title": "PCB project tools · PCB 工程工具",
+      "summary": "处理和导出原理图与电路板工程。",
+      "summary_en": "Read and export schematic and board projects.",
+      "tags": [
+        "pcb-design",
+        "PCB project tools",
+        "PCB 工程工具"
+      ],
+      "components": [
+        "tool-kicad"
+      ],
+      "includes": [],
+      "guide": "guides/pcb-design.md"
+    },
+    {
+      "id": "rf-networks",
+      "title": "RF networks · 射频网络分析",
+      "summary": "分析实测与仿真的散射网络。",
+      "summary_en": "Analyze measured and simulated scattering networks.",
+      "tags": [
+        "rf-networks",
+        "RF networks",
+        "射频网络分析"
+      ],
+      "components": [
+        "python-skrf"
+      ],
+      "includes": [],
+      "guide": "guides/rf-networks.md"
+    },
+    {
+      "id": "signal-processing",
+      "title": "Signal processing · 信号处理",
+      "summary": "信号滤波、频谱与相关估计。",
+      "summary_en": "Filter signals and estimate spectra and correlations.",
+      "tags": [
+        "signal-processing",
+        "Signal processing",
+        "信号处理"
+      ],
+      "components": [
+        "python-numerics"
+      ],
+      "includes": [],
+      "guide": "guides/signal-processing.md"
+    },
+    {
+      "id": "remote-sensing",
+      "title": "Raster remote sensing · 栅格遥感处理",
+      "summary": "处理带地理参考的栅格数组。",
+      "summary_en": "Process georeferenced raster arrays.",
+      "tags": [
+        "remote-sensing",
+        "Raster remote sensing",
+        "栅格遥感处理"
+      ],
+      "components": [
+        "python-rioxarray"
+      ],
+      "includes": [],
+      "guide": "guides/remote-sensing.md"
+    },
+    {
+      "id": "seismology",
+      "title": "Seismology · 地震学信号分析",
+      "summary": "处理地震波形与台站元数据。",
+      "summary_en": "Process seismic waveforms and station metadata.",
+      "tags": [
+        "seismology",
+        "Seismology",
+        "地震学信号分析"
+      ],
+      "components": [
+        "python-obspy"
+      ],
+      "includes": [],
+      "guide": "guides/seismology.md"
+    },
+    {
+      "id": "geophysical-inversion",
+      "title": "Geophysical inversion · 地球物理反演",
+      "summary": "构造地球物理正演与反演问题。",
+      "summary_en": "Formulate forward models and inverse problems.",
+      "tags": [
+        "geophysical-inversion",
+        "Geophysical inversion",
+        "地球物理反演"
+      ],
+      "components": [
+        "python-simpeg"
+      ],
+      "includes": [],
+      "guide": "guides/geophysical-inversion.md"
+    },
+    {
+      "id": "weather-data",
+      "title": "Meteorological calculations · 气象数据计算",
+      "summary": "带物理单位的气象量计算。",
+      "summary_en": "Compute meteorological quantities with physical units.",
+      "tags": [
+        "weather-data",
+        "Meteorological calculations",
+        "气象数据计算"
+      ],
+      "components": [
+        "python-metpy"
+      ],
+      "includes": [],
+      "guide": "guides/weather-data.md"
+    },
+    {
+      "id": "climate-indicators",
+      "title": "Climate indicators · 气候指标",
+      "summary": "从带坐标时间序列计算气候指标。",
+      "summary_en": "Calculate climate indicators from labeled time series.",
+      "tags": [
+        "climate-indicators",
+        "Climate indicators",
+        "气候指标"
+      ],
+      "components": [
+        "python-xclim"
+      ],
+      "includes": [],
+      "guide": "guides/climate-indicators.md"
+    },
+    {
+      "id": "aqueous-geochemistry",
+      "title": "Aqueous geochemistry · 水溶液地球化学",
+      "summary": "水溶液物种分布与地球化学反应模型。",
+      "summary_en": "Model aqueous speciation and geochemical reactions.",
+      "tags": [
+        "aqueous-geochemistry",
+        "Aqueous geochemistry",
+        "水溶液地球化学"
+      ],
+      "components": [
+        "tool-phreeqc"
+      ],
+      "includes": [],
+      "guide": "guides/aqueous-geochemistry.md"
+    },
+    {
+      "id": "orbit-ephemerides",
+      "title": "Ephemerides and observers · 星历与观测位置",
+      "summary": "计算指定观测位置与时刻的天体位置。",
+      "summary_en": "Calculate celestial positions for specified observers and times.",
+      "tags": [
+        "orbit-ephemerides",
+        "Ephemerides and observers",
+        "星历与观测位置"
+      ],
+      "components": [
+        "python-skyfield"
+      ],
+      "includes": [],
+      "guide": "guides/orbit-ephemerides.md"
+    },
+    {
+      "id": "astronomical-spectra",
+      "title": "Astronomical spectra · 天文光谱分析",
+      "summary": "天文光谱、连续谱与谱线处理。",
+      "summary_en": "Manipulate spectra, continua and spectral lines.",
+      "tags": [
+        "astronomical-spectra",
+        "Astronomical spectra",
+        "天文光谱分析"
+      ],
+      "components": [
+        "python-specutils"
+      ],
+      "includes": [],
+      "guide": "guides/astronomical-spectra.md"
+    },
+    {
+      "id": "light-curves",
+      "title": "Light curves · 天文光变曲线",
+      "summary": "分析选定的测光时间序列。",
+      "summary_en": "Analyze selected photometric time series.",
+      "tags": [
+        "light-curves",
+        "Light curves",
+        "天文光变曲线"
+      ],
+      "components": [
+        "python-lightkurve"
+      ],
+      "includes": [],
+      "guide": "guides/light-curves.md"
+    },
+    {
+      "id": "solar-physics",
+      "title": "Solar data · 太阳物理数据",
+      "summary": "读取太阳观测及其坐标系统。",
+      "summary_en": "Read solar observations and their coordinate systems.",
+      "tags": [
+        "solar-physics",
+        "Solar data",
+        "太阳物理数据"
+      ],
+      "components": [
+        "python-sunpy"
+      ],
+      "includes": [],
+      "guide": "guides/solar-physics.md"
+    },
+    {
+      "id": "n-body-orbits",
+      "title": "N-body orbits · 引力多体轨道",
+      "summary": "积分引力多体系统。",
+      "summary_en": "Integrate gravitational many-body systems.",
+      "tags": [
+        "n-body-orbits",
+        "N-body orbits",
+        "引力多体轨道"
+      ],
+      "components": [
+        "python-rebound"
+      ],
+      "includes": [],
+      "guide": "guides/n-body-orbits.md"
+    },
+    {
+      "id": "panel-econometrics",
+      "title": "Panel econometrics · 面板计量",
+      "summary": "面板与工具变量模型拟合。",
+      "summary_en": "Fit panel and instrumental-variable models.",
+      "tags": [
+        "panel-econometrics",
+        "Panel econometrics",
+        "面板计量"
+      ],
+      "components": [
+        "python-linearmodels"
+      ],
+      "includes": [],
+      "guide": "guides/panel-econometrics.md"
+    },
+    {
+      "id": "volatility-models",
+      "title": "Volatility models · 波动率建模",
+      "summary": "拟合条件波动率及相关时序模型。",
+      "summary_en": "Fit conditional volatility and related time-series models.",
+      "tags": [
+        "volatility-models",
+        "Volatility models",
+        "波动率建模"
+      ],
+      "components": [
+        "python-arch"
+      ],
+      "includes": [],
+      "guide": "guides/volatility-models.md"
+    },
+    {
+      "id": "derivatives-pricing",
+      "title": "Derivative valuation · 衍生品估值",
+      "summary": "构造合约模型、曲线与估值计算。",
+      "summary_en": "Build instrument models, curves and valuation calculations.",
+      "tags": [
+        "derivatives-pricing",
+        "Derivative valuation",
+        "衍生品估值"
+      ],
+      "components": [
+        "python-quantlib"
+      ],
+      "includes": [],
+      "guide": "guides/derivatives-pricing.md",
+      "example": {
+        "component": "python-quantlib",
+        "file": "examples/derivative.py"
+      }
+    },
+    {
+      "id": "portfolio-allocation",
+      "title": "Portfolio allocation · 投资组合配置研究",
+      "summary": "研究组合目标与配置约束。",
+      "summary_en": "Study portfolio objectives and allocation constraints.",
+      "tags": [
+        "portfolio-allocation",
+        "Portfolio allocation",
+        "投资组合配置研究"
+      ],
+      "components": [
+        "python-portfolio"
+      ],
+      "includes": [],
+      "guide": "guides/portfolio-allocation.md"
+    },
+    {
+      "id": "agent-based-economics",
+      "title": "Agent-based simulation · 经济主体仿真",
+      "summary": "模拟相互作用的主体与制度。",
+      "summary_en": "Simulate interacting agents and institutions.",
+      "tags": [
+        "agent-based-economics",
+        "Agent-based simulation",
+        "经济主体仿真"
+      ],
+      "components": [
+        "python-mesa"
+      ],
+      "includes": [],
+      "guide": "guides/agent-based-economics.md"
+    },
+    {
+      "id": "market-data",
+      "title": "Exchange market data · 交易所市场数据",
+      "summary": "读取选定交易所品种与市场历史。",
+      "summary_en": "Read selected exchange instruments and market history.",
+      "tags": [
+        "market-data",
+        "Exchange market data",
+        "交易所市场数据"
+      ],
+      "components": [
+        "python-ccxt"
+      ],
+      "includes": [],
+      "guide": "guides/market-data.md"
+    },
+    {
+      "id": "economic-data",
+      "title": "Economic series access · 经济时间序列连接",
+      "summary": "读取经济序列及其历史发布值。",
+      "summary_en": "Retrieve economic series and historical vintages.",
+      "tags": [
+        "economic-data",
+        "Economic series access",
+        "经济时间序列连接"
+      ],
+      "components": [
+        "connector-fred"
+      ],
+      "includes": [],
+      "guide": "guides/economic-data.md",
+      "kind": "resource"
+    },
+    {
+      "id": "serial-devices",
+      "title": "Serial devices · 串口设备连接",
+      "summary": "连接串口仪器与控制器。",
+      "summary_en": "Communicate with serial instruments and controllers.",
+      "tags": [
+        "serial-devices",
+        "Serial devices",
+        "串口设备连接"
+      ],
+      "components": [
+        "python-serial",
+        "connector-laboratory"
+      ],
+      "includes": [],
+      "guide": "guides/serial-devices.md"
+    },
+    {
+      "id": "opc-ua",
+      "title": "OPC UA connections · OPC UA 连接",
+      "summary": "浏览和读取工业过程数据。",
+      "summary_en": "Browse and read industrial process data.",
+      "tags": [
+        "opc-ua",
+        "OPC UA connections",
+        "OPC UA 连接"
+      ],
+      "components": [
+        "python-opcua"
+      ],
+      "includes": [],
+      "guide": "guides/opc-ua.md"
+    },
+    {
+      "id": "mqtt-streams",
+      "title": "MQTT streams · MQTT 数据流",
+      "summary": "读取仪器与遥测主题数据流。",
+      "summary_en": "Read instrument and telemetry topic streams.",
+      "tags": [
+        "mqtt-streams",
+        "MQTT streams",
+        "MQTT 数据流"
+      ],
+      "components": [
+        "python-mqtt"
+      ],
+      "includes": [],
+      "guide": "guides/mqtt-streams.md"
+    },
+    {
+      "id": "epics-controls",
+      "title": "EPICS process variables · EPICS 过程变量",
+      "summary": "连接实验室 EPICS 过程变量。",
+      "summary_en": "Connect to laboratory EPICS process variables.",
+      "tags": [
+        "epics-controls",
+        "EPICS process variables",
+        "EPICS 过程变量"
+      ],
+      "components": [
+        "environment-epics",
+        "connector-laboratory"
+      ],
+      "includes": [],
+      "guide": "guides/epics-controls.md"
+    },
+    {
+      "id": "physical-units",
+      "title": "Physical units · 物理单位计算",
+      "summary": "带显式单位的计算与量纲转换。",
+      "summary_en": "Calculate with explicit units and dimensional conversions.",
+      "tags": [
+        "physical-units",
+        "Physical units",
+        "物理单位计算"
+      ],
+      "components": [
+        "python-pint"
+      ],
+      "includes": [],
+      "guide": "guides/physical-units.md"
+    },
+    {
+      "id": "hdf5-data",
+      "title": "HDF5 data · HDF5 数据",
+      "summary": "读取与写入分层数组数据集。",
+      "summary_en": "Read and write hierarchical array datasets.",
+      "tags": [
+        "hdf5-data",
+        "HDF5 data",
+        "HDF5 数据"
+      ],
+      "components": [
+        "python-hdf5"
+      ],
+      "includes": [],
+      "guide": "guides/hdf5-data.md"
+    },
+    {
+      "id": "zarr-data",
+      "title": "Chunked array storage · Zarr 分块数组",
+      "summary": "在本地或已连接存储中保存与读取分块数组。",
+      "summary_en": "Store and access chunked arrays locally or through connected stores.",
+      "tags": [
+        "zarr-data",
+        "Chunked array storage",
+        "Zarr 分块数组"
+      ],
+      "components": [
+        "python-zarr"
+      ],
+      "includes": [],
+      "guide": "guides/zarr-data.md"
+    },
+    {
+      "id": "notebooks",
+      "title": "Interactive notebooks · 交互式研究笔记本",
+      "summary": "在选定研究内核中运行可编辑笔记本。",
+      "summary_en": "Run editable notebooks in a selected research kernel.",
+      "tags": [
+        "notebooks",
+        "Interactive notebooks",
+        "交互式研究笔记本"
+      ],
+      "components": [
+        "python-jupyter"
+      ],
+      "includes": [],
+      "guide": "guides/notebooks.md"
+    },
+    {
+      "id": "parameterized-notebooks",
+      "title": "Parameterized notebooks · 参数化笔记本运行",
+      "summary": "使用明确参数执行笔记本模板。",
+      "summary_en": "Execute notebook templates with explicit parameters.",
+      "tags": [
+        "parameterized-notebooks",
+        "Parameterized notebooks",
+        "参数化笔记本运行"
+      ],
+      "components": [
+        "python-papermill"
+      ],
+      "includes": [],
+      "guide": "guides/parameterized-notebooks.md"
+    },
+    {
+      "id": "media-tools",
+      "title": "Research media tools · 研究音视频工具",
+      "summary": "转换和查看实验音视频。",
+      "summary_en": "Convert and inspect experimental audio and video.",
+      "tags": [
+        "media-tools",
+        "Research media tools",
+        "研究音视频工具"
+      ],
+      "components": [
+        "tool-ffmpeg"
+      ],
+      "includes": [],
+      "guide": "guides/media-tools.md"
+    },
+    {
+      "id": "instrument-procedures",
+      "title": "Instrument procedures · 仪器测量程序",
+      "summary": "把仪器操作、参数扫描与结果输出组织成可编辑测量程序。",
+      "summary_en": "Build editable measurement procedures with instrument drivers and result records.",
+      "tags": [
+        "instrument-procedures",
+        "Instrument procedures",
+        "仪器测量程序"
+      ],
+      "includes": [],
+      "components": [
+        "python-pymeasure",
+        "connector-laboratory"
+      ],
+      "guide": "guides/instrument-procedures.md"
+    },
+    {
+      "id": "source-measure-sweeps",
+      "title": "Source-measure sweeps · 源表与器件电学扫描",
+      "summary": "器件电压电流扫描、四线测量与功率记录。",
+      "summary_en": "Acquire device current–voltage sweeps and source-measure readbacks.",
+      "tags": [
+        "source-measure-sweeps",
+        "Source-measure sweeps",
+        "源表与器件电学扫描"
+      ],
+      "includes": [],
+      "components": [
+        "python-pymeasure",
+        "connector-laboratory"
+      ],
+      "guide": "guides/source-measure-sweeps.md"
+    },
+    {
+      "id": "temperature-control",
+      "title": "Temperature experiments · 温控与热学测量",
+      "summary": "温度传感器读数、稳定等待、设定值扫描与实验关联。",
+      "summary_en": "Read temperature sensors and coordinate settled thermal measurements.",
+      "tags": [
+        "temperature-control",
+        "Temperature experiments",
+        "温控与热学测量"
+      ],
+      "includes": [],
+      "components": [
+        "python-pymeasure",
+        "connector-laboratory"
+      ],
+      "guide": "guides/temperature-control.md"
+    },
+    {
+      "id": "lockin-measurements",
+      "title": "Lock-in measurements · 锁相测量",
+      "summary": "参考频率下的同相、正交分量及扫描测量。",
+      "summary_en": "Measure in-phase and quadrature signals at a reference frequency.",
+      "tags": [
+        "lockin-measurements",
+        "Lock-in measurements",
+        "锁相测量"
+      ],
+      "includes": [],
+      "components": [
+        "python-pymeasure",
+        "connector-laboratory"
+      ],
+      "guide": "guides/lockin-measurements.md"
+    },
+    {
+      "id": "oscilloscope-acquisition",
+      "title": "Oscilloscope acquisition · 示波器波形采集",
+      "summary": "读取触发记录、波形标定与多通道时间轴。",
+      "summary_en": "Acquire triggered waveforms with their scaling and time axes.",
+      "tags": [
+        "oscilloscope-acquisition",
+        "Oscilloscope acquisition",
+        "示波器波形采集"
+      ],
+      "includes": [],
+      "components": [
+        "python-pymeasure",
+        "connector-laboratory"
+      ],
+      "guide": "guides/oscilloscope-acquisition.md"
+    },
+    {
+      "id": "laboratory-measurements",
+      "title": "Parameter measurements · 参数测量与实验数据集",
+      "summary": "仪器参数、扫描坐标与测量结果关联存储。",
+      "summary_en": "Associate instrument parameters, scan coordinates and measured datasets.",
+      "tags": [
+        "laboratory-measurements",
+        "Parameter measurements",
+        "参数测量与实验数据集"
+      ],
+      "includes": [],
+      "components": [
+        "python-qcodes",
+        "connector-laboratory"
+      ],
+      "guide": "guides/laboratory-measurements.md"
+    },
+    {
+      "id": "motion-control",
+      "title": "Motion control · 位移台与运动控制",
+      "summary": "连接电动位移台、执行位移并读取实际位置。",
+      "summary_en": "Connect motion controllers and read actual stage positions.",
+      "tags": [
+        "motion-control",
+        "Motion control",
+        "位移台与运动控制"
+      ],
+      "includes": [],
+      "components": [
+        "python-pylablib",
+        "connector-laboratory"
+      ],
+      "guide": "guides/motion-control.md"
+    },
+    {
+      "id": "daq-streams",
+      "title": "DAQ streams · 连续数据采集",
+      "summary": "多通道采样、设备时间轴和流式数据读取。",
+      "summary_en": "Read multichannel samples with device-provided time domains.",
+      "tags": [
+        "daq-streams",
+        "DAQ streams",
+        "连续数据采集"
+      ],
+      "includes": [],
+      "components": [
+        "python-opendaq",
+        "connector-laboratory"
+      ],
+      "guide": "guides/daq-streams.md"
+    },
+    {
+      "id": "modbus-devices",
+      "title": "Modbus devices · 工业与实验传感器",
+      "summary": "通过 TCP 或串口读取实验设备寄存器。",
+      "summary_en": "Read laboratory or industrial registers over Modbus TCP or serial.",
+      "tags": [
+        "modbus-devices",
+        "Modbus devices",
+        "工业与实验传感器"
+      ],
+      "includes": [],
+      "components": [
+        "python-pymodbus",
+        "connector-laboratory"
+      ],
+      "guide": "guides/modbus-devices.md"
+    },
+    {
+      "id": "can-devices",
+      "title": "CAN devices · CAN 总线设备",
+      "summary": "读取带时间戳的总线帧并连接实验控制器。",
+      "summary_en": "Exchange timestamped frames with CAN-connected equipment.",
+      "tags": [
+        "can-devices",
+        "CAN devices",
+        "CAN 总线设备"
+      ],
+      "includes": [],
+      "components": [
+        "python-can",
+        "connector-laboratory"
+      ],
+      "guide": "guides/can-devices.md",
+      "example": {
+        "component": "python-can",
+        "file": "examples/can_loopback.py"
+      }
+    },
+    {
+      "id": "embedded-boards",
+      "title": "Embedded measurement boards · 嵌入式测量板",
+      "summary": "连接已有 MicroPython 设备并运行板端采集程序。",
+      "summary_en": "Run board-side measurement programs on an existing MicroPython device.",
+      "tags": [
+        "embedded-boards",
+        "Embedded measurement boards",
+        "嵌入式测量板"
+      ],
+      "includes": [],
+      "components": [
+        "python-mpremote",
+        "connector-laboratory"
+      ],
+      "guide": "guides/embedded-boards.md"
+    },
+    {
+      "id": "synchronized-streams",
+      "title": "Synchronized streams · 多设备数据流同步",
+      "summary": "以 LSL 组织带时钟信息的传感器数据和事件标记。",
+      "summary_en": "Combine sensor streams and event markers using Lab Streaming Layer.",
+      "tags": [
+        "synchronized-streams",
+        "Synchronized streams",
+        "多设备数据流同步"
+      ],
+      "includes": [],
+      "components": [
+        "python-pylsl",
+        "connector-laboratory"
+      ],
+      "guide": "guides/synchronized-streams.md"
+    },
+    {
+      "id": "realtime-sequences",
+      "title": "Real-time sequences · 实时时序实验",
+      "summary": "连接 ARTIQ 核心设备运行硬件定时实验程序。",
+      "summary_en": "Run hardware-timed experiments through an existing ARTIQ host.",
+      "tags": [
+        "realtime-sequences",
+        "Real-time sequences",
+        "实时时序实验"
+      ],
+      "includes": [],
+      "components": [
+        "command-artiq",
+        "connector-laboratory"
+      ],
+      "guide": "guides/realtime-sequences.md"
+    },
+    {
+      "id": "triggered-sequences",
+      "title": "Triggered experiment sequences · 触发与实验序列",
+      "summary": "编译实验时序、协调 BLACS 设备并保存 shot 数据。",
+      "summary_en": "Compile experiment timelines and coordinate labscript/BLACS shots.",
+      "tags": [
+        "triggered-sequences",
+        "Triggered experiment sequences",
+        "触发与实验序列"
+      ],
+      "includes": [],
+      "components": [
+        "environment-labscript",
+        "connector-laboratory"
+      ],
+      "guide": "guides/triggered-sequences.md"
+    },
+    {
+      "id": "robot-connections",
+      "title": "Robot connections · 机器人与 ROS 2",
+      "summary": "连接已有机器人节点、传感器话题及动作接口。",
+      "summary_en": "Connect existing robot nodes, sensor topics and action interfaces.",
+      "tags": [
+        "robot-connections",
+        "Robot connections",
+        "机器人与 ROS 2"
+      ],
+      "includes": [],
+      "components": [
+        "command-ros2",
+        "connector-laboratory"
+      ],
+      "guide": "guides/robot-connections.md"
+    },
+    {
+      "id": "robot-geometry",
+      "title": "Robot and sensor frames · 机器人与传感器坐标系",
+      "summary": "组合刚体变换、表达工具和传感器的几何关系。",
+      "summary_en": "Compose rigid transforms between robot, tool, sample and sensor frames.",
+      "tags": [
+        "robot-geometry",
+        "Robot and sensor frames",
+        "机器人与传感器坐标系"
+      ],
+      "includes": [],
+      "components": [
+        "python-pytransform3d"
+      ],
+      "guide": "guides/robot-geometry.md",
+      "example": {
+        "component": "python-pytransform3d",
+        "file": "examples/robot_frames.py"
+      }
+    },
+    {
+      "id": "robot-dynamics",
+      "title": "Robot dynamics simulation · 机器人动力学仿真",
+      "summary": "使用刚体、关节、接触和执行器模型开展物理仿真。",
+      "summary_en": "Simulate articulated bodies, contacts and actuators with MuJoCo.",
+      "tags": [
+        "robot-dynamics",
+        "Robot dynamics simulation",
+        "机器人动力学仿真"
+      ],
+      "includes": [],
+      "components": [
+        "python-mujoco"
+      ],
+      "guide": "guides/robot-dynamics.md",
+      "example": {
+        "component": "python-mujoco",
+        "file": "examples/robot_dynamics.py"
+      }
+    },
+    {
+      "id": "microscope-control",
+      "title": "Microscope acquisition · 显微镜自动采集",
+      "summary": "显微镜多通道、焦面与时间序列采集。",
+      "summary_en": "Acquire microscope channels, focal planes and time series.",
+      "tags": [
+        "microscope-control",
+        "Microscope acquisition",
+        "显微镜自动采集"
+      ],
+      "includes": [],
+      "components": [
+        "python-pycromanager",
+        "connector-laboratory"
+      ],
+      "guide": "guides/microscope-control.md"
+    },
+    {
+      "id": "liquid-handling",
+      "title": "Liquid handling · 液体处理与实验板操作",
+      "summary": "按实验台资源布局组织吸液、分液与实验板操作。",
+      "summary_en": "Compose liquid-handling operations from an explicit deck and resource model.",
+      "tags": [
+        "liquid-handling",
+        "Liquid handling",
+        "液体处理与实验板操作"
+      ],
+      "includes": [],
+      "components": [
+        "python-pylabrobot",
+        "connector-laboratory"
+      ],
+      "guide": "guides/liquid-handling.md",
+      "example": {
+        "component": "python-pylabrobot",
+        "file": "examples/liquid_handling.py"
+      }
+    },
+    {
+      "id": "flow-control",
+      "title": "Flow experiments · 流量与气路实验",
+      "summary": "读取质量流量控制器并关联压力和温度条件。",
+      "summary_en": "Read mass-flow controllers together with pressure and temperature conditions.",
+      "tags": [
+        "flow-control",
+        "Flow experiments",
+        "流量与气路实验"
+      ],
+      "includes": [],
+      "components": [
+        "python-alicat",
+        "connector-laboratory"
+      ],
+      "guide": "guides/flow-control.md"
+    },
+    {
+      "id": "logic-acquisition",
+      "title": "Logic acquisition · 数字信号与协议采集",
+      "summary": "采集数字通道并使用 sigrok 解码总线协议。",
+      "summary_en": "Acquire digital channels and decode bus protocols with sigrok.",
+      "tags": [
+        "logic-acquisition",
+        "Logic acquisition",
+        "数字信号与协议采集"
+      ],
+      "includes": [],
+      "components": [
+        "command-sigrok",
+        "connector-laboratory"
+      ],
+      "guide": "guides/logic-acquisition.md"
+    },
+    {
+      "id": "radio-acquisition",
+      "title": "Radio signal acquisition · 射频信号采集",
+      "summary": "通过 SoapySDR 连接接收设备并获取复数采样。",
+      "summary_en": "Acquire complex radio samples through a native SoapySDR driver.",
+      "tags": [
+        "radio-acquisition",
+        "Radio signal acquisition",
+        "射频信号采集"
+      ],
+      "includes": [],
+      "components": [
+        "environment-soapysdr",
+        "connector-laboratory"
+      ],
+      "guide": "guides/radio-acquisition.md"
+    },
+    {
+      "id": "gnss-streams",
+      "title": "GNSS field data · GNSS 与野外定位数据",
+      "summary": "解析接收机数据并关联野外传感器的坐标和时间。",
+      "summary_en": "Parse receiver streams and associate field measurements with position and time.",
+      "tags": [
+        "gnss-streams",
+        "GNSS field data",
+        "GNSS 与野外定位数据"
+      ],
+      "includes": [],
+      "components": [
+        "python-pyubx2"
+      ],
+      "guide": "guides/gnss-streams.md"
+    },
+    {
+      "id": "photon-event-data",
+      "title": "Photon event data · 单光子事件数据",
+      "summary": "读取时间标记光子文件并整理物理时间及探测器通道。",
+      "summary_en": "Read time-tagged photon files and preserve detector and timing metadata.",
+      "tags": [
+        "photon-event-data",
+        "Photon event data",
+        "单光子事件数据"
+      ],
+      "includes": [],
+      "components": [
+        "python-phconvert"
+      ],
+      "guide": "guides/photon-event-data.md"
+    },
+    {
+      "id": "measurement-calibration",
+      "title": "Measurement calibration · 测量标定与误差传播",
+      "summary": "由参考量与观测量拟合测量响应并传播不确定度。",
+      "summary_en": "Fit a measurement response from standards and propagate parameter uncertainty.",
+      "tags": [
+        "measurement-calibration",
+        "Measurement calibration",
+        "测量标定与误差传播"
+      ],
+      "includes": [],
+      "components": [
+        "python-numerics"
+      ],
+      "guide": "guides/measurement-calibration.md",
+      "example": {
+        "component": "python-numerics",
+        "file": "examples/measurement_calibration.py"
+      }
+    },
+    {
+      "id": "device-emulation",
+      "title": "Instrument emulation · 仪器通信模拟",
+      "summary": "在没有仪器时开发通信及测量程序。",
+      "summary_en": "Develop instrument communication against an explicitly simulated VISA backend.",
+      "tags": [
+        "device-emulation",
+        "Instrument emulation",
+        "仪器通信模拟"
+      ],
+      "includes": [],
+      "components": [
+        "python-visa-sim"
+      ],
+      "guide": "guides/device-emulation.md",
+      "example": {
+        "component": "python-visa-sim",
+        "file": "examples/visa_emulation.py"
+      }
+    },
+    {
+      "id": "adaptive-experiments",
+      "title": "Adaptive experiments · 自适应实验采集",
+      "summary": "将采集、拟合和下一个实验点连接为可编辑闭环。",
+      "summary_en": "Connect measurement, analysis and the next experimental point in an editable loop.",
+      "tags": [
+        "adaptive-experiments",
+        "Adaptive experiments",
+        "自适应实验采集"
+      ],
+      "includes": [],
+      "components": [
+        "python-bluesky"
+      ],
+      "guide": "guides/adaptive-experiments.md",
+      "example": {
+        "component": "python-bluesky",
+        "file": "examples/adaptive_experiment.py"
+      }
     }
   ],
   "fields": [
@@ -3017,7 +6608,9 @@
             "photovoltaic-devices",
             "quantum-wells",
             "laser-rate-equations",
-            "circuits"
+            "circuits",
+            "source-measure-sweeps",
+            "temperature-control"
           ]
         },
         {
@@ -3057,7 +6650,10 @@
             "quantum-trajectories",
             "photon-correlations",
             "linear-quantum-photonics",
-            "continuous-variable-photonics"
+            "continuous-variable-photonics",
+            "photon-event-data",
+            "realtime-sequences",
+            "triggered-sequences"
           ]
         },
         {
@@ -3078,7 +6674,14 @@
             "camera-acquisition",
             "spectrometer-acquisition",
             "slm-wavefront-control",
-            "experiment-scans"
+            "experiment-scans",
+            "motion-control",
+            "daq-streams",
+            "lockin-measurements",
+            "oscilloscope-acquisition",
+            "measurement-calibration",
+            "adaptive-experiments",
+            "microscope-control"
           ]
         },
         {
@@ -3088,163 +6691,298 @@
             "synchrotron-wavefronts",
             "xray-raytracing"
           ]
-        },
-        {
-          "id": "resources",
-          "title": "Data & specialist tools · 数据与专业环境",
-          "modules": [
-            "optical-material-data",
-            "optical-lab",
-            "experimental-lab"
-          ]
         }
+      ],
+      "kind": "research",
+      "resources": [
+        "optical-material-data",
+        "optical-lab",
+        "experimental-lab"
       ]
     },
     {
       "id": "mathematics",
       "title": "Mathematics · 数学",
+      "kind": "research",
       "directions": [
         {
-          "id": "analysis",
+          "id": "analysis-algebra",
           "title": "Analysis & algebra · 分析与代数",
           "modules": [
-            "numerical-computing",
-            "symbolic-mathematics"
+            "symbolic-mathematics",
+            "sage-mathematics",
+            "arbitrary-precision"
           ]
         },
         {
-          "id": "discrete",
-          "title": "Discrete structures · 离散结构",
+          "id": "numerical-methods",
+          "title": "Numerical methods · 数值方法",
+          "modules": [
+            "numerical-computing",
+            "differential-equations",
+            "sparse-linear-algebra",
+            "computational-geometry"
+          ]
+        },
+        {
+          "id": "discrete-structures",
+          "title": "Discrete structures & optimization · 离散结构与优化",
           "modules": [
             "networks",
-            "optimization"
+            "optimization",
+            "discrete-optimization"
           ]
         },
         {
           "id": "statistics",
-          "title": "Probability & statistics · 概率与统计",
+          "title": "Probability & inference · 概率与推断",
           "modules": [
             "statistical-models",
-            "r-statistics"
+            "r-statistics",
+            "bayesian-models",
+            "uncertainty-propagation",
+            "causal-models"
           ]
         }
-      ]
+      ],
+      "resources": []
     },
     {
       "id": "computing",
       "title": "AI & computing · AI 与计算",
+      "kind": "research",
       "directions": [
         {
-          "id": "learning",
+          "id": "machine-learning",
           "title": "Machine learning · 机器学习",
           "modules": [
             "machine-learning",
-            "deep-learning"
+            "gradient-boosting",
+            "hyperparameter-search"
           ]
         },
         {
-          "id": "scientific",
-          "title": "Scientific computing · 科学计算",
+          "id": "deep-learning",
+          "title": "Deep learning · 深度学习",
           "modules": [
-            "numerical-computing",
+            "deep-learning",
             "differentiable-computing",
+            "transformer-models",
+            "graph-learning"
+          ]
+        },
+        {
+          "id": "data-computing",
+          "title": "Data & numerical computing · 数据与数值计算",
+          "modules": [
+            "model-datasets",
+            "tables",
+            "databases",
+            "numerical-computing",
+            "distributed-arrays",
             "julia-science"
           ]
         },
         {
-          "id": "data",
-          "title": "Data systems · 数据系统",
+          "id": "retrieval",
+          "title": "Graphs & retrieval · 图与检索",
           "modules": [
-            "tables",
-            "databases",
-            "networks"
+            "networks",
+            "vector-search"
+          ]
+        },
+        {
+          "id": "physical-ai",
+          "title": "Physical AI · 物理交互与具身智能",
+          "modules": [
+            "robot-dynamics",
+            "robot-geometry",
+            "robot-connections",
+            "adaptive-experiments",
+            "synchronized-streams"
           ]
         }
+      ],
+      "resources": [
+        "experiment-tracking"
       ]
     },
     {
       "id": "physics",
       "title": "Physics · 物理",
+      "kind": "research",
       "directions": [
         {
           "id": "dynamics",
           "title": "Dynamics & fields · 动力学与场",
           "modules": [
-            "numerical-computing",
-            "finite-elements"
+            "differential-equations",
+            "finite-elements",
+            "variational-pdes",
+            "control-systems"
           ]
         },
         {
           "id": "quantum",
-          "title": "Quantum systems · 量子系统",
+          "title": "Quantum & many-body systems · 量子与多体系统",
           "modules": [
             "quantum",
             "quantum-trajectories",
+            "tensor-networks",
+            "electronic-molecules",
             "photon-correlations"
           ]
         },
         {
+          "id": "matter",
+          "title": "Matter & collective behavior · 物质与集体行为",
+          "modules": [
+            "many-particle-dynamics",
+            "atomistic-dynamics",
+            "micromagnetics",
+            "phonons"
+          ]
+        },
+        {
+          "id": "plasma-particles",
+          "title": "Plasma & particle physics · 等离子体与粒子物理",
+          "modules": [
+            "plasma-models",
+            "particle-event-data"
+          ]
+        },
+        {
           "id": "measurement",
-          "title": "Measurement · 测量",
+          "title": "Measurement & signals · 测量与信号",
           "modules": [
             "instruments",
             "experiment-scans",
-            "statistical-models"
+            "signal-processing",
+            "statistical-models",
+            "uncertainty-propagation",
+            "laboratory-measurements",
+            "lockin-measurements",
+            "temperature-control",
+            "daq-streams",
+            "realtime-sequences",
+            "triggered-sequences",
+            "photon-event-data",
+            "adaptive-experiments",
+            "measurement-calibration"
           ]
         }
+      ],
+      "resources": [
+        "experimental-lab"
       ]
     },
     {
       "id": "chemistry",
       "title": "Chemistry · 化学",
+      "kind": "research",
       "directions": [
         {
-          "id": "molecular",
+          "id": "molecular-informatics",
           "title": "Molecular informatics · 分子信息学",
           "modules": [
             "molecules",
-            "reaction-informatics"
+            "reaction-informatics",
+            "conformer-search"
           ]
         },
         {
-          "id": "atomistic",
-          "title": "Atomistic models · 原子建模",
+          "id": "electronic-structure",
+          "title": "Electronic structure · 电子结构",
           "modules": [
-            "atomistic-models",
-            "materials"
+            "electronic-molecules",
+            "atomistic-models"
           ]
         },
         {
-          "id": "data",
-          "title": "Chemical data · 化学数据",
+          "id": "dynamics",
+          "title": "Molecular simulation · 分子模拟",
           "modules": [
-            "tables",
-            "statistical-models",
-            "databases"
+            "molecular-dynamics",
+            "trajectory-analysis",
+            "molecular-parameters"
+          ]
+        },
+        {
+          "id": "reactions",
+          "title": "Reactions & thermodynamics · 反应与热力学",
+          "modules": [
+            "reaction-kinetics",
+            "fluid-thermodynamics",
+            "aqueous-geochemistry"
+          ]
+        },
+        {
+          "id": "spectroscopy",
+          "title": "Spectroscopy & measurements · 光谱与测量",
+          "modules": [
+            "molecular-spectra",
+            "binding-assays",
+            "statistical-models"
+          ]
+        },
+        {
+          "id": "laboratory",
+          "title": "Laboratory automation · 实验自动化",
+          "modules": [
+            "liquid-handling",
+            "flow-control",
+            "temperature-control",
+            "instrument-procedures",
+            "laboratory-measurements",
+            "adaptive-experiments"
           ]
         }
+      ],
+      "resources": [
+        "chemical-data"
       ]
     },
     {
       "id": "materials-science",
       "title": "Materials · 材料",
+      "kind": "research",
       "directions": [
         {
           "id": "structures",
-          "title": "Structures · 结构",
+          "title": "Structures & composition · 结构与成分",
           "modules": [
             "crystal-analysis",
             "atomistic-models",
-            "materials"
+            "materials",
+            "materials-features"
           ]
         },
         {
-          "id": "properties",
-          "title": "Properties & devices · 性质与器件",
+          "id": "electronic-structure",
+          "title": "Electronic structure · 电子结构",
+          "modules": [
+            "plane-wave-dft",
+            "electronic-molecules"
+          ]
+        },
+        {
+          "id": "dynamics",
+          "title": "Atomic & lattice dynamics · 原子与晶格动力学",
+          "modules": [
+            "atomistic-dynamics",
+            "many-particle-dynamics",
+            "phonons",
+            "trajectory-analysis"
+          ]
+        },
+        {
+          "id": "devices",
+          "title": "Devices & functional materials · 器件与功能材料",
           "modules": [
             "semiconductor-transport",
             "thin-films",
-            "quantum-wells"
+            "quantum-wells",
+            "micromagnetics"
           ]
         },
         {
@@ -3252,125 +6990,265 @@
           "title": "Characterization · 表征",
           "modules": [
             "images",
+            "molecular-spectra",
             "spectrometer-acquisition",
-            "statistical-models"
+            "source-measure-sweeps",
+            "temperature-control",
+            "lockin-measurements",
+            "motion-control",
+            "laboratory-measurements",
+            "measurement-calibration"
           ]
         }
+      ],
+      "resources": [
+        "optical-material-data"
       ]
     },
     {
       "id": "life-sciences",
       "title": "Life sciences · 生命科学",
+      "kind": "research",
       "directions": [
         {
           "id": "sequences",
-          "title": "Sequences · 序列",
+          "title": "Sequences & reads · 序列与读段",
           "modules": [
             "sequences",
-            "sequence-alignment"
+            "sequence-alignment",
+            "read-quality",
+            "read-mapping",
+            "genomic-alignments"
           ]
         },
         {
           "id": "structures",
-          "title": "Structural data · 结构数据",
+          "title": "Molecular structures · 分子结构",
           "modules": [
             "protein-structures",
-            "molecules"
+            "molecules",
+            "conformer-search",
+            "molecular-dynamics",
+            "trajectory-analysis"
           ]
         },
         {
-          "id": "imaging",
+          "id": "omics",
+          "title": "Cellular & spatial omics · 细胞与空间组学",
+          "modules": [
+            "single-cell",
+            "spatial-omics",
+            "proteomics"
+          ]
+        },
+        {
+          "id": "systems",
+          "title": "Systems & evolution · 系统与进化",
+          "modules": [
+            "metabolic-networks",
+            "phylogenetics",
+            "networks"
+          ]
+        },
+        {
+          "id": "microscopy",
           "title": "Microscopy · 显微成像",
           "modules": [
             "images",
             "camera-acquisition",
-            "tissue-light-transport"
+            "tissue-light-transport",
+            "volume-processing",
+            "microscope-control",
+            "motion-control",
+            "photon-event-data"
           ]
         },
         {
-          "id": "statistics",
-          "title": "Data & statistics · 数据与统计",
+          "id": "inference",
+          "title": "Biological inference · 生物数据推断",
           "modules": [
             "statistical-models",
-            "r-statistics",
-            "networks"
+            "bayesian-models",
+            "r-statistics"
+          ]
+        },
+        {
+          "id": "laboratory",
+          "title": "Laboratory automation · 实验自动化",
+          "modules": [
+            "liquid-handling",
+            "flow-control",
+            "instrument-procedures",
+            "synchronized-streams",
+            "adaptive-experiments"
           ]
         }
+      ],
+      "resources": [
+        "protein-database"
       ]
     },
     {
       "id": "medical-research",
       "title": "Medicine · 医学研究",
+      "kind": "research",
       "directions": [
         {
-          "id": "imaging",
+          "id": "image-data",
           "title": "Image data · 影像数据",
           "modules": [
             "dicom-data",
             "neuroimaging-data",
+            "volume-processing"
+          ]
+        },
+        {
+          "id": "image-models",
+          "title": "Image analysis & learning · 影像分析与学习",
+          "modules": [
+            "image-registration",
+            "radiomics",
+            "medical-learning",
             "images"
           ]
         },
         {
-          "id": "analysis",
+          "id": "physiology",
+          "title": "Physiological signals · 生理信号",
+          "modules": [
+            "electrophysiology",
+            "signal-processing",
+            "time-series",
+            "synchronized-streams",
+            "daq-streams",
+            "measurement-calibration"
+          ]
+        },
+        {
+          "id": "population",
+          "title": "Population & event data · 人群与事件数据",
+          "modules": [
+            "survival-analysis",
+            "causal-models",
+            "statistical-models",
+            "r-statistics"
+          ]
+        },
+        {
+          "id": "research-data",
           "title": "Research data · 研究数据",
           "modules": [
-            "statistical-models",
-            "r-statistics",
             "tables",
-            "databases"
+            "databases",
+            "hdf5-data"
           ]
         }
+      ],
+      "resources": [
+        "clinical-datasets"
       ]
     },
     {
       "id": "pharmaceutical-research",
       "title": "Pharmaceutical research · 医药研究",
+      "kind": "research",
       "directions": [
         {
           "id": "molecules",
           "title": "Molecules & reactions · 分子与反应",
           "modules": [
             "molecules",
-            "reaction-informatics"
+            "reaction-informatics",
+            "conformer-search"
           ]
         },
         {
-          "id": "structures",
-          "title": "Biological structures · 生物结构",
+          "id": "structure-models",
+          "title": "Structure & interactions · 结构与相互作用",
           "modules": [
             "protein-structures",
-            "sequence-alignment"
+            "docking",
+            "molecular-parameters"
           ]
         },
         {
-          "id": "analysis",
-          "title": "Experimental data · 实验数据",
+          "id": "dynamics",
+          "title": "Molecular simulation · 分子模拟",
+          "modules": [
+            "molecular-dynamics",
+            "trajectory-analysis",
+            "electronic-molecules"
+          ]
+        },
+        {
+          "id": "assays",
+          "title": "Assays & kinetics · 实验响应与动力学",
+          "modules": [
+            "binding-assays",
+            "compartment-models",
+            "reaction-kinetics",
+            "liquid-handling",
+            "microscope-control",
+            "instrument-procedures",
+            "laboratory-measurements",
+            "adaptive-experiments"
+          ]
+        },
+        {
+          "id": "data-models",
+          "title": "Data & inference · 数据与推断",
           "modules": [
             "statistical-models",
-            "optimization",
-            "databases"
+            "bayesian-models",
+            "survival-analysis",
+            "optimization"
           ]
         }
+      ],
+      "resources": [
+        "chemical-data",
+        "protein-database"
       ]
     },
     {
       "id": "mechanical-engineering",
       "title": "Mechanical engineering · 机械工程",
+      "kind": "research",
       "directions": [
         {
           "id": "geometry",
-          "title": "Geometry & manufacturing · 几何与制造",
+          "title": "Geometry & meshes · 几何与网格",
           "modules": [
-            "cad"
+            "cad",
+            "mesh-generation",
+            "mesh-exchange"
           ]
         },
         {
-          "id": "mechanics",
-          "title": "Continuum models · 连续介质建模",
+          "id": "continuum",
+          "title": "Continuum & fluid models · 连续介质与流体",
           "modules": [
             "finite-elements",
-            "numerical-computing"
+            "variational-pdes",
+            "fluid-dynamics"
+          ]
+        },
+        {
+          "id": "dynamics",
+          "title": "Dynamics & control · 动力学与控制",
+          "modules": [
+            "differential-equations",
+            "control-systems",
+            "signal-processing"
+          ]
+        },
+        {
+          "id": "processes",
+          "title": "Processes & scheduling · 过程与调度",
+          "modules": [
+            "discrete-events",
+            "discrete-optimization",
+            "optimization"
           ]
         },
         {
@@ -3379,20 +7257,48 @@
           "modules": [
             "instruments",
             "experiment-scans",
-            "images"
+            "images",
+            "serial-devices",
+            "motion-control",
+            "daq-streams",
+            "can-devices",
+            "modbus-devices",
+            "measurement-calibration"
+          ]
+        },
+        {
+          "id": "robotics",
+          "title": "Robotics · 机器人",
+          "modules": [
+            "robot-connections",
+            "robot-geometry",
+            "robot-dynamics",
+            "embedded-boards",
+            "synchronized-streams"
           ]
         }
-      ]
+      ],
+      "resources": []
     },
     {
       "id": "electronics",
       "title": "Electronics · 电子",
+      "kind": "research",
       "directions": [
         {
           "id": "circuits",
-          "title": "Circuits · 电路",
+          "title": "Circuit simulation · 电路仿真",
           "modules": [
-            "circuits"
+            "circuits",
+            "rf-networks"
+          ]
+        },
+        {
+          "id": "digital",
+          "title": "Digital design · 数字设计",
+          "modules": [
+            "digital-hdl",
+            "pcb-design"
           ]
         },
         {
@@ -3406,55 +7312,143 @@
         },
         {
           "id": "signals",
-          "title": "Signals & acquisition · 信号与采集",
+          "title": "Signals & control · 信号与控制",
           "modules": [
-            "numerical-computing",
-            "instruments",
-            "experiment-scans"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "earth-sciences",
-      "title": "Earth & environment · 地球与环境",
-      "directions": [
-        {
-          "id": "geospatial",
-          "title": "Geospatial data · 地理数据",
-          "modules": [
-            "vector-geodata",
-            "raster-geodata"
-          ]
-        },
-        {
-          "id": "climate",
-          "title": "Climate & time series · 气候与时序",
-          "modules": [
-            "climate-arrays",
+            "signal-processing",
+            "control-systems",
             "time-series"
           ]
         },
         {
-          "id": "analysis",
-          "title": "Spatial analysis · 空间分析",
+          "id": "acquisition",
+          "title": "Acquisition & interfaces · 采集与接口",
           "modules": [
-            "images",
-            "statistical-models",
-            "databases"
+            "instruments",
+            "serial-devices",
+            "experiment-scans",
+            "source-measure-sweeps",
+            "oscilloscope-acquisition",
+            "lockin-measurements",
+            "logic-acquisition",
+            "radio-acquisition",
+            "daq-streams"
+          ]
+        },
+        {
+          "id": "embedded",
+          "title": "Embedded systems · 嵌入式系统",
+          "modules": [
+            "embedded-boards",
+            "can-devices",
+            "modbus-devices",
+            "realtime-sequences"
           ]
         }
-      ]
+      ],
+      "resources": []
+    },
+    {
+      "id": "earth-sciences",
+      "title": "Earth & environment · 地球与环境",
+      "kind": "research",
+      "directions": [
+        {
+          "id": "geospatial",
+          "title": "Geospatial data · 地理空间数据",
+          "modules": [
+            "vector-geodata",
+            "raster-geodata",
+            "remote-sensing"
+          ]
+        },
+        {
+          "id": "atmosphere",
+          "title": "Weather & climate · 天气与气候",
+          "modules": [
+            "climate-arrays",
+            "weather-data",
+            "climate-indicators",
+            "time-series"
+          ]
+        },
+        {
+          "id": "geophysics",
+          "title": "Geophysics · 地球物理",
+          "modules": [
+            "seismology",
+            "geophysical-inversion"
+          ]
+        },
+        {
+          "id": "geochemistry",
+          "title": "Geochemistry & transport · 地球化学与输运",
+          "modules": [
+            "aqueous-geochemistry",
+            "fluid-thermodynamics",
+            "variational-pdes"
+          ]
+        },
+        {
+          "id": "spatial-models",
+          "title": "Spatial models & uncertainty · 空间模型与不确定度",
+          "modules": [
+            "computational-geometry",
+            "statistical-models",
+            "bayesian-models"
+          ]
+        },
+        {
+          "id": "field-instruments",
+          "title": "Field instruments · 野外观测设备",
+          "modules": [
+            "gnss-streams",
+            "modbus-devices",
+            "mqtt-streams",
+            "embedded-boards",
+            "synchronized-streams",
+            "daq-streams",
+            "measurement-calibration"
+          ]
+        }
+      ],
+      "resources": []
     },
     {
       "id": "space-sciences",
       "title": "Astronomy & space · 天文与空间",
+      "kind": "research",
       "directions": [
         {
           "id": "coordinates",
-          "title": "Coordinates & data · 坐标与数据",
+          "title": "Coordinates & ephemerides · 坐标与星历",
           "modules": [
-            "astronomy"
+            "astronomy",
+            "orbit-ephemerides"
+          ]
+        },
+        {
+          "id": "dynamics",
+          "title": "Orbital dynamics · 轨道动力学",
+          "modules": [
+            "n-body-orbits",
+            "differential-equations"
+          ]
+        },
+        {
+          "id": "observations",
+          "title": "Spectra & time series · 光谱与时序",
+          "modules": [
+            "astronomical-spectra",
+            "light-curves",
+            "time-series"
+          ]
+        },
+        {
+          "id": "solar",
+          "title": "Solar physics · 太阳物理",
+          "modules": [
+            "solar-physics",
+            "plasma-models"
           ]
         },
         {
@@ -3463,115 +7457,218 @@
           "modules": [
             "fourier-imaging",
             "adaptive-optics",
-            "wavefront-analysis"
-          ]
-        },
-        {
-          "id": "analysis",
-          "title": "Signals & images · 信号与图像",
-          "modules": [
-            "time-series",
+            "wavefront-analysis",
             "images",
-            "statistical-models"
+            "camera-acquisition",
+            "motion-control",
+            "radio-acquisition",
+            "synchronized-streams",
+            "measurement-calibration"
           ]
         }
+      ],
+      "resources": [
+        "optical-lab"
       ]
     },
     {
       "id": "economics-finance",
       "title": "Economics & finance · 经济与金融",
+      "kind": "research",
       "directions": [
         {
           "id": "econometrics",
           "title": "Econometrics · 计量经济",
           "modules": [
             "statistical-models",
-            "time-series",
+            "panel-econometrics",
+            "causal-models",
             "r-statistics"
           ]
         },
         {
-          "id": "trading",
-          "title": "Strategy research · 交易策略研究",
+          "id": "time-series",
+          "title": "Time series · 时间序列",
           "modules": [
-            "backtesting",
+            "time-series",
+            "volatility-models",
+            "bayesian-models"
+          ]
+        },
+        {
+          "id": "valuation",
+          "title": "Valuation & allocation · 估值与配置",
+          "modules": [
+            "derivatives-pricing",
+            "portfolio-allocation",
             "optimization"
           ]
         },
         {
-          "id": "data",
-          "title": "Market & economic data · 市场与经济数据",
+          "id": "strategies",
+          "title": "Strategy research · 策略研究",
           "modules": [
-            "tables",
-            "databases",
-            "networks"
+            "backtesting",
+            "market-data",
+            "tables"
+          ]
+        },
+        {
+          "id": "systems",
+          "title": "Economic systems · 经济系统",
+          "modules": [
+            "agent-based-economics",
+            "networks",
+            "discrete-events"
           ]
         }
+      ],
+      "resources": [
+        "economic-data"
       ]
     },
     {
       "id": "experimental-science",
       "title": "Experimental science · 实验科学",
+      "kind": "shared",
       "directions": [
         {
           "id": "devices",
           "title": "Device connections · 设备连接",
           "modules": [
             "instruments",
+            "serial-devices",
             "camera-acquisition",
-            "spectrometer-acquisition"
+            "spectrometer-acquisition",
+            "instrument-procedures",
+            "laboratory-measurements",
+            "device-emulation"
+          ]
+        },
+        {
+          "id": "controls",
+          "title": "Laboratory connections · 实验室系统连接",
+          "modules": [
+            "opc-ua",
+            "mqtt-streams",
+            "epics-controls",
+            "modbus-devices",
+            "can-devices",
+            "embedded-boards",
+            "flow-control",
+            "temperature-control"
           ]
         },
         {
           "id": "acquisition",
-          "title": "Acquisition & workflows · 采集与流程",
+          "title": "Acquisition & control · 采集与控制",
           "modules": [
             "experiment-scans",
-            "experimental-lab"
+            "control-systems",
+            "hdf5-data",
+            "daq-streams",
+            "microscope-control",
+            "source-measure-sweeps",
+            "lockin-measurements",
+            "oscilloscope-acquisition",
+            "logic-acquisition",
+            "radio-acquisition",
+            "gnss-streams"
           ]
         },
         {
           "id": "processing",
           "title": "Measurement processing · 测量处理",
           "modules": [
-            "numerical-computing",
+            "signal-processing",
             "images",
-            "statistical-models"
+            "molecular-spectra",
+            "uncertainty-propagation",
+            "physical-units",
+            "measurement-calibration",
+            "photon-event-data"
+          ]
+        },
+        {
+          "id": "motion",
+          "title": "Motion and robotics · 运动与机器人",
+          "modules": [
+            "motion-control",
+            "robot-connections",
+            "robot-geometry",
+            "robot-dynamics"
+          ]
+        },
+        {
+          "id": "timing",
+          "title": "Timing and synchronization · 时序与同步",
+          "modules": [
+            "synchronized-streams",
+            "realtime-sequences",
+            "triggered-sequences"
+          ]
+        },
+        {
+          "id": "procedures",
+          "title": "Experimental procedures · 实验程序",
+          "modules": [
+            "adaptive-experiments",
+            "liquid-handling",
+            "instrument-procedures",
+            "laboratory-measurements"
           ]
         }
+      ],
+      "resources": [
+        "experimental-lab"
       ]
     },
     {
       "id": "research-essentials",
       "title": "Research essentials · 通用研究工具",
+      "kind": "shared",
       "directions": [
         {
           "id": "computing",
           "title": "Computing · 计算",
           "modules": [
-            "science",
             "numerical-computing",
             "symbolic-mathematics",
-            "julia-science"
+            "julia-science",
+            "physical-units"
           ]
         },
         {
           "id": "data",
-          "title": "Data · 数据",
+          "title": "Data & storage · 数据与存储",
           "modules": [
             "tables",
-            "databases"
+            "databases",
+            "hdf5-data",
+            "zarr-data"
           ]
         },
         {
-          "id": "communication",
+          "id": "interactive",
+          "title": "Interactive research · 交互式研究",
+          "modules": [
+            "notebooks",
+            "parameterized-notebooks"
+          ]
+        },
+        {
+          "id": "writing",
           "title": "Writing & figures · 写作与图表",
           "modules": [
             "writing",
             "references",
-            "scientific-plotting"
+            "scientific-plotting",
+            "media-tools"
           ]
         }
+      ],
+      "resources": [
+        "experiment-tracking"
       ]
     }
   ]

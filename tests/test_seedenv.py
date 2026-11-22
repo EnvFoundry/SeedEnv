@@ -76,6 +76,68 @@ class SeedEnvTests(unittest.TestCase):
         self.assertIn("quantum", [x["id"] for x in self.manager.catalog.search("qutip")["items"]])
         self.assertEqual(self.manager.catalog.search("fixture", limit=1)["next_offset"], 1)
 
+    def test_empty_selection_and_browsing_do_not_create_user_files(self):
+        self.manager.catalog.browse('optics')
+        self.assertEqual(self.manager.state.list(), [])
+        self.assertEqual(self.manager.plan([])['actions'], [])
+        self.assertEqual(self.manager.plan([])['storage']['download_bytes'], 0)
+        self.assertEqual(self.manager.start([])['job'], None)
+        self.assertTrue(self.manager.context([])['ready'])
+        self.assertEqual(self.cli('prepare', '--background').returncode, 0)
+        self.assertFalse(self.home.exists())
+
+    def test_selected_larger_environment_is_shared_regardless_of_order(self):
+        self.definition['components'].append({**self.definition['components'][0],
+            'id': 'fixture-small', 'reuse_from': ['fixture-python']})
+        self.save_catalog()
+        manager = Manager(self.home, Catalog(self.extra))
+        plan = manager.plan(['fixture-small', 'fixture'])
+        self.assertEqual([(a['component'], a['action']) for a in plan['actions']],
+                         [('fixture-python', 'install'), ('fixture-small', 'share')])
+        result = manager.prepare(['fixture-small', 'fixture'], offline=True, find_links=[self.wheels])
+        self.assertEqual(result['failed'], [])
+        self.assertEqual(len(list((self.home / 'environments').iterdir())), 1)
+        self.assertEqual(manager.entry('fixture-small')['command'], manager.entry('fixture-python')['command'])
+
+    def test_context_contains_only_selected_guidance_and_real_entries(self):
+        pending = self.manager.context(['fixture'])
+        self.assertFalse(pending['ready'])
+        self.assertEqual([m['id'] for m in pending['modules']], ['fixture'])
+        original = self.prepare()
+        ready = self.manager.context(['fixture'])
+        self.assertTrue(ready['ready'])
+        self.assertEqual(ready['software'][0]['command'], original['command'])
+        self.assertIn('complete API', ready['modules'][0]['guide'])
+        # An existing Python executable is insufficient when its software was removed.
+        package = next(Path(original['location']).rglob('seedenv_fixture/__init__.py')).parent
+        shutil.rmtree(package)
+        self.assertFalse(self.manager.context(['fixture'])['ready'])
+
+    def test_related_resources_are_not_research_directions(self):
+        catalog = self.manager.catalog
+        optics = catalog.browse('optics')
+        self.assertIn('optical-lab', [r['id'] for r in optics['resources']])
+        self.assertTrue(all('optical-lab' not in d['modules'] for d in catalog.fields['optics']['directions']))
+        self.assertEqual(next(f for f in optics['fields'] if f['id'] == 'research-essentials')['kind'], 'shared')
+
+    def test_prepared_software_keeps_laboratory_connection_with_host(self):
+        self.definition['modules'].append({'id': 'fixture-experiment', 'title': 'Experiment',
+            'components': ['fixture-python', 'connector-laboratory'], 'guide': 'guide.md'})
+        self.save_catalog()
+        manager = Manager(self.home, Catalog(self.extra))
+        result = manager.prepare(['fixture-experiment'], offline=True, find_links=[self.wheels])
+        self.assertEqual(len(result['ready']), 1)
+        self.assertEqual(result['failed'], [])
+        self.assertEqual(result['pending'][0]['connection']['type'], 'laboratory')
+        self.assertEqual(result['pending'][0]['modules'], ['fixture-experiment'])
+        context = manager.context(['fixture-experiment'])
+        self.assertFalse(context['ready'])
+        self.assertEqual(context['software'][0]['action'], 'reuse')
+        self.assertEqual(context['software'][1]['action'], 'configure-connector')
+        repeated = manager.prepare(['fixture-experiment'], offline=True, find_links=[self.wheels])
+        self.assertEqual(repeated['ready'][0]['command'], result['ready'][0]['command'])
+        self.assertEqual(len(list((self.home / 'environments').iterdir())), 1)
+
     def test_fields_navigate_without_selecting_a_whole_discipline(self):
         catalog = self.manager.catalog
         self.assertIn("optics", [f["id"] for f in catalog.browse()["fields"]])
@@ -226,14 +288,17 @@ class SeedEnvTests(unittest.TestCase):
             {"jsonrpc": "2.0", "id": 2, "method": "tools/call", "params": {"name": "seedenv_plan", "arguments": {"selections": ["fixture"]}}},
             {"jsonrpc": "2.0", "id": 3, "method": "tools/call", "params": {"name": "seedenv_prepare", "arguments": {"selections": []}}},
             {"jsonrpc": "2.0", "id": 4, "method": "resources/read", "params": {"uri": "seedenv://guides/fixture"}},
+            {"jsonrpc": "2.0", "id": 5, "method": "resources/read", "params": {"uri": "seedenv://examples/thin-films"}},
         ]
         result = self.cli("mcp", input="".join(json.dumps(x) + "\n" for x in requests))
         self.assertEqual(result.returncode, 0, result.stderr)
         responses = [json.loads(line) for line in result.stdout.splitlines()]
-        self.assertEqual([x["id"] for x in responses], [1, 2, 3, 4])
+        self.assertEqual([x["id"] for x in responses], [1, 2, 3, 4, 5])
         self.assertEqual(responses[0]["result"]["protocolVersion"], "2025-11-25")
-        self.assertTrue(responses[2]["result"]["isError"])
+        empty = json.loads(responses[2]['result']['content'][0]['text'])
+        self.assertEqual((empty['state'], empty['job']), ('ready', None))
         self.assertIn("complete API", responses[3]["result"]["contents"][0]["text"])
+        self.assertIn("coh_tmm", responses[4]["result"]["contents"][0]["text"])
         request = origo_requests(self.manager, ["fixture"])["preparations"][0]["request"]
         self.assertEqual(request["requirements"], ["seedenv-fixture==1.0"])
         self.assertIn("execution_id", request)
@@ -288,6 +353,45 @@ class SeedEnvTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn("seedenv_prepare", result.stdout)
         self.assertEqual(json.loads((moved / "plugin.json").read_text())["skills"], ["skills/seedenv"])
+
+    def test_selected_export_contains_local_catalogue_resources_after_moving(self):
+        self.definition['modules'][0]['example'] = {'component': 'fixture-python', 'file': 'example.py'}
+        (self.root / 'example.py').write_text('from seedenv_fixture import square\nprint(square(3))\n')
+        self.save_catalog()
+        exported = self.root / 'selected'
+        export_plugin(exported, 'mcp', catalog=self.extra, selections=['fixture'])
+        packed = json.loads((exported / 'seedenv/data/catalog.json').read_text())
+        self.assertEqual([m['id'] for m in packed['modules']], ['fixture'])
+        self.assertEqual([c['id'] for c in packed['components']], ['fixture-python'])
+        self.assertTrue((exported / 'skills/seedenv/SKILL.md').is_file())
+        self.assertNotIn('SEEDENV_CATALOG', json.loads((exported / 'mcp.json').read_text())['mcpServers']['seedenv']['env'])
+        moved = self.root / 'portable'
+        shutil.move(exported, moved)
+        self.extra.unlink()
+        (self.root / 'guide.md').unlink()
+        (self.root / 'example.py').unlink()
+        requests = [{'jsonrpc':'2.0','id':1,'method':'tools/call',
+                     'params':{'name':'seedenv_context','arguments':{'selections':['fixture']}}},
+                    {'jsonrpc':'2.0','id':2,'method':'tools/call',
+                     'params':{'name':'seedenv_example','arguments':{'name':'fixture'}}}]
+        env = {**os.environ, 'SEEDENV_HOME': str(self.home)}
+        env.pop('PYTHONPATH', None)
+        space = self.root / 'receiving research space'
+        configured = subprocess.run([sys.executable, str(moved / 'configure.py'), '--research-space', str(space)],
+                                    capture_output=True, text=True, cwd=self.root, env=env, timeout=30)
+        self.assertEqual(configured.returncode, 0, configured.stderr)
+        config = json.loads((moved / 'mcp.json').read_text())['mcpServers']['seedenv']
+        self.assertEqual(config['env']['SEEDENV_HOME'], str(space / 'system' / 'seedenv'))
+        result = subprocess.run([config['command'], *config['args']], input=''.join(json.dumps(r)+'\n' for r in requests),
+                                capture_output=True, text=True, cwd=self.root, env={**env, **config['env']}, timeout=30)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        responses = [json.loads(line) for line in result.stdout.splitlines()]
+        context = json.loads(responses[0]['result']['content'][0]['text'])
+        self.assertEqual([m['id'] for m in context['modules']], ['fixture'])
+        self.assertIn('complete API', context['modules'][0]['guide'])
+        example = json.loads(responses[1]['result']['content'][0]['text'])
+        self.assertEqual(context['modules'][0]['example']['uri'], example['uri'])
+        self.assertIn('print(square(3))', example['content'])
 
 
 if __name__ == "__main__":

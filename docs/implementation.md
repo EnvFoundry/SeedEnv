@@ -1,71 +1,93 @@
-# Implementation status · 2026-11-21
+# Implementation · 2026-11-22
 
-Implemented: field → direction → module navigation with 16 fields and 88 visible
-modules; optics has 14 directions and 54 distinct modules. The picker starts with
-no selection, supports cross-field selection and removal, and shows software
-before preparation. CLI, MCP and both native clients use the same catalogue.
+SeedEnv has 14 research fields and 2 shared entry groups, with 94 directions and
+groupings, 198 distinct task modules, 188 shared components and 8 related resources. The
+[catalogue](catalogue.md) is generated from the same data used by the CLI, MCP,
+TypeScript picker and Rust client. Several directions may reference one module;
+several modules may use one software component.
 
-Preparation includes isolated Python environments;
-existing-interpreter and native-command binding; persistent SQLite state;
-background preparation, progress and cancellation; CLI; stdio MCP; host plugin
-exports; an Origo preparation adapter; TypeScript and Rust clients; an embeddable
-module picker with Chinese and English controls and module summaries.
+The picker starts with no selection. Browsing and empty preparation create no
+software directory or background job. Selected software is prepared beneath the
+user research space's `system/seedenv`, with isolated environments, local caches
+and persistent SQLite state. Existing interpreters and executables can be bound.
+Known compatible larger environments supply smaller modules; selection order
+does not cause duplicate installation. Preparation supports background progress,
+cancellation and reuse across processes. Reopening the picker can resume tracking
+an existing job, including after a temporary status error.
 
-The Python package has no runtime dependencies. Scientific software is downloaded
-only for selected components. Guides are short, task-specific resources loaded
-when needed. Services and specialized plugins remain visible as separate
-connection steps, with their upstream documentation.
+Python recipes use pip. Native Python environments with conda recipes use an
+existing micromamba, mamba or conda, including activation when obtaining their
+invocation command. Other native programs, plugins, external data and account
+connections retain their actual setup steps. Platform restrictions direct a
+selection to a supported execution host rather than attempting an unsupported
+installation. Download and additional disk sizes remain unknown until dependency
+resolution; the API and picker do not report these as zero.
 
-In the earlier base catalogue, all 21 Python components were installed and imported
-on Linux x86-64 / Python 3.12.
-The 19 local Python examples ran with those interpreters. These include a
-thin-film calculation with R + T = 1 within numerical precision, a finite-element
-Poisson solution with zero boundary values, a silicon structure conversion,
-RDKit descriptors, synthetic financial backtesting, NIfTI spatial metadata, a CAD
-solid, quantum evolution and SQL aggregation. Example inputs are demonstrations.
-An additional HTTP example retrieved actual DOI metadata from Crossref, bringing
-the executed Python examples to 20. No instrument or external database was
-connected during this work.
+`context` returns only selected working guides, examples and actual invocation
+entries. MCP can read example source directly through `seedenv_example`.
+Modules use the complete upstream APIs. Exported agent packages can
+contain only chosen modules and local catalogue extensions. A copied generic MCP
+package includes `configure.py` to regenerate paths on its receiving machine.
+Exporting the package does not claim its scientific software has been installed.
 
-For the finer module selections, a fresh user space prepared only tmm and NumPy
-beneath `system/seedenv/environments`, ran the thin-film calculation, and reused
-the same environment in a subsequent process. An earlier combined optics
-environment supplied both split modules without another installation. Shared
-NumPy/SciPy and QuTiP selections likewise resolve to one component each.
+This round prepared and ran the following new examples on Linux x86-64 / Python
+3.12. Inputs are illustrative, not empirical research results.
 
-New runs include a paraxial imaging matrix (B = 0, magnification −1), Malus' law
-(transmission 0.5), a grcwa dielectric slab (R + T = 1), mutual-coherence
-propagation (total intensity 1.6), independent-speckle contrasts near 1, 0.5 and
-0.25, a phase-matching factor, and a class-B rate-equation solution approaching
-inversion 1 and photon population 0.5. The latter two use explicitly illustrative
-parameters, not calibrated material or laser-device models.
+| Software | Executed calculation | Result |
+| --- | --- | --- |
+| PySCF | H₂, RHF/STO-3G, bond 0.74 Å | Energy −1.1167593074 hartree |
+| OpenMM | One-particle harmonic oscillator, 1,000 steps | Total energy 0.5000000364 kJ/mol from 0.5 kJ/mol |
+| Cantera | CH₄/air constant-enthalpy equilibrium | 2225.5246 K; relative enthalpy change 1.8 × 10⁻¹⁰ |
+| Phonopy | Silicon finite-displacement supercell | 16 atoms; displacement 0.01 Å; force calculation remains the next research operation |
+| Scanpy | Synthetic 40 × 30 count matrix | Normalization, logarithm, 5 PCA coordinates and neighbor graph |
+| SimpleITK | Synthetic labelled volume | Physical point (11.5, −1, 13); identity resampling retains label |
+| lifelines | Censored synthetic observations | Kaplan–Meier S(3) = 0.375 |
+| QuantLib | Synthetic European call and put | Put–call parity error 1.8 × 10⁻¹⁵ |
+| python-control | Unit step for 1/(s+1) | Maximum error against analytic response 5.8 × 10⁻¹⁵ |
+| OR-Tools | Small discrete allocation | Optimal objective 7 |
 
-DEVSIM needed its native math library, so the x86-64 Linux/Windows recipe includes
-MKL and NumPy. Its upstream two-region capacitor program then ran successfully.
-The standalone thin-film environment occupied about 79 MiB and the DEVSIM/MKL
-environment about 1068 MiB on this Linux machine, excluding download caches and
-research data. These are observed installations, not cross-platform size estimates.
-The plan keeps unknown download/disk sizes empty. New pip caches stay under the
-selected `system/seedenv/cache` rather than another persistent user directory.
+The physical-experiment extension adds 27 tasks, including acquisition, motion,
+robotics, timing, microscopy, liquid handling and field instruments. Eighteen
+selected Python components were prepared or reused on this Linux worker;
+software imports succeeded. Native apparatus such as ARTIQ, ROS 2 and labscript
+retain their upstream connection routes. No physical apparatus was operated.
 
-Seventeen process-level Python tests passed, including preparation from local
-wheels, reuse from a second process, cancellation, failed additions, composition,
-MCP messages, multilingual pipes, relocated plugin exports, field navigation,
-cross-field composition, split-environment reuse and user-space placement.
-The TypeScript client and picker tests
-and the Rust client test also passed. These local runs do not establish Windows
-or macOS research-package compatibility; the repository includes a three-platform
-workflow for the core preparation tests.
+The following additional examples ran using their actual upstream libraries:
 
-The available system TeX executable was found, but its XeLaTeX formats were
-missing, so a Chinese document did not compile on this machine. The module
-supports an existing working TeX installation or Origo's existing TeX preparation
-flow. Native installers, accounts, drivers and instrument connections remain
-host or upstream setup steps.
+| Software | Executed program | Result |
+| --- | --- | --- |
+| PyVISA-sim | Query the upstream simulated serial instrument | `LSG Serial #1234` |
+| python-can | Exchange a frame over a virtual bus | ID 291, bytes `[9, 196]`; decoded under the example's declared units |
+| pytransform3d | Compose sample/tool/base transforms | Sample origin `(0.11, 0.22, 0.33)` m; inverse returns the original point |
+| MuJoCo | Headless damped pendulum, 2 seconds | Finite trajectory; total energy decreases |
+| NumPy / SciPy | Synthetic linear calibration and inverse prediction | 2.517647 K with standard uncertainty 0.031769 K |
+| Bluesky / Ophyd / SciPy | Adaptive sampling of a virtual detector | Peak found at 0.699991 versus the supplied model's 0.7 |
+| PyLabRobot | Chatterbox transfer with volume tracking | Source 200 → 150 µL, destination 0 → 50 µL; no physical transfer |
 
-The exported Origo plugin and API adapter are implemented here. This work has
-not changed an Origo release or connected the picker to its shipped installer.
-The product must map the adapter's explicit `installation_root` to the user space;
-destinations no longer derive from an active project. The additional catalogue
-recipes have not all been installed on every platform. Solver bindings, large
-datasets and hardware backends retain their separate setup states.
+These are software simulations and synthetic calculations. Hardware compatibility,
+timing accuracy and physical measurement performance require the user's actual
+device and apparatus configuration. The host connection remains explicit after
+software preparation; repeated preparation does not reinstall its Python components.
+
+Earlier work exercised the base scientific stack and optics programs, including
+thin films, RCWA, paraxial imaging, polarization, coherence, speckle statistics,
+quantum evolution and a DEVSIM capacitor. The catalogue's other installation
+routes have not all been exercised on every platform. Native GPU workloads,
+instruments and external accounts were not connected in this round. The earlier
+host TeX installation lacked its XeLaTeX formats; a working TeX installation or
+the host's TeX preparation flow is still needed for that writing example.
+
+Twenty-three Python process tests pass, covering real local-wheel installation,
+reuse across processes, cancellation, failed additions, empty selection, shared
+environments, selected context, local extensions, relocated MCP packages and
+prepared software with a still-pending laboratory connection.
+The TypeScript client/picker tests and Rust client tests pass. Repository CI runs
+the Python process tests on Linux, Windows and macOS; this tests SeedEnv's core,
+not every upstream scientific package on those operating systems.
+
+The Origo package and preparation adapter are implemented. The native Origo
+adapter translates pip and TeX requests; conda preparation runs through SeedEnv on
+the selected worker. Wiring the picker and persistent user-space mapping into
+Origo's shipped installer is a separate product change and has not been made in
+this repository. Other agent hosts can use the CLI, Python API or exported MCP
+package directly.

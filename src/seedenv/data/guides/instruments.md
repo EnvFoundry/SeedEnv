@@ -1,5 +1,12 @@
 # Instrument connections · 仪器连接
 
+Select the actual device address and programming manual, then use the existing
+VISA or pyvisa-py backend. Match termination, binary block format and timeout to
+the instrument. Read identity and state before task-specific commands; preserve
+existing sessions through the host or IOP when several experiments share devices.
+The Python package provides the communication API; USB/GPIB support may also
+require the appropriate native driver. Software preparation opens no device.
+
 通过已有 VISA 后端连接仪器。
 
 1. 确认设备、地址及其编程手册，选择本机已有 VISA 或 pyvisa-py 后端。

@@ -43,6 +43,7 @@ class Catalog:
                             match["modules"] = list(dict.fromkeys([*match["modules"], *direction["modules"]]))
                         else:
                             existing["directions"].append(direction)
+                    existing["resources"] = list(dict.fromkeys([*existing.get("resources", []), *field.get("resources", [])]))
                 else:
                     self.fields[name] = field
         self.paths: dict[str, list[dict]] = {name: [] for name in self.modules}
@@ -57,11 +58,16 @@ class Catalog:
                         raise ValueError(f"{field['id']}/{direction['id']} refers to missing module {name}")
                     self.paths[name].append({"field": field["id"], "field_title": field["title"],
                                              "direction": direction["id"], "direction_title": direction["title"]})
+            for name in field.get("resources", []):
+                if name not in self.modules:
+                    raise ValueError(f"{field['id']} refers to missing resource {name}")
+                self.paths[name].append({"field": field["id"], "field_title": field["title"],
+                                         "direction": "", "direction_title": "Related resources · 相关资源"})
         for component in self.components.values():
             kind = component.get("kind")
             if kind not in {"python", "environment", "command", "plugin", "connector"}:
                 raise ValueError(f"Unknown component kind: {kind}")
-            for field in ("requirements", "imports", "commands", "platforms"):
+            for field in ("requirements", "imports", "commands", "platforms", "conda"):
                 entries = component.get(field, [])
                 if not isinstance(entries, list) or any(not isinstance(x, str) or not x.strip() for x in entries):
                     raise ValueError(f"{component['id']}.{field} must contain nonempty strings")
@@ -72,6 +78,8 @@ class Catalog:
                     raise ValueError("Requirements cannot be installer options")
             if kind == "environment" and not component.get("imports"):
                 raise ValueError(f"{component['id']} needs interpreter imports")
+            if component.get("conda") and (kind != "environment" or any(x.startswith('-') for x in component['conda'])):
+                raise ValueError(f"{component['id']} needs conda package names, not installer options")
             for parent in component.get("reuse_from", []):
                 candidate = self.components.get(parent, {})
                 if kind != "python" or candidate.get("kind") != "python":
@@ -84,7 +92,7 @@ class Catalog:
                 raise ValueError(f"{component['id']} needs connection instructions")
         for name in self.modules:
             self.select([name])
-            self.guide(name)
+            self.resource(name, self.modules[name]["guide"])
             example = self.modules[name].get("example")
             if example:
                 _, components = self.select([name])
@@ -93,8 +101,6 @@ class Catalog:
                 self.resource(name, example["file"])
 
     def select(self, names: list[str]) -> tuple[list[str], list[str]]:
-        if not names:
-            raise ValueError("Select at least one research module or component")
         modules, components, visiting = [], [], set()
 
         def visit(name):
@@ -129,12 +135,25 @@ class Catalog:
         if field is not None and field not in self.fields:
             raise ValueError(f"Unknown field: {field}")
         fields = [{"id": item["id"], "title": item["title"],
-                   "module_count": len({name for d in item["directions"] for name in d["modules"]})}
+                   "kind": item.get("kind", "research"), "direction_count": len(item["directions"]),
+                   "resource_count": len(set(item.get("resources", []))),
+                   "module_count": len({name for d in item["directions"] for name in d["modules"] if not self.modules[name].get("hidden")})}
                   for item in self.fields.values()]
         directions = [] if field is None else [
             {"id": d["id"], "title": d["title"], "module_count": len(set(d["modules"]))}
             for d in self.fields[field]["directions"]]
-        return {"fields": fields, "field": field, "directions": directions}
+        visible = [m for m in self.modules.values() if not m.get("hidden")]
+        return {"fields": fields, "field": field, "directions": directions,
+                "resources": [] if field is None else [self._summary(self.modules[n]) for n in self.fields[field].get("resources", [])],
+                "totals": {"fields": len(fields), "directions": sum(f["direction_count"] for f in fields),
+                           "modules": sum(m.get("kind", "module") == "module" for m in visible),
+                           "resources": sum(m.get("kind") == "resource" for m in visible)}}
+
+    def _summary(self, item):
+        _, components = self.select([item["id"]])
+        return {**{k: item[k] for k in ("id", "title", "summary", "summary_en", "tags", "components", "includes") if k in item},
+                "kind": item.get("kind", "module"), "paths": self.paths[item["id"]],
+                "software": [{k: self.components[x][k] for k in ("id", "title", "kind")} for x in components]}
 
     def search(self, query="", limit=20, offset=0, field=None, direction=None):
         if not 1 <= limit <= 100 or offset < 0:
@@ -155,9 +174,7 @@ class Catalog:
             _, components = self.select([item["id"]])
             haystack = json.dumps([item, paths, [self.components[x] for x in components]], ensure_ascii=False).casefold()
             if all(word in haystack for word in words):
-                matches.append({**{k: item[k] for k in ("id", "title", "summary", "summary_en", "tags", "components", "includes") if k in item},
-                                "paths": paths, "software": [{k: self.components[x][k] for k in ("id", "title", "kind")}
-                                                              for x in components]})
+                matches.append(self._summary(item))
         return {"items": matches[offset:offset + limit], "total": len(matches),
                 "next_offset": offset + limit if offset + limit < len(matches) else None}
 
@@ -180,3 +197,12 @@ class Catalog:
         if name not in self.modules:
             raise ValueError(f"Unknown module: {name}")
         return self.resource(name, self.modules[name]["guide"]).read_text(encoding="utf-8")
+
+    def example(self, name):
+        if name not in self.modules:
+            raise ValueError(f"Unknown module: {name}")
+        example = self.modules[name].get("example")
+        if not example:
+            raise ValueError("This module links to upstream examples in its guide")
+        return {"module": name, **example, "uri": "seedenv://examples/" + name,
+                "content": self.resource(name, example["file"]).read_text(encoding="utf-8")}

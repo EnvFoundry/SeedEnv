@@ -33,12 +33,14 @@ def main(argv=None):
         p = sub.add_parser(action)
         p.add_argument("name")
     plan = sub.add_parser("plan")
-    plan.add_argument("selections", nargs="+")
+    plan.add_argument("selections", nargs="*")
     plan.add_argument("--target", choices=["linux", "darwin", "windows"])
     plan.add_argument("--host", choices=["origo"])
+    context = sub.add_parser("context", help="Read selected working guides and actual software entries")
+    context.add_argument("selections", nargs="*")
     for action in ("prepare", "discover"):
         p = sub.add_parser(action)
-        p.add_argument("selections", nargs="+")
+        p.add_argument("selections", nargs="*")
         p.add_argument("--python")
         if action == "prepare":
             p.add_argument("--background", action="store_true")
@@ -52,7 +54,7 @@ def main(argv=None):
     run.add_argument("arguments", nargs=argparse.REMAINDER)
     example = sub.add_parser("example")
     example.add_argument("module")
-    example.add_argument("--output", required=True)
+    example.add_argument("--output", help="Copy the program here; omit to read its source")
     for action in ("status", "cancel"):
         p = sub.add_parser(action)
         p.add_argument("job")
@@ -61,6 +63,7 @@ def main(argv=None):
     connect = sub.add_parser("connect")
     connect.add_argument("host", choices=["origo", "mcp"])
     connect.add_argument("--output", required=True)
+    connect.add_argument("--modules", nargs="*", help="Export only these modules and their dependencies")
     args = parser.parse_args(argv)
     try:
         manager = Manager(args.home, Catalog(args.catalog), args.research_space)
@@ -75,6 +78,8 @@ def main(argv=None):
             value = manager.catalog.guide(args.name)
         elif action == "plan":
             value = origo_requests(manager, args.selections) if args.host else manager.plan(args.selections, args.target)
+        elif action == "context":
+            value = manager.context(args.selections)
         elif action == "discover":
             value = manager.discover(args.selections, args.python)
         elif action == "prepare":
@@ -94,6 +99,8 @@ def main(argv=None):
             if not arguments:
                 raise ValueError("Provide a research script or executable arguments after --")
             return subprocess.call([*manager.entry(args.component)["command"], *arguments])
+        elif action == "example" and not args.output:
+            value = manager.catalog.example(args.module)
         elif action == "example":
             item = manager.catalog.modules[args.module]
             example = item.get("example")
@@ -110,7 +117,7 @@ def main(argv=None):
             value = {"path": str(target), "component": example["component"],
                      "run": [*common, "run", example["component"], "--", *example.get("args", []), str(target)]}
         elif action == "connect":
-            value = export_plugin(args.output, args.host, str(manager.home) if args.home or args.research_space else None, args.catalog)
+            value = export_plugin(args.output, args.host, str(manager.home) if args.home or args.research_space else None, args.catalog, args.modules)
         else:
             from .mcp import serve
             serve(manager)
