@@ -1,0 +1,230 @@
+[
+  {
+    "id": "compact-article-en",
+    "title": "Compact article · English",
+    "form": "article",
+    "language": "en",
+    "style": "compact",
+    "engine": "lualatex",
+    "file": "templates/compact-article-en.tex",
+    "assets": [
+      "templates/sn-nature.bst"
+    ]
+  },
+  {
+    "id": "compact-article-zh",
+    "title": "Compact article · 中文",
+    "form": "article",
+    "language": "zh",
+    "style": "compact",
+    "engine": "lualatex",
+    "file": "templates/compact-article-zh.tex",
+    "assets": [
+      "templates/sn-nature.bst"
+    ]
+  },
+  {
+    "id": "compact-book-en",
+    "title": "Compact book · English",
+    "form": "book",
+    "language": "en",
+    "style": "compact",
+    "engine": "lualatex",
+    "file": "templates/compact-book-en.tex",
+    "assets": []
+  },
+  {
+    "id": "compact-book-zh",
+    "title": "Compact book · 中文",
+    "form": "book",
+    "language": "zh",
+    "style": "compact",
+    "engine": "lualatex",
+    "file": "templates/compact-book-zh.tex",
+    "assets": []
+  },
+  {
+    "id": "compact-report-en",
+    "title": "Compact report · English",
+    "form": "report",
+    "language": "en",
+    "style": "compact",
+    "engine": "lualatex",
+    "file": "templates/compact-report-en.tex",
+    "assets": []
+  },
+  {
+    "id": "compact-report-zh",
+    "title": "Compact report · 中文",
+    "form": "report",
+    "language": "zh",
+    "style": "compact",
+    "engine": "lualatex",
+    "file": "templates/compact-report-zh.tex",
+    "assets": []
+  },
+  {
+    "id": "compact-supplementary-en",
+    "title": "Compact supplementary · English",
+    "form": "supplementary",
+    "language": "en",
+    "style": "compact",
+    "engine": "lualatex",
+    "file": "templates/compact-supplementary-en.tex",
+    "assets": [
+      "templates/sn-nature.bst"
+    ]
+  },
+  {
+    "id": "compact-supplementary-zh",
+    "title": "Compact supplementary · 中文",
+    "form": "supplementary",
+    "language": "zh",
+    "style": "compact",
+    "engine": "lualatex",
+    "file": "templates/compact-supplementary-zh.tex",
+    "assets": [
+      "templates/sn-nature.bst"
+    ]
+  },
+  {
+    "id": "submission-article-en",
+    "title": "Submission article · English",
+    "form": "article",
+    "language": "en",
+    "style": "submission",
+    "engine": "lualatex",
+    "file": "templates/submission-article-en.tex",
+    "assets": []
+  },
+  {
+    "id": "submission-article-zh",
+    "title": "Submission article · 中文",
+    "form": "article",
+    "language": "zh",
+    "style": "submission",
+    "engine": "lualatex",
+    "file": "templates/submission-article-zh.tex",
+    "assets": []
+  },
+  {
+    "id": "submission-report-en",
+    "title": "Submission report · English",
+    "form": "report",
+    "language": "en",
+    "style": "submission",
+    "engine": "lualatex",
+    "file": "templates/compact-report-en.tex",
+    "assets": []
+  },
+  {
+    "id": "submission-report-zh",
+    "title": "Submission report · 中文",
+    "form": "report",
+    "language": "zh",
+    "style": "submission",
+    "engine": "lualatex",
+    "file": "templates/compact-report-zh.tex",
+    "assets": []
+  },
+  {
+    "id": "submission-supplementary-en",
+    "title": "Submission supplementary · English",
+    "form": "supplementary",
+    "language": "en",
+    "style": "submission",
+    "engine": "lualatex",
+    "file": "templates/submission-supplementary-en.tex",
+    "assets": []
+  },
+  {
+    "id": "submission-supplementary-zh",
+    "title": "Submission supplementary · 中文",
+    "form": "supplementary",
+    "language": "zh",
+    "style": "submission",
+    "engine": "lualatex",
+    "file": "templates/submission-supplementary-zh.tex",
+    "assets": []
+  },
+  {
+    "id": "standard-book-en",
+    "title": "Standard book · English",
+    "form": "book",
+    "language": "en",
+    "style": "standard",
+    "engine": "lualatex",
+    "file": "templates/standard-book-en.tex",
+    "assets": []
+  },
+  {
+    "id": "standard-book-zh",
+    "title": "Standard book · 中文",
+    "form": "book",
+    "language": "zh",
+    "style": "standard",
+    "engine": "lualatex",
+    "file": "templates/standard-book-zh.tex",
+    "assets": []
+  },
+  {
+    "id": "standard-article-en",
+    "title": "Standard article · English",
+    "form": "article",
+    "language": "en",
+    "style": "standard",
+    "engine": "lualatex",
+    "file": "templates/standard-article-en.tex",
+    "assets": []
+  },
+  {
+    "id": "standard-article-zh",
+    "title": "Standard article · 中文",
+    "form": "article",
+    "language": "zh",
+    "style": "standard",
+    "engine": "lualatex",
+    "file": "templates/standard-article-zh.tex",
+    "assets": []
+  },
+  {
+    "id": "standard-report-en",
+    "title": "Standard report · English",
+    "form": "report",
+    "language": "en",
+    "style": "standard",
+    "engine": "lualatex",
+    "file": "templates/compact-report-en.tex",
+    "assets": []
+  },
+  {
+    "id": "standard-report-zh",
+    "title": "Standard report · 中文",
+    "form": "report",
+    "language": "zh",
+    "style": "standard",
+    "engine": "lualatex",
+    "file": "templates/compact-report-zh.tex",
+    "assets": []
+  },
+  {
+    "id": "standard-supplementary-en",
+    "title": "Standard supplementary · English",
+    "form": "supplementary",
+    "language": "en",
+    "style": "standard",
+    "engine": "lualatex",
+    "file": "templates/standard-supplementary-en.tex",
+    "assets": []
+  },
+  {
+    "id": "standard-supplementary-zh",
+    "title": "Standard supplementary · 中文",
+    "form": "supplementary",
+    "language": "zh",
+    "style": "standard",
+    "engine": "lualatex",
+    "file": "templates/submission-supplementary-zh.tex",
+    "assets": []
+  }
+]
