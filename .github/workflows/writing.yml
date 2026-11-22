@@ -1,6 +1,7 @@
 name: Scientific Writing
 on:
   push:
+    branches: [main]
     paths: ['src/seedenv/tex.py', 'src/seedenv/writing.py', 'src/seedenv/data/tex.json', 'src/seedenv/data/writing/**', 'scripts/compile_templates.py', '.github/workflows/writing.yml']
   pull_request:
     paths: ['src/seedenv/tex.py', 'src/seedenv/writing.py', 'src/seedenv/data/tex.json', 'src/seedenv/data/writing/**', 'scripts/compile_templates.py', '.github/workflows/writing.yml']
@@ -9,6 +10,7 @@ permissions:
 jobs:
   templates:
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
