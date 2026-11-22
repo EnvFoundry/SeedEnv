@@ -186,13 +186,16 @@ def prepare(home, *, offline=False, cancel=None):
             if key.startswith("TEXMF") or key in {"TEXINPUTS", "BIBINPUTS", "BSTINPUTS"}:
                 del env[key]
         env["PATH"] = str(bin_dir) + os.pathsep + env.get("PATH", "")
-        manager = ([str(root / "tlpkg/tlperl/bin/perl.exe"), str(root / "texmf-dist/scripts/texlive/tlmgr.pl")]
+        # The Windows launcher completes self-updates after Perl exits. Calling
+        # tlmgr.pl directly leaves that update unfinished. A relative batch name
+        # keeps the installation's spaces out of cmd.exe's command text.
+        manager = ([os.environ.get("COMSPEC", "cmd.exe"), "/d", "/c", r".\tlmgr.bat"]
                    if os.name == "nt" else [str(bin_dir / "tlmgr")])
         for args in (["option", "repository", spec["repository"]], ["option", "docfiles", "0"],
                      ["option", "srcfiles", "0"], ["update", "--self"],
                      ["install", *spec["packages"]], ["postaction", "install", "script", "xetex"]):
             _cancelled(cancel)
-            run([*manager, *args], env=env, cancel=cancel)
+            run([*manager, *args], env=env, cwd=bin_dir, cancel=cancel)
         describe(command)
         for folder in ("home", "var", "config"):
             (home / "tex-state" / folder).mkdir(parents=True, exist_ok=True)
