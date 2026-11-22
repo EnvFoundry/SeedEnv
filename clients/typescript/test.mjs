@@ -28,6 +28,11 @@ test('TypeScript uses the real catalogue and host request format', async () => {
     assert.equal((await api.context(['thin-films'])).modules[0].id, 'thin-films');
     assert.match((await api.example('thin-films')).content, /coh_tmm/);
     assert.equal((await api.browse('optics')).resources.some(m => m.id === 'optical-lab'), true);
+    const lab = await api.plan(['source-measure-sweeps', 'temperature-control']);
+    assert.equal(lab.actions.filter(a => a.component === 'python-pymeasure').length, 1);
+    const connection = lab.actions.find(a => a.connection?.type === 'laboratory');
+    assert.equal(connection.action, 'configure-connector');
+    assert.deepEqual(connection.modules, ['source-measure-sweeps', 'temperature-control']);
   } finally { await rm(home, { recursive: true, force: true }); }
 });
 

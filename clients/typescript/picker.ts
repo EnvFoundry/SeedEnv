@@ -225,7 +225,9 @@ export class SeedEnvPicker extends HTMLElement {
   private showActions(actions: Plan["actions"]) {
     this.detail.replaceChildren(this.element("h3", this.t.guide));
     for (const action of actions) {
-      const label = action.action === "configure-connector" ? this.t.setup : action.action === "share"
+      const laboratory = action.connection?.type === "laboratory";
+      const label = laboratory ? (this.getAttribute("lang")?.startsWith("zh") ? "连接实验设备" : "Connect laboratory devices")
+        : action.action === "configure-connector" ? this.t.setup : action.action === "share"
         ? (this.getAttribute("lang")?.startsWith("zh") ? "与已选模块共用" : "Share selected software") : this.t[action.action];
       const row = this.element("div", `${this.label(action.title)} · ${label}`); row.className = "row";
       const packages = action.requirements ?? action.packages;
@@ -234,6 +236,12 @@ export class SeedEnvPicker extends HTMLElement {
         row.append(this.element("small", [...new Set(names)].join(", ")));
       }
       if (action.instructions) row.append(this.element("small", action.instructions));
+      if (laboratory) {
+        row.append(this.element("small", this.getAttribute("lang")?.startsWith("zh")
+          ? "复用宿主已有的设备连接；软件安装完成后，设备仍需按本次实验配置。"
+          : "Reuse the host's existing device connections; installed software still needs the experiment's device configuration."));
+        if (action.modules?.length) row.append(this.element("small", action.modules.map(id => this.selectedTitles.get(id) ?? id).join(", ")));
+      }
       this.detail.append(row);
     }
   }

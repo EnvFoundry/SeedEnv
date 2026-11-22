@@ -23,6 +23,8 @@ export interface SearchScope { field?: string; direction?: string }
 export interface PlanAction {
   component: string;
   title: string;
+  /** Selected tasks using this shared software or host connection. */
+  modules?: string[];
   kind: "python" | "environment" | "command" | "plugin" | "connector";
   action: "reuse" | "share" | "install" | "connect" | "setup" | "choose-host" | "add-plugin" | "configure-connector";
   provided_by?: string;
