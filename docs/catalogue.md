@@ -3,7 +3,7 @@
 Fields and directions are navigation. Select individual tasks; shared software is prepared once.
 领域和方向用于导航。按任务选装，跨领域共享同一软件；关联资源单独展示。
 
-198 distinct task modules · 8 related resources / 198 个不同任务模块 · 8 个关联资源
+202 distinct task modules · 8 related resources / 202 个不同任务模块 · 8 个关联资源
 
 | Entry / 入口 | Group / 类型 | Directions / 方向 | Distinct tasks / 不同任务 | Related resources / 关联资源 |
 | --- | --- | ---: | ---: | ---: |
@@ -22,7 +22,8 @@ Fields and directions are navigation. Select individual tasks; shared software i
 | Astronomy & space · 天文与空间 | Research / 研究领域 | 5 | 18 | 1 |
 | Economics & finance · 经济与金融 | Research / 研究领域 | 5 | 16 | 1 |
 | Experimental science · 实验科学 | Shared / 公共能力 | 7 | 42 | 1 |
-| Research essentials · 通用研究工具 | Shared / 公共能力 | 4 | 14 | 1 |
+| Scientific Basics · 科研基础 | Shared / 公共能力 | 4 | 17 | 1 |
+| Scientific Writing · 科研写作 | Shared / 公共能力 | 5 | 6 | 0 |
 
 Counts within a field deduplicate repeated tasks. A task can appear in several fields, so field counts do not sum to the global total.
 领域内按不同模块计数；同一模块可出现在多个领域，不能把各行相加作为全局模块数。
@@ -547,25 +548,39 @@ Related resources / 关联资源：
 
 - [IOP laboratory · 实验平台](../src/seedenv/data/guides/experimental-lab.md) · `experimental-lab` — IOP · 实验平台 (connect plugin / 连接插件)
 
-## Research essentials · 通用研究工具
+## Scientific Basics · 科研基础
 
 | Direction / 方向 | Task / 任务 | Software / 软件 |
 | --- | --- | --- |
+| Computing · 计算 | [Scientific Python · 科研 Python 基础](../src/seedenv/data/guides/scientific-python.md) · `scientific-python` | Scientific Python · 科学计算 (pip) |
 | Computing · 计算 | [Numerical computing · 数值计算](../src/seedenv/data/guides/numerical-computing.md) · `numerical-computing` | NumPy / SciPy (pip) |
 | Computing · 计算 | [Symbolic mathematics · 符号数学](../src/seedenv/data/guides/symbolic-mathematics.md) · `symbolic-mathematics` | SymPy (pip) |
 | Computing · 计算 | [Julia science · Julia 科学计算](../src/seedenv/data/guides/julia-science.md) · `julia-science` | Julia · 科学计算 (connect command / 连接程序) |
-| Computing · 计算 | [Physical units · 物理单位计算](../src/seedenv/data/guides/physical-units.md) · `physical-units` | Pint (pip) |
+| Computing · 计算 | [R statistics · R 统计计算](../src/seedenv/data/guides/r-statistics.md) · `r-statistics` | R · 统计计算 (connect command / 连接程序) |
+| Statistics & models · 统计与模型 | [Optimization · 优化与运筹](../src/seedenv/data/guides/optimization.md) · `optimization` | CVXPY / HiGHS · 数学优化 (pip) |
+| Statistics & models · 统计与模型 | [Differential equations · 常微分与边值问题](../src/seedenv/data/guides/differential-equations.md) · `differential-equations` | NumPy / SciPy (pip) |
+| Statistics & models · 统计与模型 | [Uncertainty propagation · 不确定度传播](../src/seedenv/data/guides/uncertainty-propagation.md) · `uncertainty-propagation` | uncertainties (pip) |
+| Statistics & models · 统计与模型 | [Physical units · 物理单位计算](../src/seedenv/data/guides/physical-units.md) · `physical-units` | Pint (pip) |
 | Data & storage · 数据与存储 | [Tables and local data · 表格与本地数据](../src/seedenv/data/guides/tables.md) · `tables` | Polars / DuckDB / Arrow · 表格与数据 (pip) |
 | Data & storage · 数据与存储 | [Research databases · 研究数据库](../src/seedenv/data/guides/databases.md) · `databases` | SQLAlchemy / psycopg · 数据库客户端 (pip); PostgreSQL · 研究数据库连接 (connect service / 连接服务) |
 | Data & storage · 数据与存储 | [HDF5 data · HDF5 数据](../src/seedenv/data/guides/hdf5-data.md) · `hdf5-data` | h5py (pip) |
 | Data & storage · 数据与存储 | [Chunked array storage · Zarr 分块数组](../src/seedenv/data/guides/zarr-data.md) · `zarr-data` | Zarr (pip) |
-| Interactive research · 交互式研究 | [Interactive notebooks · 交互式研究笔记本](../src/seedenv/data/guides/notebooks.md) · `notebooks` | JupyterLab (pip) |
-| Interactive research · 交互式研究 | [Parameterized notebooks · 参数化笔记本运行](../src/seedenv/data/guides/parameterized-notebooks.md) · `parameterized-notebooks` | Papermill (pip) |
-| Writing & figures · 写作与图表 | [Research writing · 研究写作](../src/seedenv/data/guides/writing.md) · `writing` | LaTeX · 论文编译 (connect command / 连接程序) |
-| Writing & figures · 写作与图表 | [Literature metadata · 文献元数据](../src/seedenv/data/guides/references.md) · `references` | HTTP APIs · 数据接口 (pip); Crossref · 文献元数据 (connect service / 连接服务) |
-| Writing & figures · 写作与图表 | [Scientific plotting · 科学绘图](../src/seedenv/data/guides/scientific-plotting.md) · `scientific-plotting` | Matplotlib (pip) |
-| Writing & figures · 写作与图表 | [Research media tools · 研究音视频工具](../src/seedenv/data/guides/media-tools.md) · `media-tools` | FFmpeg (connect command / 连接程序) |
+| Notebooks & figures · 笔记本与图表 | [Interactive notebooks · 交互式研究笔记本](../src/seedenv/data/guides/notebooks.md) · `notebooks` | JupyterLab (pip) |
+| Notebooks & figures · 笔记本与图表 | [Parameterized notebooks · 参数化笔记本运行](../src/seedenv/data/guides/parameterized-notebooks.md) · `parameterized-notebooks` | Papermill (pip) |
+| Notebooks & figures · 笔记本与图表 | [Scientific plotting · 科学绘图](../src/seedenv/data/guides/scientific-plotting.md) · `scientific-plotting` | Matplotlib (pip) |
+| Notebooks & figures · 笔记本与图表 | [Research media tools · 研究音视频工具](../src/seedenv/data/guides/media-tools.md) · `media-tools` | FFmpeg (connect command / 连接程序) |
 
 Related resources / 关联资源：
 
 - [Experiment tracking · 实验记录服务连接](../src/seedenv/data/guides/experiment-tracking.md) · `experiment-tracking` — MLflow tracking (connect service / 连接服务)
+
+## Scientific Writing · 科研写作
+
+| Direction / 方向 | Task / 任务 | Software / 软件 |
+| --- | --- | --- |
+| Composition · 论证与写作 | [Scientific composition · 科研写作方法](../src/seedenv/data/guides/writing-methods.md) · `writing-methods` |  |
+| Manuscripts · 文稿与模板 | [Manuscript templates · 中英文文稿模板](../src/seedenv/data/guides/writing-templates.md) · `writing-templates` |  |
+| Typesetting · 排版与编译 | [Research writing · 研究写作](../src/seedenv/data/guides/writing.md) · `writing` | LaTeX · 论文编译 (TinyTeX / bind) |
+| References · 文献与引用 | [Literature metadata · 文献元数据](../src/seedenv/data/guides/references.md) · `references` | HTTP APIs · 数据接口 (pip); Crossref · 文献元数据 (connect service / 连接服务) |
+| References · 文献与引用 | [Bibliographies · 参考文献编排](../src/seedenv/data/guides/bibliographies.md) · `bibliographies` | LaTeX · 论文编译 (TinyTeX / bind) |
+| Figures · 科学图表 | [Scientific plotting · 科学绘图](../src/seedenv/data/guides/scientific-plotting.md) · `scientific-plotting` | Matplotlib (pip) |

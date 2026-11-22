@@ -40,6 +40,12 @@ endpoint and required field names. Put actual credentials in the host's connecti
 settings. MCP service connections can use the same connector form; the host owns
 their transport and authentication.
 
+The shared `tool-tex` component has `preparer: "tex"`: reuse a complete existing
+toolchain or prepare native TinyTeX from `data/tex.json`. Writing modules reference
+this same component. Templates and writing methods have no software dependencies;
+selecting them does not select the compiler. A catalogue field is a navigation
+group, not an instruction to install every task it contains.
+
 Physical device tasks may reference `connector-laboratory`. Keep model-specific
 requirements in each task's guide: driver, units, readbacks, timing and connection
 details. The host provides actual named devices; this component only describes

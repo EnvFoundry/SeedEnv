@@ -4,6 +4,81 @@ The same catalogue and installation service support first-run setup and settings
 The product owns its execution hosts, research spaces, permissions, account
 connections and job UI. SeedEnv owns module composition and software preparation.
 
+## Host-owned preparation
+
+For the product integration, run SeedEnv on the **selected execution host** inside
+the product's existing job. Use its user-level persistent directory, not a session
+directory. `prepare-request` is synchronous and starts no detached worker:
+
+```sh
+python -m seedenv --home /user/Research/System/env/seedenv prepare-request --file request.json
+```
+
+The same JSON may be supplied on stdin:
+
+```json
+{
+  "selections": ["scientific-python", "writing"],
+  "existing": [
+    {"command": ["/existing/science/bin/python"]},
+    {"components": ["tool-tex"], "command": ["/existing/tex/bin/latexmk"]}
+  ],
+  "options": {"offline": false}
+}
+```
+
+Supply only entries from that execution host's registry. Omit unavailable entries
+or provide an empty array. An unlabelled command is considered a Python interpreter;
+native programs must name their components. `options` accepts `python` (base
+interpreter for new venvs), `offline`, and `find_links`. Existing interpreters are
+matched against the requested imports; this does not solve arbitrary project
+dependency constraints. A project with different requirements retains its own
+environment. `Manager.reuse(selections, existing)` can bind the supplied entries
+before displaying a preparation plan; it returns reused and unmatched components.
+
+The result contains `modules`, `ready`, `pending` and `failed`. Each ready entry
+has `component`, an argument-array `command`, `location`, and `managed`. TeX entries
+also contain `commands` (named executables) and, for managed TeX, `environment`
+(PATH and writable TeX caches). Preserve these values when the native registry
+creates its execution binding. A Python entry is its actual interpreter; do not
+replace it with the product service's Python. An external entry is connected in
+place and has `managed: false`.
+
+Read progress from stderr and the final result from stdout. Exit 0 means all selected
+components are ready; 2 returns a partial result with the outstanding items; 130
+means interruption. The TypeScript `prepareOnHost` and Rust `prepare_on_host`
+methods retain partial results. Python hosts can call `Manager.prepare_request`
+directly. The host may supply `--cancel-file PATH` and create that file to cancel;
+on POSIX it may also send SIGTERM to the request process. Retry the same request
+after interruption. Completed components and unfinished pip/TeX preparation stay
+available. This does not resume a lost scientific calculation or a conda transaction.
+
+The product owns job identity, host identity, permissions and research execution.
+SeedEnv's SQL state is a local component-to-command lookup for standalone reuse;
+it does not schedule a second product job or replace the host's environment registry.
+Use the same home for product calls and its SeedEnv MCP connection.
+
+The recipe, TeX package selection, writing methods, templates and builder now live
+in SeedEnv. When wiring this route, Origo should consume those resources and retire
+its corresponding duplicate recipes/assets. Its own service Python stays product
+owned. This repository implements the shared side; it does not modify Origo's
+installer, native environment registration, or existing running installations.
+
+## Writing resources without installation
+
+`seedenv templates --language zh --form article` lists layouts. `seedenv manuscript
+standard-article-zh --output PROJECT` creates only an editable project. It never
+prepares software or replaces an existing directory. The Python functions are
+`seedenv.writing.templates` and `create_manuscript`. The TypeScript/Rust clients
+and MCP expose the same operations. `seedenv build PROJECT/main.tex` uses prepared
+TeX or an explicit `--latexmk`; it does not install packages. `build` returns status,
+PDF path and compiler output paths, with exit 2 on a compilation failure.
+
+Use `seedenv connect mcp --group scientific-writing --output PACKAGE` to export
+all writing metadata and resources. `--group scientific-basics` supplies the
+computing group. This exports small resources, not preinstalled scientific software.
+Selected exports include templates only when `writing-templates` is selected.
+
 ## Direct Python preparation
 
 ```python
@@ -21,7 +96,8 @@ if job['job'] is not None:
 Call `prepare` synchronously when the product already schedules work. `start`
 uses a detached worker for standalone clients and MCP. A terminated machine or
 container does not keep that worker alive. Repeating a preparation reuses completed
-components; it does not resume an individual interrupted package download.
+components. pip reuses its unfinished destination and cache; TeX retains its partial
+archive and extracted installation. Download resumption also depends on the server.
 `plan([])`, `prepare([])` and `start([])` are valid: nothing is installed and
 `start` returns `state: "ready", job: null`. Browsing does not create user files.
 
@@ -30,10 +106,13 @@ tokens for research services stay in host connection settings, outside catalogue
 For remote computers, run this code through the product's existing remote worker.
 
 Pass the user-level space, shared by sessions, to `research_space` (or
-`SEEDENV_RESEARCH_SPACE`). Software and SQL state live in `system/seedenv` beneath
+`SEEDENV_RESEARCH_SPACE`). Software and SQL state live in `System/env/seedenv` beneath
 it. An explicit `home` / `SEEDENV_HOME` still selects the environment directory
 directly. This does not move earlier installations. The product selects a space
 on each execution host; passing a desktop path to a server does not mount it.
+An existing legacy `system/seedenv` remains in use if the canonical location does
+not exist. When both exist, the canonical location wins; select `--home` explicitly
+to continue another existing installation. There is no background migration.
 
 `browse` only navigates. `search` supports `field` and `direction` filters and
 returns each module's software and navigation paths. Only module/component IDs
@@ -70,7 +149,10 @@ been activated. In particular, registering a `ros2` executable does not reproduc
 the ROS workspace's environment in a fresh unrelated process. Hardware drivers
 can impose narrower OS/architecture requirements than their Python clients.
 
-## Origo's existing environment API
+## Compatibility with Origo's existing environment API
+
+The older adapter below remains for existing callers. Prefer `prepare-request`
+for the shared implementation above, including independent TeX preparation.
 
 `seedenv --research-space PATH plan thin-films writing --host origo` returns
 `installation_root`, `preparations` and `connections`.
@@ -138,7 +220,7 @@ Chinese and English labels use the `lang` attribute.
 `seedenv connect origo --output PATH` creates `plugin.json`, a self-contained
 Python server, and `skills/seedenv/SKILL.md`. Move or archive the directory, import
 it in Origo, and activate it. Export with `--research-space PATH` to configure
-`PATH/system/seedenv`, or have the host supply `SEEDENV_RESEARCH_SPACE` at launch.
+`PATH/System/env/seedenv`, or have the host supply `SEEDENV_RESEARCH_SPACE` at launch.
 Without either setting, standalone behavior remains `~/.seedenv`. The package no
 longer derives software storage from a project or session workspace placeholder.
 
