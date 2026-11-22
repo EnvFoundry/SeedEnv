@@ -1,0 +1,21 @@
+name: Scientific Writing
+on:
+  push:
+    paths: ['src/seedenv/tex.py', 'src/seedenv/writing.py', 'src/seedenv/data/tex.json', 'src/seedenv/data/writing/**', 'scripts/compile_templates.py', '.github/workflows/writing.yml']
+  pull_request:
+    paths: ['src/seedenv/tex.py', 'src/seedenv/writing.py', 'src/seedenv/data/tex.json', 'src/seedenv/data/writing/**', 'scripts/compile_templates.py', '.github/workflows/writing.yml']
+permissions:
+  contents: read
+jobs:
+  templates:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - run: python -m pip install .
+      - run: python scripts/compile_templates.py --home "${{ runner.temp }}/seedenv software" --output "${{ runner.temp }}/manuscripts"
