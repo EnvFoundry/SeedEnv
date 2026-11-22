@@ -44,6 +44,7 @@ def create_manuscript(template, output):
         shutil.copy2(DATA / "writing" / item["file"], target / "main.tex")
         for asset in item["assets"]:
             shutil.copy2(DATA / "writing" / asset, target / Path(asset).name)
+        shutil.copy2(DATA / "guides" / "writing-methods.md", target / "WRITING.md")
         (target / "figures").mkdir()
         # A comment-only bibliography would make BibTeX fail on an empty project.
         # Create refs.bib when the manuscript has actual references.
@@ -51,6 +52,8 @@ def create_manuscript(template, output):
             "# Manuscript / 文稿\n\nEdit main.tex; put figures in figures/. "
             "Add actual references to refs.bib when needed.\n"
             "编辑 main.tex，图表放入 figures/；需要引用时添加真实的 refs.bib。\n\n"
+            "[WRITING.md](WRITING.md) contains bilingual composition guidance, worked examples and reference texts.\n"
+            "[WRITING.md](WRITING.md) 提供中英文写作说明、具体改写示例与参考文本，按需阅读。\n\n"
             f"Build / 编译：`seedenv build main.tex --engine {item['engine']}`\n\n"
             "This layout is editable. Follow the chosen venue's current requirements.\n"
             "这是可编辑的排版起点；投稿时按目标期刊的实际要求调整。\n", encoding="utf-8")
