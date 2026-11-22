@@ -16,9 +16,9 @@ Browse **field → research direction → module**. Fields and directions are
 navigation, not installation bundles. Nothing is selected by default. Search by
 task or software also supports selections across fields.
 
-The catalogue has **14 research fields and 2 shared groups**, with 85 directions
-and groupings, **171 distinct task modules**, and 8 related resources. Optics and
-photonics has 13 research directions and 51 task modules. Datasets and specialist
+The catalogue has **14 research fields and 2 shared groups**, with 94 directions
+and groupings, **198 distinct task modules**, and 8 related resources. Optics and
+photonics has 13 research directions and 63 task modules. Datasets and specialist
 labs appear separately as related resources. See the complete
 [field, direction and module catalogue](docs/catalogue.md). These are selectable
 starting points, not an exhaustive list of research methods.
@@ -33,8 +33,33 @@ starting points, not an exhaustive list of research methods.
 | Medical volume processing | `volume-processing` | SimpleITK |
 | Derivatives pricing | `derivatives-pricing` | QuantLib |
 | Feedback and dynamics | `control-systems` | python-control |
+| Device current–voltage measurements | `source-measure-sweeps` | PyMeasure |
+| Microscope acquisition | `microscope-control` | Pycro-Manager |
+| Liquid-handling protocols | `liquid-handling` | PyLabRobot |
+| Robot dynamics | `robot-dynamics` | MuJoCo |
 
 Modules can appear under several directions without duplicating their software.
+
+## Physical experiments
+
+Select acquisition, motion, timing and experiment tasks independently. Chemistry
+and biology can use liquid handling, flow control and microscopy; materials and
+electronics can use source-measure sweeps, temperature control, lock-in and
+waveform acquisition; mechanical and field research can use robot connections,
+CAN/Modbus equipment, GNSS and synchronized sensor streams. These tasks share
+software components across disciplines.
+
+Preparation installs software without operating equipment. A laboratory connection
+step identifies the selected tasks; the host reuses its named devices and supplies
+their driver, address and experiment settings. Native SDKs, Micro-Manager, ROS 2,
+ARTIQ and labscript retain their upstream setup requirements. Guides connect
+measurement units, coordinates, timestamps and physical assumptions to the full
+upstream interfaces. IOP remains available as a specialist integration.
+
+Editable examples include VISA and CAN emulation, a PyLabRobot resource-transfer
+simulation, robot frames and dynamics, calibration and a Bluesky adaptive scan.
+They explicitly identify simulated inputs and devices. Their successful execution
+does not imply that a physical instrument has been connected.
 
 ## Start
 
