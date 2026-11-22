@@ -1,0 +1,106 @@
+% Research Supplementary Material Template
+% Compile with LuaLaTeX.
+% Keep figure files under figures/.
+% Use refs.bib with \cite{...} when references are used.
+% LaTeX supplies section numbers; section titles contain title text only.
+% Supplementary equations, figures, and tables use S-numbered labels.
+\documentclass[aps,preprint,superscriptaddress,nofootinbib,longbibliography]{revtex4-2}
+
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb,mathtools,bm}
+\usepackage{amsthm}
+\usepackage{siunitx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{xurl}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue!55!black,citecolor=blue!55!black,urlcolor=blue!55!black]{hyperref}
+
+\graphicspath{{figures/}{./}}
+\sisetup{detect-all=true,per-mode=symbol}
+\Urlmuskip=0mu plus 2mu
+\emergencystretch=2em
+\allowdisplaybreaks
+
+\renewcommand{\thesection}{S\arabic{section}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\theequation}{S\arabic{equation}}
+
+\providecommand{\dd}{\mathop{}\!\mathrm{d}}
+\providecommand{\dv}[2]{\frac{\dd #1}{\dd #2}}
+\providecommand{\pdv}[2]{\frac{\partial #1}{\partial #2}}
+\providecommand{\vect}[1]{\boldsymbol{#1}}
+\providecommand{\mat}[1]{\mathbf{#1}}
+\providecommand{\E}{\mathbb{E}}
+\providecommand{\Var}{\operatorname{Var}}
+\providecommand{\argmin}{\operatorname*{arg\,min}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+\begin{document}
+
+\title{Supplementary Material: Article Title}
+
+\author{Author Name}
+\affiliation{Institution}
+
+\date{\today}
+
+\maketitle
+
+\section{Definitions And Notation}
+
+Text.
+
+\section{Derivations And Proofs}
+
+Text.
+
+\begin{equation}
+  \mathcal{A}(u,v) = \mathcal{B}(u,v) + \mathcal{R}(u,v).
+  \label{eq:s-example}
+\end{equation}
+
+\section{Protocols}
+
+Text.
+
+\section{Additional Results}
+
+Text.
+
+\begin{figure}[t]
+  \centering
+  \fbox{\rule{0pt}{1.7in}\rule{0.80\textwidth}{0pt}}
+  \caption{Supplementary figure caption.\label{fig:s-example}}
+\end{figure}
+
+\begin{table}[t]
+  \caption{Supplementary table caption.\label{tab:s-example}}
+  \begin{ruledtabular}
+  \begin{tabular}{lcc}
+  Row & Column A & Column B \\
+  \colrule
+  A & -- & -- \\
+  B & -- & -- \\
+  \end{tabular}
+  \end{ruledtabular}
+\end{table}
+
+\section{Additional Materials}
+
+Text.
+
+\IfFileExists{refs.bib}{\bibliography{refs}}{}
+
+\end{document}
+
