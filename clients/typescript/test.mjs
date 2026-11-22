@@ -22,6 +22,12 @@ test('TypeScript uses the real catalogue and host request format', async () => {
     await assert.rejects(api.plan(['optics']), /is a field/);
     await assert.rejects(api.plan(['unknown-module']), /Unknown module/);
     assert.equal((await api.search('$(touch forbidden);')).items.length, 0);
+    assert.equal((await api.search('--a-search-term')).items.length, 0);
+    assert.deepEqual((await api.plan([])).actions, []);
+    assert.equal((await api.prepare([])).job, null);
+    assert.equal((await api.context(['thin-films'])).modules[0].id, 'thin-films');
+    assert.match((await api.example('thin-films')).content, /coh_tmm/);
+    assert.equal((await api.browse('optics')).resources.some(m => m.id === 'optical-lab'), true);
   } finally { await rm(home, { recursive: true, force: true }); }
 });
 
@@ -47,6 +53,12 @@ test('Picker reviews software before starting and reports completion', async () 
   await new Promise(resolve => setImmediate(resolve));
   const root = picker.shadowRoot;
   assert.equal(root.querySelectorAll('input[type=checkbox]').length, 0);
+  let skips = 0;
+  picker.addEventListener('seedenv-skip', () => skips++);
+  [...root.querySelectorAll('button')].find(x => x.textContent === '以后再准备').click();
+  assert.equal(skips, 1);
+  assert.equal(starts, 0);
+  assert.equal([...root.querySelectorAll('button')].find(x => x.textContent === '查看准备内容').disabled, true);
   const field = root.querySelector('select[aria-label="研究领域"]');
   field.value='optics'; field.dispatchEvent(new dom.window.Event('change'));
   await new Promise(resolve => setImmediate(resolve));
@@ -70,5 +82,18 @@ test('Picker reviews software before starting and reports completion', async () 
   await finished;
   assert.equal(starts, 1);
   assert.equal(root.querySelector('[role=status]').textContent, '可以开始使用');
+  let polls = 0;
+  picker.api.status = async () => {
+    if (++polls === 1) throw new Error('Temporary connection interruption');
+    return {id:'persisted', state:'ready', selection:['thin-films'], result:{ready:[],pending:[],failed:[]},error:null};
+  };
+  picker.resume('persisted');
+  await new Promise(resolve => setImmediate(resolve));
+  const retry = [...root.querySelectorAll('button')].find(x => x.textContent === '重新读取进度');
+  assert.equal(retry.hidden, false);
+  retry.click();
+  await new Promise(resolve => setImmediate(resolve));
+  assert.equal(root.querySelector('[role=status]').textContent, '可以开始使用');
+  assert.equal(starts, 1); // Reopening and reading progress never reinstalls software.
   picker.remove(); dom.window.close();
 });

@@ -1,11 +1,11 @@
-import type { ModuleSummary, Navigation, Plan, Preparation, SearchScope } from "./index.js";
+import type { ModuleSummary, Navigation, Plan, Preparation, PreparationStart, SearchScope } from "./index.js";
 
 /** Implement this bridge in the product. No credentials or shell live in the UI. */
 export interface ResearchEnvironmentAPI {
   browse(field?: string): Promise<Navigation>;
   search(query?: string, offset?: number, limit?: number, signal?: AbortSignal, scope?: SearchScope): Promise<{ items: ModuleSummary[]; total: number; next_offset: number | null }>;
   plan(selections: string[]): Promise<Plan>;
-  prepare(selections: string[]): Promise<{ job: string; state: string }>;
+  prepare(selections: string[]): Promise<PreparationStart>;
   status(job: string): Promise<Preparation>;
   cancel(job: string): Promise<{ job: string; state: string }>;
 }
@@ -46,10 +46,18 @@ export class SeedEnvPicker extends HTMLElement {
   private prepareButton!: HTMLButtonElement;
   private more!: HTMLButtonElement;
   private cancelButton!: HTMLButtonElement;
+  private retryButton!: HTMLButtonElement;
+  private pollFailed = false;
 
   constructor() { super(); this.attachShadow({ mode: "open" }); }
   set api(value: ResearchEnvironmentAPI | undefined) { this.bridge = value; if (this.isConnected) void this.navigate(); }
   get api(): ResearchEnvironmentAPI | undefined { return this.bridge; }
+  /** Resume a persisted job when onboarding or settings is reopened. */
+  resume(job: string) {
+    if (this.busy && this.job && this.job !== job) throw new Error("Another preparation is already being followed");
+    this.job = job; this.busy = true; this.pollFailed = false;
+    if (this.isConnected) { this.update(); void this.checkProgress(); }
+  }
   private get t() { return words[this.getAttribute("lang")?.startsWith("zh") ? "zh" : "en"]; }
   private get n() { return navigationWords[this.getAttribute("lang")?.startsWith("zh") ? "zh" : "en"]; }
   private label(title: string) {
@@ -109,7 +117,8 @@ export class SeedEnvPicker extends HTMLElement {
     this.review = this.button(this.t.plan, () => void this.reviewPlan());
     this.prepareButton = this.button(this.t.prepare, () => void this.begin()); this.prepareButton.className = "primary";
     this.cancelButton = this.button(this.t.cancel, () => void this.cancel());
-    actions.append(this.review, this.prepareButton, this.cancelButton,
+    this.retryButton = this.button(this.getAttribute("lang")?.startsWith("zh") ? "重新读取进度" : "Refresh progress", () => { this.pollFailed = false; void this.checkProgress(); this.update(); });
+    actions.append(this.review, this.prepareButton, this.cancelButton, this.retryButton,
       this.button(this.t.skip, () => this.dispatchEvent(new CustomEvent("seedenv-skip", { bubbles: true, composed: true }))));
     root.append(style, title, intro, navigation, search, this.list, this.more, this.summary, this.basket, this.detail, actions, this.live);
     this.update();
@@ -128,6 +137,7 @@ export class SeedEnvPicker extends HTMLElement {
     this.prepareButton.hidden = !this.currentPlan;
     this.prepareButton.disabled = this.busy;
     this.cancelButton.hidden = !this.job || !this.busy;
+    this.retryButton.hidden = !this.pollFailed;
     this.more.hidden = this.offset === null;
     this.live.textContent = this.message;
     for (const input of this.list.querySelectorAll("input")) input.disabled = this.busy;
@@ -142,13 +152,25 @@ export class SeedEnvPicker extends HTMLElement {
     try {
       const navigation = await this.bridge.browse(this.scope.field);
       if (revision !== this.navigationRevision || !this.isConnected) return;
-      const fill = (select: HTMLSelectElement, title: string, items: Navigation["fields"], value?: string) => {
+      const fill = (select: HTMLSelectElement, title: string, items: Navigation["fields"], value?: string, grouped = false) => {
         const blank = this.element("option", title); blank.value = "";
         select.replaceChildren(blank);
-        for (const item of items) { const option = this.element("option", `${this.label(item.title)} (${item.module_count})`); option.value = item.id; select.append(option); }
+        const groups = new Map<string, HTMLOptGroupElement>();
+        for (const item of items) {
+          const option = this.element("option", `${this.label(item.title)} (${item.module_count})`); option.value = item.id;
+          if (grouped) {
+            const kind = item.kind ?? "research";
+            if (!groups.has(kind)) {
+              const group = this.element("optgroup");
+              group.label = this.getAttribute("lang")?.startsWith("zh") ? (kind === "shared" ? "公共研究能力" : "研究领域") : (kind === "shared" ? "Shared research tools" : "Research fields");
+              groups.set(kind, group); select.append(group);
+            }
+            groups.get(kind)!.append(option);
+          } else select.append(option);
+        }
         select.value = value ?? "";
       };
-      fill(this.fields, this.n.allFields, navigation.fields, this.scope.field);
+      fill(this.fields, this.n.allFields, navigation.fields, this.scope.field, true);
       fill(this.directions, this.n.allDirections, navigation.directions, this.scope.direction);
       await this.load(true);
     } catch (error) { if (revision === this.navigationRevision) this.fail(error); }
@@ -174,6 +196,7 @@ export class SeedEnvPicker extends HTMLElement {
           this.selectedTitles.set(item.id, this.label(item.title)); this.invalidatePlan();
         });
         const text = this.element("span", this.label(item.title));
+        if (item.kind === "resource") text.append(this.element("small", this.getAttribute("lang")?.startsWith("zh") ? "关联资源与专业环境" : "Related resource or specialist environment"));
         text.append(this.element("small", this.getAttribute("lang")?.startsWith("zh") ? item.summary : (item.summary_en ?? item.summary)));
         const path = item.paths?.find(p => p.field === this.scope.field) ?? item.paths?.[0];
         if (path) text.append(this.element("small", `${this.label(path.field_title)} › ${this.label(path.direction_title)}`));
@@ -202,10 +225,12 @@ export class SeedEnvPicker extends HTMLElement {
   private showActions(actions: Plan["actions"]) {
     this.detail.replaceChildren(this.element("h3", this.t.guide));
     for (const action of actions) {
-      const label = action.action === "configure-connector" ? this.t.setup : this.t[action.action];
+      const label = action.action === "configure-connector" ? this.t.setup : action.action === "share"
+        ? (this.getAttribute("lang")?.startsWith("zh") ? "与已选模块共用" : "Share selected software") : this.t[action.action];
       const row = this.element("div", `${this.label(action.title)} · ${label}`); row.className = "row";
-      if (action.requirements?.length) {
-        const names = action.requirements.map(r => r.match(/^[A-Za-z0-9_.-]+(?:\[[^\]]+\])?/)?.[0] ?? r);
+      const packages = action.requirements ?? action.packages;
+      if (packages?.length) {
+        const names = packages.map(r => r.match(/^[A-Za-z0-9_.-]+(?:\[[^\]]+\])?/)?.[0] ?? r);
         row.append(this.element("small", [...new Set(names)].join(", ")));
       }
       if (action.instructions) row.append(this.element("small", action.instructions));
@@ -216,15 +241,22 @@ export class SeedEnvPicker extends HTMLElement {
     if (!this.bridge || !this.currentPlan || this.busy) return;
     this.busy = true; this.message = this.t.running; this.update();
     try {
-      const job = await this.bridge.prepare([...this.selected]); this.job = job.job; this.update();
+      const job = await this.bridge.prepare([...this.selected]); this.job = job.job ?? undefined; this.update();
       this.dispatchEvent(new CustomEvent("seedenv-started", { detail: job, bubbles: true, composed: true }));
-      await this.checkProgress();
+      if (job.job) await this.checkProgress();
+      else {
+        this.busy = false; this.message = this.t.ready; this.update();
+        this.dispatchEvent(new CustomEvent("seedenv-finished", { detail: job, bubbles: true, composed: true }));
+      }
     } catch (error) { this.busy = false; this.fail(error); }
   }
   private async checkProgress() {
     if (!this.job || !this.bridge || !this.isConnected) return;
+    const job = this.job;
     try {
-      const status = await this.bridge.status(this.job);
+      const status = await this.bridge.status(job);
+      if (job !== this.job || !this.isConnected) return;
+      this.pollFailed = false;
       if (["queued", "running"].includes(status.state)) {
         this.poll = setTimeout(() => void this.checkProgress(), 1000); return;
       }
@@ -235,7 +267,7 @@ export class SeedEnvPicker extends HTMLElement {
       for (const failure of status.result?.failed ?? []) this.detail.append(this.element("p", `${failure.component}: ${failure.error}`));
       this.dispatchEvent(new CustomEvent("seedenv-finished", { detail: status, bubbles: true, composed: true }));
       this.update();
-    } catch (error) { this.busy = false; this.fail(error); }
+    } catch (error) { if (job === this.job && this.isConnected) { this.pollFailed = true; this.fail(error); } }
   }
   private async cancel() {
     if (!this.bridge || !this.job) return;

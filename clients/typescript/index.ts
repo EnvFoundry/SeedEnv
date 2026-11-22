@@ -5,6 +5,7 @@ export interface ModuleSummary {
   title: string;
   summary: string;
   summary_en?: string;
+  kind?: "module" | "resource";
   tags: string[];
   components: string[];
   includes: string[];
@@ -12,18 +13,25 @@ export interface ModuleSummary {
   software: { id: string; title: string; kind: string }[];
 }
 export interface Navigation {
-  fields: { id: string; title: string; module_count: number }[];
+  fields: { id: string; title: string; module_count: number; direction_count?: number; resource_count?: number; kind?: "research" | "shared" }[];
   field: string | null;
   directions: { id: string; title: string; module_count: number }[];
+  resources?: ModuleSummary[];
+  totals?: { fields: number; directions: number; modules: number; resources: number };
 }
 export interface SearchScope { field?: string; direction?: string }
 export interface PlanAction {
   component: string;
   title: string;
   kind: "python" | "environment" | "command" | "plugin" | "connector";
-  action: "reuse" | "install" | "connect" | "setup" | "choose-host" | "add-plugin" | "configure-connector";
+  action: "reuse" | "share" | "install" | "connect" | "setup" | "choose-host" | "add-plugin" | "configure-connector";
+  provided_by?: string;
   command?: string[] | null;
   requirements?: string[];
+  packages?: string[];
+  installer?: string | null;
+  channel?: string;
+  location?: string;
   instructions?: string;
   url?: string;
   connection?: Record<string, unknown>;
@@ -43,6 +51,25 @@ export interface Preparation {
   result: { ready: unknown[]; pending: PlanAction[]; failed: { component: string; error: string }[] } | null;
   error: string | null;
   output?: string;
+}
+export interface PreparationStart {
+  job: string | null;
+  state: "queued" | "ready";
+  result?: Preparation["result"];
+}
+export interface ResearchExample {
+  module: string;
+  component: string;
+  file: string;
+  args?: string[];
+  uri: string;
+  content: string;
+}
+export interface ResearchContext {
+  modules: { id: string; title: string; guide: string; example: Omit<ResearchExample, "content" | "module"> | null; paths: ModuleSummary["paths"] }[];
+  software: PlanAction[];
+  storage: Plan["storage"];
+  ready: boolean;
 }
 export interface OrigoPreparation {
   component: string;
@@ -104,16 +131,22 @@ export class SeedEnv {
   }
   search(query = "", offset = 0, limit = 20, signal?: AbortSignal, scope: SearchScope = {}) {
     return this.request<{items: ModuleSummary[]; total: number; next_offset: number | null}>(
-      ["search", query, "--offset", String(offset), "--limit", String(limit),
-       ...(scope.field ? ["--field", scope.field] : []), ...(scope.direction ? ["--direction", scope.direction] : [])], signal);
+      ["search", "--offset", String(offset), "--limit", String(limit),
+       ...(scope.field ? ["--field", scope.field] : []), ...(scope.direction ? ["--direction", scope.direction] : []), "--", query], signal);
   }
   show(name: string, signal?: AbortSignal) { return this.request<Record<string, unknown>>(["show", name], signal); }
   guide(name: string, signal?: AbortSignal) { return this.request<string>(["guide", name], signal, true); }
+  example(name: string, signal?: AbortSignal) { return this.request<ResearchExample>(["example", name], signal); }
+  context(selections: string[], signal?: AbortSignal) { return this.request<ResearchContext>(["context", ...selections], signal); }
+  discover(selections: string[], python?: string, signal?: AbortSignal) {
+    return this.request<{found: {component: string; command: string[]; action: "bind"}[]}>(
+      ["discover", ...selections, ...(python ? ["--python", python] : [])], signal);
+  }
   plan(selections: string[], target?: Plan["target"], signal?: AbortSignal) {
     return this.request<Plan>(["plan", ...selections, ...(target ? ["--target", target] : [])], signal);
   }
   prepare(selections: string[], signal?: AbortSignal) {
-    return this.request<{job: string; state: "queued"}>(["prepare", ...selections, "--background"], signal);
+    return this.request<PreparationStart>(["prepare", ...selections, "--background"], signal);
   }
   status(job: string, signal?: AbortSignal) { return this.request<Preparation>(["status", job], signal); }
   cancel(job: string, signal?: AbortSignal) { return this.request<{job: string; state: string}>(["cancel", job], signal); }
@@ -123,6 +156,10 @@ export class SeedEnv {
   }
   entry(component: string, signal?: AbortSignal) {
     return this.request<{component: string; command: string[]; location: string}>(["entry", component], signal);
+  }
+  connect(host: "origo" | "mcp", output: string, selections?: string[], signal?: AbortSignal) {
+    return this.request<{host: string; path: string; modules: string[]; installed: false; next: string}>(
+      ["connect", host, "--output", output, ...(selections ? ["--modules", ...selections] : [])], signal);
   }
   origoPlan(selections: string[], signal?: AbortSignal) {
     return this.request<{modules: string[]; installation_root: string; preparations: OrigoPreparation[]; connections: PlanAction[]}>(
