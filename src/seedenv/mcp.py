@@ -9,7 +9,7 @@ def field(kind, description=""):
     return {"type": kind, "description": description}
 
 
-SELECTION = {"type": "array", "items": {"type": "string"}, "minItems": 1}
+SELECTION = {"type": "array", "items": {"type": "string"}}
 
 
 def tools():
@@ -23,13 +23,17 @@ def tools():
          {"name": field("string")}, ["name"], True),
         ("seedenv_guide", "Read practical working instructions for one selected research module.",
          {"name": field("string")}, ["name"], True),
+        ("seedenv_example", "Read the editable starting program for a selected module, without writing or running it.",
+         {"name": field("string")}, ["name"], True),
+        ("seedenv_context", "Get only selected modules' working guides, examples and actual software commands. Does not install anything.",
+         {"selections": SELECTION}, ["selections"], True),
         ("seedenv_plan", "Combine modules, reuse known installations, and describe remaining preparation.",
          {"selections": SELECTION, "target": {"type": "string", "enum": ["linux", "darwin", "windows"]}}, ["selections"], True),
         ("seedenv_discover", "Look for selected software in an explicit Python interpreter or on PATH.",
          {"selections": SELECTION, "python": field("string")}, ["selections"], True),
         ("seedenv_bind", "Register an existing interpreter or executable for a component.",
          {"name": field("string"), "command": SELECTION}, ["name", "command"], False),
-        ("seedenv_prepare", "Start preparing selected research modules; returns a job immediately. Uses network unless offline.",
+        ("seedenv_prepare", "Prepare selected modules; returns a job, or ready with no job for an empty selection. Uses network unless offline.",
          {"selections": SELECTION, "python": field("string"), "offline": field("boolean"), "find_links": {"type": "array", "items": {"type": "string"}}}, ["selections"], False),
         ("seedenv_status", "Read preparation progress and a bounded tail of installer output.",
          {"job": field("string")}, ["job"], True),
@@ -63,6 +67,8 @@ def call(manager, name, args):
         "seedenv_browse": manager.catalog.browse,
         "seedenv_search": manager.catalog.search, "seedenv_show": manager.catalog.show,
         "seedenv_guide": manager.catalog.guide, "seedenv_plan": manager.plan,
+        "seedenv_example": manager.catalog.example,
+        "seedenv_context": manager.context,
         "seedenv_discover": lambda selections, **kw: manager.discover(selections, **kw),
         "seedenv_bind": manager.bind, "seedenv_prepare": manager.start,
         "seedenv_status": manager.status, "seedenv_cancel": manager.cancel,
@@ -90,10 +96,16 @@ def dispatch(manager, request):
         except (ValueError, OSError, RuntimeError, TypeError, KeyError) as error:
             return {"content": [{"type": "text", "text": str(error)}], "isError": True}
     if method == "resources/list":
+        visible = {name: item for name, item in manager.catalog.modules.items() if not item.get("hidden")}
         return {"resources": [{"uri": "seedenv://guides/" + name, "name": item["title"], "mimeType": "text/markdown"}
-                              for name, item in manager.catalog.modules.items()]}
+                              for name, item in visible.items()] +
+                             [{"uri": "seedenv://examples/" + name, "name": item["title"] + " example", "mimeType": "text/plain"}
+                              for name, item in visible.items() if item.get("example")]}
     if method == "resources/read":
         uri = params["uri"]
+        if uri.startswith("seedenv://examples/"):
+            example = manager.catalog.example(uri.removeprefix("seedenv://examples/"))
+            return {"contents": [{"uri": uri, "mimeType": "text/plain", "text": example["content"]}]}
         if not uri.startswith("seedenv://guides/"):
             raise ValueError("Unknown resource")
         return {"contents": [{"uri": uri, "mimeType": "text/markdown", "text": manager.catalog.guide(uri.removeprefix("seedenv://guides/"))}]}
@@ -101,8 +113,8 @@ def dispatch(manager, request):
         return {"prompts": [{"name": "start-research", "description": "Start working with an installed research module",
                              "arguments": [{"name": "module", "description": "Module ID", "required": True}]}]}
     if method == "prompts/get" and params.get("name") == "start-research":
-        guide = manager.catalog.guide(params.get("arguments", {})["module"])
-        return {"messages": [{"role": "user", "content": {"type": "text", "text": guide}}]}
+        context = manager.context([params.get("arguments", {})["module"]])
+        return {"messages": [{"role": "user", "content": {"type": "text", "text": json.dumps(context, ensure_ascii=False)}}]}
     raise ValueError(f"Unknown method: {method}")
 
 

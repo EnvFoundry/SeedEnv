@@ -34,6 +34,17 @@ def python_works(command, modules):
         return False
 
 
+def available_space(path):
+    while not path.exists() and path != path.parent:
+        path = path.parent
+    return shutil.disk_usage(path).free
+
+
+def conda_command():
+    return next((path for name in ("micromamba", "mamba", "conda")
+                 if (path := shutil.which(name)) and Path(path).suffix.lower() not in {".bat", ".cmd"}), None)
+
+
 class Manager:
     def __init__(self, home=None, catalog=None, research_space=None):
         space = research_space or os.environ.get("SEEDENV_RESEARCH_SPACE")
@@ -53,7 +64,8 @@ class Manager:
         fields = ("kind", "requirements", "imports")
         if saved and Path(saved["command"][0]).is_file() and all(
                 saved["definition"].get(key) == item.get(key) for key in fields):
-            return saved
+            if item["kind"] not in {"python", "environment"} or python_works(saved["command"], item["imports"]):
+                return saved
         # A smaller module may use a previously prepared larger environment.
         # Only explicit compatible predecessors are considered; no machine scan.
         for parent in item.get("reuse_from", []):
@@ -70,8 +82,23 @@ class Manager:
             raise ValueError("target must be linux, darwin or windows")
         local = target == platform.system().lower()
         modules, components = self.catalog.select(selections)
-        actions = []
+        # Put a selected larger environment before smaller tasks that can use it.
+        ordered, visiting = [], set()
+        def order(name):
+            if name in visiting:
+                raise ValueError(f"Circular software reuse at {name}")
+            if name in ordered:
+                return
+            visiting.add(name)
+            for parent in self._component(name).get("reuse_from", []):
+                if parent in components:
+                    order(parent)
+            visiting.remove(name)
+            ordered.append(name)
         for name in components:
+            order(name)
+        actions = []
+        for name in ordered:
             item = self._component(name)
             saved = self._available(item) if local else None
             row = {"component": name, "title": item["title"], "kind": item["kind"]}
@@ -84,13 +111,21 @@ class Manager:
             elif saved:
                 row.update(action="reuse", command=saved["command"], location=saved["location"], provided_by=saved["component"])
             elif item["kind"] == "python":
-                row.update(action="install", requirements=item["requirements"], python=item.get("python", "3.11+"))
+                shared = next((a for a in actions if a["component"] in item.get("reuse_from", [])
+                               and a["action"] in {"install", "share"}), None)
+                if shared:
+                    row.update(action="share", provided_by=shared["component"])
+                else:
+                    row.update(action="install", requirements=item["requirements"], python=item.get("python", "3.11+"))
             elif item["kind"] == "command":
                 found = next((shutil.which(x) for x in item["commands"] if shutil.which(x)), None) if local else None
                 row.update(action="connect" if found else "setup", command=[str(Path(found).absolute())] if found else None,
                            instructions=item.get("instructions", ""), sources=item.get("sources", []))
             elif item["kind"] == "environment":
-                row.update(action="setup", imports=item["imports"], instructions=item["instructions"], sources=item.get("sources", []))
+                installer = conda_command() if local and item.get("conda") else None
+                row.update(action="install" if installer else "setup", imports=item["imports"], instructions=item["instructions"], sources=item.get("sources", []))
+                if item.get("conda"):
+                    row.update(packages=item["conda"], installer=installer, channel="conda-forge")
             elif item["kind"] == "connector":
                 row.update(action="configure-connector", connection=item["connection"],
                            instructions=item.get("instructions", ""), sources=item.get("sources", []))
@@ -103,8 +138,20 @@ class Manager:
                             "reused_environments": len({tuple(a["command"]) for a in actions if a["action"] == "reuse"}),
                             "download_bytes": 0 if no_download else None,
                             "additional_disk_bytes": 0 if no_download else None,
-                            "free_bytes": shutil.disk_usage(self.home).free if local else None},
+                            "free_bytes": available_space(self.home) if local else None},
                 "guides": [{"module": name, "title": self.catalog.modules[name]["title"]} for name in modules]}
+
+    def context(self, selections):
+        """Return only the chosen working guides and the actual execution entries."""
+        plan = self.plan(selections)
+        modules = []
+        for name in plan["modules"]:
+            item = self.catalog.modules[name]
+            example = {**item["example"], "uri": "seedenv://examples/" + name} if item.get("example") else None
+            modules.append({"id": name, "title": item["title"], "guide": self.catalog.guide(name),
+                            "example": example, "paths": self.catalog.paths[name]})
+        return {"modules": modules, "software": plan["actions"], "storage": plan["storage"],
+                "ready": all(a["action"] in {"reuse", "connect"} for a in plan["actions"])}
 
     def discover(self, names, python=None):
         """Inspect an explicit interpreter or PATH. Does not import every installed package."""
@@ -133,7 +180,7 @@ class Manager:
         with installation_lock(self.home / "locks" / (name + ".lock")):
             return self.state.bind(name, item, command, Path(command[0]).parent, False)
 
-    def _prepare_python(self, item, *, python=None, offline=False, find_links=(), cancel=None):
+    def _prepare_managed(self, item, *, python=None, offline=False, find_links=(), cancel=None):
         name = item["id"]
         with installation_lock(self.home / "locks" / (name + ".lock")):
             existing = self._available(item)
@@ -155,17 +202,35 @@ class Manager:
             env["PIP_CACHE_DIR"] = str(self.home / "cache" / "pip")
             env["PYTHONNOUSERSITE"] = "1"
             try:
-                run([base, "-I", "-m", "venv", str(prefix)], env=env, cancel=cancel)
-                interpreter = prefix / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
-                options = ["--no-index"] if offline else []
-                for location in find_links:
-                    options.extend(["--find-links", str(location)])
-                run([str(interpreter), "-I", "-m", "pip", "install", "--no-input", *options, *item["requirements"]], env=env, cancel=cancel)
-                if not python_works([str(interpreter)], item["imports"]):
+                if item["kind"] == "environment":
+                    installer = conda_command()
+                    if not installer or not item.get("conda"):
+                        raise ValueError("Connect an existing solver interpreter or make micromamba, mamba or conda available")
+                    env["CONDA_PKGS_DIRS"] = str(self.home / "cache" / "conda")
+                    env["MAMBA_ROOT_PREFIX"] = str(self.home / "cache" / "mamba")
+                    run([installer, "create", "--yes", "--prefix", str(prefix), "--override-channels", "--channel", "conda-forge",
+                         *(["--offline"] if offline else []), *item["conda"]], env=env, cancel=cancel)
+                    interpreter = prefix / ("python.exe" if os.name == "nt" else "bin/python")
+                    # Native libraries may need activation, especially on Windows.
+                    launch = [installer, "run", "--prefix", str(prefix)]
+                    if Path(installer).stem.lower() == "conda":
+                        launch.append("--no-capture-output")
+                    else:
+                        launch += ["--root-prefix", str(self.home / "cache" / "mamba")]
+                    launch.append(str(interpreter))
+                else:
+                    run([base, "-I", "-m", "venv", str(prefix)], env=env, cancel=cancel)
+                    interpreter = prefix / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
+                    options = ["--no-index"] if offline else []
+                    for location in find_links:
+                        options.extend(["--find-links", str(location)])
+                    run([str(interpreter), "-I", "-m", "pip", "install", "--no-input", *options, *item["requirements"]], env=env, cancel=cancel)
+                    launch = [str(interpreter)]
+                if not python_works(launch, item["imports"]):
                     raise RuntimeError(f"Installed packages for {name} could not be imported")
                 if cancel and cancel.exists():
                     raise Cancelled("Preparation cancelled")
-                return self.state.bind(name, item, [str(interpreter)], prefix, True)
+                return self.state.bind(name, item, launch, prefix, True)
             except BaseException:
                 # This directory was created by this call and never published.
                 shutil.rmtree(prefix, ignore_errors=True)
@@ -180,8 +245,10 @@ class Manager:
             name = action["component"]
             item = self._component(name)
             try:
-                if action["action"] in {"reuse", "install"} and item["kind"] == "python":
-                    saved = self._prepare_python(item, python=python, offline=offline, find_links=find_links, cancel=cancel)
+                if action["action"] in {"reuse", "install", "share"} and item["kind"] in {"python", "environment"}:
+                    if action["action"] == "share" and not self._available(item):
+                        raise RuntimeError(f"Selected shared software {action['provided_by']} is not ready")
+                    saved = self._prepare_managed(item, python=python, offline=offline, find_links=find_links, cancel=cancel)
                 elif action["action"] == "reuse":
                     saved = self._available(item)
                 elif action["action"] == "connect":
@@ -202,6 +269,8 @@ class Manager:
 
     def start(self, selections, **options):
         self.catalog.select(selections)
+        if not selections:
+            return {"job": None, "state": "ready", "result": {"modules": [], "ready": [], "pending": [], "failed": []}}
         job = uuid.uuid4().hex
         folder = self.home / "jobs" / job
         folder.mkdir(parents=True)
