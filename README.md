@@ -35,6 +35,10 @@ Origo's writing resources. A connected TeX is reused; otherwise the writing modu
 can prepare TinyTeX, compilers, bibliography tools and fonts on its own. Perl is
 needed on Unix hosts. The software stays separate from editable manuscripts.
 
+New manuscripts include `WRITING.md`: Chinese and English composition, sentence
+rhythm, concrete rewrites, book and report examples, and reference passages to study.
+Short writing comments remain in the TeX source; the guidance is not printed in the PDF.
+
 Export either group's metadata, guides and resources for another agent:
 
 ```sh

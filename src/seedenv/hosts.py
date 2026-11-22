@@ -69,6 +69,9 @@ def export_plugin(output, host="origo", home=None, catalog=None, selections=None
             shutil.copy2(original, data / example["file"])
             item["example"] = example
         modules.append(item)
+    if "writing-templates" in names and "writing-methods" not in names:
+        # A template-only export can still create a complete standalone manuscript.
+        shutil.copy2(DATA / "guides" / "writing-methods.md", data / "guides" / "writing-methods.md")
     fields = []
     for field in source.fields.values():
         directions = [{**d, "modules": [n for n in d["modules"] if n in names]} for d in field["directions"]]

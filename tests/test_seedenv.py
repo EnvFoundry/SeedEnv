@@ -78,6 +78,8 @@ class SeedEnvTests(unittest.TestCase):
         create_manuscript("compact-article-zh", paper)
         self.assertTrue((paper / "main.tex").is_file())
         self.assertTrue((paper / "sn-nature.bst").is_file())
+        self.assertEqual((paper / "WRITING.md").read_bytes(),
+                         (ROOT / "src/seedenv/data/guides/writing-methods.md").read_bytes())
         self.assertFalse(self.home.exists())
         with self.assertRaises(FileExistsError):
             create_manuscript("standard-article-en", paper)
@@ -94,6 +96,7 @@ class SeedEnvTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertNotIn('"isError": true', result.stdout)
         self.assertTrue((self.root/"book/main.tex").is_file())
+        self.assertEqual((self.root/"book/WRITING.md").read_bytes(), (paper/"WRITING.md").read_bytes())
         self.assertFalse(self.home.exists())
         export_plugin(self.root/"numeric export", "mcp", selections=["numerical-computing"])
         self.assertFalse((self.root/"numeric export/seedenv/data/writing").exists())

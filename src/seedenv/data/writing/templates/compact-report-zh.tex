@@ -5,6 +5,11 @@
 % LaTeX supplies section numbers; section titles contain title text only.
 % Long paths, URLs, and commands can use \qpath, \qurl, and \qcode.
 % Use TeX-distributed fonts on every OS, without proprietary system fonts.
+% 写作：WRITING.md 提供中英文方法、具体改写、原创示例与参考文本。
+% 讲清问题、机制与结果，用具体名词和动词推进论述。
+% 删除 AI 套话、防御性空话，以及装饰性的“诊断、审计、审查、SHA、哈希校验”。
+% 真正影响结论的条件要具体说明一次；专业术语用于对应的实际对象或操作。
+% 句长服从内容，段落自然承接；章节随研究问题调整。
 \documentclass[11pt,a4paper,fontset=fandol]{ctexart}
 
 % ── 报告元信息 ─────────────────────────────────────────────
@@ -25,7 +30,7 @@
 \usepackage[dvipsnames,table]{xcolor}
 \usepackage{tikz}
 \usepackage{pgfplots}\pgfplotsset{compat=1.18}
-\graphicspath{{figures/}{figures/}}
+\graphicspath{{figures/}}
 
 % ── 表格 ──────────────────────────────────────────────────
 \usepackage{booktabs,longtable,array,tabularx,multirow,makecell,threeparttable}
@@ -204,8 +209,8 @@
 
 \section{核心思想与关键贡献}
 
-提出本工作的中心洞察和真实贡献。说明它为什么不是已有方法的简单重述，它改变了什么理解，
-以及哪些结果或产物承载了这个贡献。
+提出本工作的中心思想与实际贡献：解释、构造、测量、方法、复现、综合或否定性结果。
+说明工作建立了什么认识，以及它与最相关的已有工作的关系。
 
 \section{理论与方法}
 
@@ -218,10 +223,10 @@
 %   \label{eq:main-example-zh}
 % \end{equation}
 
-\section{实验与验证}
+\section{实验、计算或证明}
 
-说明用于检验核心思想的仿真、物理实验、证明、数据、对照、控制实验或验证流程。解释测量或
-计算了什么，以及为什么这些证据能够回答研究问题。
+说明回答研究问题所需的实验、计算、比较或证明，按实际工作调整本节标题。交代决定性的
+步骤，并将结果与所提出的思想连接起来。
 
 \begin{figure}[htbp]
 \centering
