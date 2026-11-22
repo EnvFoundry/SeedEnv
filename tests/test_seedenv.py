@@ -120,6 +120,24 @@ class SeedEnvTests(unittest.TestCase):
         self.assertTrue(all('optical-lab' not in d['modules'] for d in catalog.fields['optics']['directions']))
         self.assertEqual(next(f for f in optics['fields'] if f['id'] == 'research-essentials')['kind'], 'shared')
 
+    def test_prepared_software_keeps_laboratory_connection_with_host(self):
+        self.definition['modules'].append({'id': 'fixture-experiment', 'title': 'Experiment',
+            'components': ['fixture-python', 'connector-laboratory'], 'guide': 'guide.md'})
+        self.save_catalog()
+        manager = Manager(self.home, Catalog(self.extra))
+        result = manager.prepare(['fixture-experiment'], offline=True, find_links=[self.wheels])
+        self.assertEqual(len(result['ready']), 1)
+        self.assertEqual(result['failed'], [])
+        self.assertEqual(result['pending'][0]['connection']['type'], 'laboratory')
+        self.assertEqual(result['pending'][0]['modules'], ['fixture-experiment'])
+        context = manager.context(['fixture-experiment'])
+        self.assertFalse(context['ready'])
+        self.assertEqual(context['software'][0]['action'], 'reuse')
+        self.assertEqual(context['software'][1]['action'], 'configure-connector')
+        repeated = manager.prepare(['fixture-experiment'], offline=True, find_links=[self.wheels])
+        self.assertEqual(repeated['ready'][0]['command'], result['ready'][0]['command'])
+        self.assertEqual(len(list((self.home / 'environments').iterdir())), 1)
+
     def test_fields_navigate_without_selecting_a_whole_discipline(self):
         catalog = self.manager.catalog
         self.assertIn("optics", [f["id"] for f in catalog.browse()["fields"]])
