@@ -40,6 +40,13 @@ endpoint and required field names. Put actual credentials in the host's connecti
 settings. MCP service connections can use the same connector form; the host owns
 their transport and authentication.
 
+Physical device tasks may reference `connector-laboratory`. Keep model-specific
+requirements in each task's guide: driver, units, readbacks, timing and connection
+details. The host provides actual named devices; this component only describes
+the remaining connection step. Offline data analysis, geometry and simulation do
+not require that connector. Example programs use explicit virtual devices or
+supplied data unless a user has selected and configured actual equipment.
+
 Use `kind: "environment"` with `imports`, `instructions` and `sources` for a
 solver interpreter that needs an upstream environment. SeedEnv can discover and
 bind it. An optional `conda` list, such as `["python=3.12", "phonopy"]`, also lets

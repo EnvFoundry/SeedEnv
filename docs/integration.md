@@ -51,6 +51,25 @@ already available on that worker, with packages and caches under the same user
 space. SeedEnv does not install a second package manager. Native commands, account
 connections and host plugins keep their explicit setup routes.
 
+Physical tasks include a shared `connector-laboratory` description. Its
+`connection.type` is `laboratory`; the host supplies an execution host and named
+devices, each with its driver, address and configuration. `PlanAction.modules`
+lists the selected tasks using a component, so one connection step can present
+the relevant microscope, motion and acquisition requirements together. The
+description does not merge those physical devices into one device instance.
+
+SeedEnv returns prepared software in `ready` and the host connection in `pending`.
+The host resolves that step against its existing device manager or IOP and owns
+live device status. SeedEnv's `context.ready` therefore remains false when an
+external connection is outstanding; it is not a live device-status query. Repeating
+preparation reuses the software even while the connection is pending. Preparing
+software never opens serial ports, starts scans, homes stages or flashes boards.
+
+Launch native tools from the worker environment where their upstream setup has
+been activated. In particular, registering a `ros2` executable does not reproduce
+the ROS workspace's environment in a fresh unrelated process. Hardware drivers
+can impose narrower OS/architecture requirements than their Python clients.
+
 ## Origo's existing environment API
 
 `seedenv --research-space PATH plan thin-films writing --host origo` returns

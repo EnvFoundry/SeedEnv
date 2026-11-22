@@ -3,25 +3,25 @@
 Fields and directions are navigation. Select individual tasks; shared software is prepared once.
 领域和方向用于导航。按任务选装，跨领域共享同一软件；关联资源单独展示。
 
-171 distinct task modules · 8 related resources / 171 个不同任务模块 · 8 个关联资源
+198 distinct task modules · 8 related resources / 198 个不同任务模块 · 8 个关联资源
 
 | Entry / 入口 | Group / 类型 | Directions / 方向 | Distinct tasks / 不同任务 | Related resources / 关联资源 |
 | --- | --- | ---: | ---: | ---: |
-| Optics & photonics · 光学与光子学 | Research / 研究领域 | 13 | 51 | 3 |
+| Optics & photonics · 光学与光子学 | Research / 研究领域 | 13 | 63 | 3 |
 | Mathematics · 数学 | Research / 研究领域 | 4 | 15 | 0 |
-| AI & computing · AI 与计算 | Research / 研究领域 | 4 | 15 | 1 |
-| Physics · 物理 | Research / 研究领域 | 5 | 20 | 1 |
-| Chemistry · 化学 | Research / 研究领域 | 5 | 14 | 1 |
-| Materials · 材料 | Research / 研究领域 | 5 | 17 | 1 |
-| Life sciences · 生命科学 | Research / 研究领域 | 6 | 23 | 1 |
-| Medicine · 医学研究 | Research / 研究领域 | 5 | 17 | 1 |
-| Pharmaceutical research · 医药研究 | Research / 研究领域 | 5 | 16 | 2 |
-| Mechanical engineering · 机械工程 | Research / 研究领域 | 5 | 16 | 0 |
-| Electronics · 电子 | Research / 研究领域 | 5 | 13 | 0 |
-| Earth & environment · 地球与环境 | Research / 研究领域 | 5 | 15 | 0 |
-| Astronomy & space · 天文与空间 | Research / 研究领域 | 5 | 13 | 1 |
+| AI & computing · AI 与计算 | Research / 研究领域 | 5 | 20 | 1 |
+| Physics · 物理 | Research / 研究领域 | 5 | 29 | 1 |
+| Chemistry · 化学 | Research / 研究领域 | 6 | 20 | 1 |
+| Materials · 材料 | Research / 研究领域 | 5 | 23 | 1 |
+| Life sciences · 生命科学 | Research / 研究领域 | 7 | 31 | 1 |
+| Medicine · 医学研究 | Research / 研究领域 | 5 | 20 | 1 |
+| Pharmaceutical research · 医药研究 | Research / 研究领域 | 5 | 21 | 2 |
+| Mechanical engineering · 机械工程 | Research / 研究领域 | 6 | 26 | 0 |
+| Electronics · 电子 | Research / 研究领域 | 6 | 23 | 0 |
+| Earth & environment · 地球与环境 | Research / 研究领域 | 6 | 22 | 0 |
+| Astronomy & space · 天文与空间 | Research / 研究领域 | 5 | 18 | 1 |
 | Economics & finance · 经济与金融 | Research / 研究领域 | 5 | 16 | 1 |
-| Experimental science · 实验科学 | Shared / 公共能力 | 4 | 15 | 1 |
+| Experimental science · 实验科学 | Shared / 公共能力 | 7 | 42 | 1 |
 | Research essentials · 通用研究工具 | Shared / 公共能力 | 4 | 14 | 1 |
 
 Counts within a field deduplicate repeated tasks. A task can appear in several fields, so field counts do not sum to the global total.
@@ -62,6 +62,8 @@ Counts within a field deduplicate repeated tasks. A task can appear in several f
 | Optoelectronic devices · 光电子器件 | [Semiconductor quantum wells · 半导体量子阱与能带](../src/seedenv/data/guides/quantum-wells.md) · `quantum-wells` | Solcore (pip) |
 | Optoelectronic devices · 光电子器件 | [Laser rate equations · 激光速率方程](../src/seedenv/data/guides/laser-rate-equations.md) · `laser-rate-equations` | NumPy / SciPy (pip) |
 | Optoelectronic devices · 光电子器件 | [Circuit simulation · 电路模拟](../src/seedenv/data/guides/circuits.md) · `circuits` | ngspice · 电路模拟 (connect command / 连接程序) |
+| Optoelectronic devices · 光电子器件 | [Source-measure sweeps · 源表与器件电学扫描](../src/seedenv/data/guides/source-measure-sweeps.md) · `source-measure-sweeps` | PyMeasure (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Optoelectronic devices · 光电子器件 | [Temperature experiments · 温控与热学测量](../src/seedenv/data/guides/temperature-control.md) · `temperature-control` | PyMeasure (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
 | Nonlinear & ultrafast · 非线性与超快光学 | [Nonlinear fiber pulses · 光纤非线性脉冲传播](../src/seedenv/data/guides/fiber-pulses.md) · `fiber-pulses` | laserfun (pip) |
 | Nonlinear & ultrafast · 非线性与超快光学 | [Broadband pulse propagation · 宽带与超快脉冲](../src/seedenv/data/guides/broadband-pulses.md) · `broadband-pulses` | py-fmas (pip) |
 | Nonlinear & ultrafast · 非线性与超快光学 | [Phase matching · 非线性频率转换与相位匹配](../src/seedenv/data/guides/phase-matching.md) · `phase-matching` | NumPy / SciPy (pip) |
@@ -78,15 +80,25 @@ Counts within a field deduplicate repeated tasks. A task can appear in several f
 | Quantum optics · 量子光学 | [Photon correlations · 光子关联与量子统计](../src/seedenv/data/guides/photon-correlations.md) · `photon-correlations` | QuTiP · 量子动力学 (pip) |
 | Quantum optics · 量子光学 | [Linear quantum photonics · 线性光学量子电路](../src/seedenv/data/guides/linear-quantum-photonics.md) · `linear-quantum-photonics` | Perceval (pip) |
 | Quantum optics · 量子光学 | [Continuous-variable photonics · 连续变量量子光学](../src/seedenv/data/guides/continuous-variable-photonics.md) · `continuous-variable-photonics` | Strawberry Fields (bind interpreter / 连接解释器) |
+| Quantum optics · 量子光学 | [Photon event data · 单光子事件数据](../src/seedenv/data/guides/photon-event-data.md) · `photon-event-data` | phconvert (pip) |
+| Quantum optics · 量子光学 | [Real-time sequences · 实时时序实验](../src/seedenv/data/guides/realtime-sequences.md) · `realtime-sequences` | ARTIQ (connect command / 连接程序); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Quantum optics · 量子光学 | [Triggered experiment sequences · 触发与实验序列](../src/seedenv/data/guides/triggered-sequences.md) · `triggered-sequences` | labscript suite (bind interpreter / 连接解释器); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
 | Computational & biological imaging · 计算成像与生物光学 | [Digital holography · 数字全息与相位重建](../src/seedenv/data/guides/digital-holography.md) · `digital-holography` | pyDHM (pip) |
 | Computational & biological imaging · 计算成像与生物光学 | [Ptychography · 叠层成像与相位恢复](../src/seedenv/data/guides/ptychography.md) · `ptychography` | PtyPy (bind interpreter / 连接解释器) |
 | Computational & biological imaging · 计算成像与生物光学 | [Tissue light transport · 组织中的蒙特卡洛光输运](../src/seedenv/data/guides/tissue-light-transport.md) · `tissue-light-transport` | MCX (bind interpreter / 连接解释器) |
 | Computational & biological imaging · 计算成像与生物光学 | [Image processing · 图像处理](../src/seedenv/data/guides/images.md) · `images` | scikit-image / Pillow · 图像处理 (pip) |
-| Optical experiments · 光学实验与测量 | [Instrument connections · 仪器连接](../src/seedenv/data/guides/instruments.md) · `instruments` | PyVISA · 仪器连接 (pip) |
-| Optical experiments · 光学实验与测量 | [Camera acquisition · 工业相机采集](../src/seedenv/data/guides/camera-acquisition.md) · `camera-acquisition` | Harvesters (pip) |
-| Optical experiments · 光学实验与测量 | [Spectrometer acquisition · 光谱仪采集](../src/seedenv/data/guides/spectrometer-acquisition.md) · `spectrometer-acquisition` | python-seabreeze (pip) |
-| Optical experiments · 光学实验与测量 | [SLM wavefront control · 空间光调制与波前整形](../src/seedenv/data/guides/slm-wavefront-control.md) · `slm-wavefront-control` | slmsuite (pip) |
+| Optical experiments · 光学实验与测量 | [Instrument connections · 仪器连接](../src/seedenv/data/guides/instruments.md) · `instruments` | PyVISA · 仪器连接 (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Optical experiments · 光学实验与测量 | [Camera acquisition · 工业相机采集](../src/seedenv/data/guides/camera-acquisition.md) · `camera-acquisition` | Harvesters (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Optical experiments · 光学实验与测量 | [Spectrometer acquisition · 光谱仪采集](../src/seedenv/data/guides/spectrometer-acquisition.md) · `spectrometer-acquisition` | python-seabreeze (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Optical experiments · 光学实验与测量 | [SLM wavefront control · 空间光调制与波前整形](../src/seedenv/data/guides/slm-wavefront-control.md) · `slm-wavefront-control` | slmsuite (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
 | Optical experiments · 光学实验与测量 | [Experiment scans · 实验扫描与数据流](../src/seedenv/data/guides/experiment-scans.md) · `experiment-scans` | Bluesky / Ophyd (pip) |
+| Optical experiments · 光学实验与测量 | [Motion control · 位移台与运动控制](../src/seedenv/data/guides/motion-control.md) · `motion-control` | pylablib (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Optical experiments · 光学实验与测量 | [DAQ streams · 连续数据采集](../src/seedenv/data/guides/daq-streams.md) · `daq-streams` | openDAQ (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Optical experiments · 光学实验与测量 | [Lock-in measurements · 锁相测量](../src/seedenv/data/guides/lockin-measurements.md) · `lockin-measurements` | PyMeasure (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Optical experiments · 光学实验与测量 | [Oscilloscope acquisition · 示波器波形采集](../src/seedenv/data/guides/oscilloscope-acquisition.md) · `oscilloscope-acquisition` | PyMeasure (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Optical experiments · 光学实验与测量 | [Measurement calibration · 测量标定与误差传播](../src/seedenv/data/guides/measurement-calibration.md) · `measurement-calibration` | NumPy / SciPy (pip) |
+| Optical experiments · 光学实验与测量 | [Adaptive experiments · 自适应实验采集](../src/seedenv/data/guides/adaptive-experiments.md) · `adaptive-experiments` | Bluesky / Ophyd (pip) |
+| Optical experiments · 光学实验与测量 | [Microscope acquisition · 显微镜自动采集](../src/seedenv/data/guides/microscope-control.md) · `microscope-control` | Pycro-Manager (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
 | X-ray & synchrotron · X 射线与同步辐射 | [Synchrotron wavefronts · 同步辐射波前](../src/seedenv/data/guides/synchrotron-wavefronts.md) · `synchrotron-wavefronts` | SRW (pip) |
 | X-ray & synchrotron · X 射线与同步辐射 | [X-ray ray tracing · X 射线束线追迹](../src/seedenv/data/guides/xray-raytracing.md) · `xray-raytracing` | SHADOW4 (pip) |
 
@@ -135,6 +147,11 @@ Related resources / 关联资源：
 | Data & numerical computing · 数据与数值计算 | [Julia science · Julia 科学计算](../src/seedenv/data/guides/julia-science.md) · `julia-science` | Julia · 科学计算 (connect command / 连接程序) |
 | Graphs & retrieval · 图与检索 | [Graphs and networks · 图与网络](../src/seedenv/data/guides/networks.md) · `networks` | NetworkX · 图与网络 (pip) |
 | Graphs & retrieval · 图与检索 | [Vector search · 向量近邻检索](../src/seedenv/data/guides/vector-search.md) · `vector-search` | Faiss CPU (conda / bind) |
+| Physical AI · 物理交互与具身智能 | [Robot dynamics simulation · 机器人动力学仿真](../src/seedenv/data/guides/robot-dynamics.md) · `robot-dynamics` | MuJoCo (pip) |
+| Physical AI · 物理交互与具身智能 | [Robot and sensor frames · 机器人与传感器坐标系](../src/seedenv/data/guides/robot-geometry.md) · `robot-geometry` | pytransform3d (pip) |
+| Physical AI · 物理交互与具身智能 | [Robot connections · 机器人与 ROS 2](../src/seedenv/data/guides/robot-connections.md) · `robot-connections` | ROS 2 (connect command / 连接程序); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Physical AI · 物理交互与具身智能 | [Adaptive experiments · 自适应实验采集](../src/seedenv/data/guides/adaptive-experiments.md) · `adaptive-experiments` | Bluesky / Ophyd (pip) |
+| Physical AI · 物理交互与具身智能 | [Synchronized streams · 多设备数据流同步](../src/seedenv/data/guides/synchronized-streams.md) · `synchronized-streams` | Lab Streaming Layer · 同步数据流 (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
 
 Related resources / 关联资源：
 
@@ -159,11 +176,20 @@ Related resources / 关联资源：
 | Matter & collective behavior · 物质与集体行为 | [Lattice dynamics · 晶格动力学与声子](../src/seedenv/data/guides/phonons.md) · `phonons` | Phonopy (conda / bind) |
 | Plasma & particle physics · 等离子体与粒子物理 | [Plasma models · 等离子体计算](../src/seedenv/data/guides/plasma-models.md) · `plasma-models` | PlasmaPy (pip) |
 | Plasma & particle physics · 等离子体与粒子物理 | [Particle event data · 粒子物理事件数据](../src/seedenv/data/guides/particle-event-data.md) · `particle-event-data` | ROOT (conda / bind) |
-| Measurement & signals · 测量与信号 | [Instrument connections · 仪器连接](../src/seedenv/data/guides/instruments.md) · `instruments` | PyVISA · 仪器连接 (pip) |
+| Measurement & signals · 测量与信号 | [Instrument connections · 仪器连接](../src/seedenv/data/guides/instruments.md) · `instruments` | PyVISA · 仪器连接 (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
 | Measurement & signals · 测量与信号 | [Experiment scans · 实验扫描与数据流](../src/seedenv/data/guides/experiment-scans.md) · `experiment-scans` | Bluesky / Ophyd (pip) |
 | Measurement & signals · 测量与信号 | [Signal processing · 信号处理](../src/seedenv/data/guides/signal-processing.md) · `signal-processing` | NumPy / SciPy (pip) |
 | Measurement & signals · 测量与信号 | [Statistical models · 统计建模与推断](../src/seedenv/data/guides/statistical-models.md) · `statistical-models` | Statsmodels · 统计与时序 (pip) |
 | Measurement & signals · 测量与信号 | [Uncertainty propagation · 不确定度传播](../src/seedenv/data/guides/uncertainty-propagation.md) · `uncertainty-propagation` | uncertainties (pip) |
+| Measurement & signals · 测量与信号 | [Parameter measurements · 参数测量与实验数据集](../src/seedenv/data/guides/laboratory-measurements.md) · `laboratory-measurements` | QCoDeS (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Measurement & signals · 测量与信号 | [Lock-in measurements · 锁相测量](../src/seedenv/data/guides/lockin-measurements.md) · `lockin-measurements` | PyMeasure (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Measurement & signals · 测量与信号 | [Temperature experiments · 温控与热学测量](../src/seedenv/data/guides/temperature-control.md) · `temperature-control` | PyMeasure (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Measurement & signals · 测量与信号 | [DAQ streams · 连续数据采集](../src/seedenv/data/guides/daq-streams.md) · `daq-streams` | openDAQ (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Measurement & signals · 测量与信号 | [Real-time sequences · 实时时序实验](../src/seedenv/data/guides/realtime-sequences.md) · `realtime-sequences` | ARTIQ (connect command / 连接程序); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Measurement & signals · 测量与信号 | [Triggered experiment sequences · 触发与实验序列](../src/seedenv/data/guides/triggered-sequences.md) · `triggered-sequences` | labscript suite (bind interpreter / 连接解释器); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Measurement & signals · 测量与信号 | [Photon event data · 单光子事件数据](../src/seedenv/data/guides/photon-event-data.md) · `photon-event-data` | phconvert (pip) |
+| Measurement & signals · 测量与信号 | [Adaptive experiments · 自适应实验采集](../src/seedenv/data/guides/adaptive-experiments.md) · `adaptive-experiments` | Bluesky / Ophyd (pip) |
+| Measurement & signals · 测量与信号 | [Measurement calibration · 测量标定与误差传播](../src/seedenv/data/guides/measurement-calibration.md) · `measurement-calibration` | NumPy / SciPy (pip) |
 
 Related resources / 关联资源：
 
@@ -187,6 +213,12 @@ Related resources / 关联资源：
 | Spectroscopy & measurements · 光谱与测量 | [Spectral fitting · 光谱与峰形拟合](../src/seedenv/data/guides/molecular-spectra.md) · `molecular-spectra` | lmfit (pip) |
 | Spectroscopy & measurements · 光谱与测量 | [Assay curve models · 实验响应曲线建模](../src/seedenv/data/guides/binding-assays.md) · `binding-assays` | lmfit (pip) |
 | Spectroscopy & measurements · 光谱与测量 | [Statistical models · 统计建模与推断](../src/seedenv/data/guides/statistical-models.md) · `statistical-models` | Statsmodels · 统计与时序 (pip) |
+| Laboratory automation · 实验自动化 | [Liquid handling · 液体处理与实验板操作](../src/seedenv/data/guides/liquid-handling.md) · `liquid-handling` | PyLabRobot (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Laboratory automation · 实验自动化 | [Flow experiments · 流量与气路实验](../src/seedenv/data/guides/flow-control.md) · `flow-control` | Alicat flow controller driver (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Laboratory automation · 实验自动化 | [Temperature experiments · 温控与热学测量](../src/seedenv/data/guides/temperature-control.md) · `temperature-control` | PyMeasure (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Laboratory automation · 实验自动化 | [Instrument procedures · 仪器测量程序](../src/seedenv/data/guides/instrument-procedures.md) · `instrument-procedures` | PyMeasure (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Laboratory automation · 实验自动化 | [Parameter measurements · 参数测量与实验数据集](../src/seedenv/data/guides/laboratory-measurements.md) · `laboratory-measurements` | QCoDeS (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Laboratory automation · 实验自动化 | [Adaptive experiments · 自适应实验采集](../src/seedenv/data/guides/adaptive-experiments.md) · `adaptive-experiments` | Bluesky / Ophyd (pip) |
 
 Related resources / 关联资源：
 
@@ -212,7 +244,13 @@ Related resources / 关联资源：
 | Devices & functional materials · 器件与功能材料 | [Micromagnetics · 微磁学](../src/seedenv/data/guides/micromagnetics.md) · `micromagnetics` | MuMax3 (connect command / 连接程序) |
 | Characterization · 表征 | [Image processing · 图像处理](../src/seedenv/data/guides/images.md) · `images` | scikit-image / Pillow · 图像处理 (pip) |
 | Characterization · 表征 | [Spectral fitting · 光谱与峰形拟合](../src/seedenv/data/guides/molecular-spectra.md) · `molecular-spectra` | lmfit (pip) |
-| Characterization · 表征 | [Spectrometer acquisition · 光谱仪采集](../src/seedenv/data/guides/spectrometer-acquisition.md) · `spectrometer-acquisition` | python-seabreeze (pip) |
+| Characterization · 表征 | [Spectrometer acquisition · 光谱仪采集](../src/seedenv/data/guides/spectrometer-acquisition.md) · `spectrometer-acquisition` | python-seabreeze (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Characterization · 表征 | [Source-measure sweeps · 源表与器件电学扫描](../src/seedenv/data/guides/source-measure-sweeps.md) · `source-measure-sweeps` | PyMeasure (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Characterization · 表征 | [Temperature experiments · 温控与热学测量](../src/seedenv/data/guides/temperature-control.md) · `temperature-control` | PyMeasure (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Characterization · 表征 | [Lock-in measurements · 锁相测量](../src/seedenv/data/guides/lockin-measurements.md) · `lockin-measurements` | PyMeasure (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Characterization · 表征 | [Motion control · 位移台与运动控制](../src/seedenv/data/guides/motion-control.md) · `motion-control` | pylablib (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Characterization · 表征 | [Parameter measurements · 参数测量与实验数据集](../src/seedenv/data/guides/laboratory-measurements.md) · `laboratory-measurements` | QCoDeS (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Characterization · 表征 | [Measurement calibration · 测量标定与误差传播](../src/seedenv/data/guides/measurement-calibration.md) · `measurement-calibration` | NumPy / SciPy (pip) |
 
 Related resources / 关联资源：
 
@@ -239,12 +277,20 @@ Related resources / 关联资源：
 | Systems & evolution · 系统与进化 | [Phylogenetic structures · 系统发育结构](../src/seedenv/data/guides/phylogenetics.md) · `phylogenetics` | DendroPy (pip) |
 | Systems & evolution · 系统与进化 | [Graphs and networks · 图与网络](../src/seedenv/data/guides/networks.md) · `networks` | NetworkX · 图与网络 (pip) |
 | Microscopy · 显微成像 | [Image processing · 图像处理](../src/seedenv/data/guides/images.md) · `images` | scikit-image / Pillow · 图像处理 (pip) |
-| Microscopy · 显微成像 | [Camera acquisition · 工业相机采集](../src/seedenv/data/guides/camera-acquisition.md) · `camera-acquisition` | Harvesters (pip) |
+| Microscopy · 显微成像 | [Camera acquisition · 工业相机采集](../src/seedenv/data/guides/camera-acquisition.md) · `camera-acquisition` | Harvesters (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
 | Microscopy · 显微成像 | [Tissue light transport · 组织中的蒙特卡洛光输运](../src/seedenv/data/guides/tissue-light-transport.md) · `tissue-light-transport` | MCX (bind interpreter / 连接解释器) |
 | Microscopy · 显微成像 | [Volume processing · 三维医学影像处理](../src/seedenv/data/guides/volume-processing.md) · `volume-processing` | SimpleITK (pip) |
+| Microscopy · 显微成像 | [Microscope acquisition · 显微镜自动采集](../src/seedenv/data/guides/microscope-control.md) · `microscope-control` | Pycro-Manager (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Microscopy · 显微成像 | [Motion control · 位移台与运动控制](../src/seedenv/data/guides/motion-control.md) · `motion-control` | pylablib (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Microscopy · 显微成像 | [Photon event data · 单光子事件数据](../src/seedenv/data/guides/photon-event-data.md) · `photon-event-data` | phconvert (pip) |
 | Biological inference · 生物数据推断 | [Statistical models · 统计建模与推断](../src/seedenv/data/guides/statistical-models.md) · `statistical-models` | Statsmodels · 统计与时序 (pip) |
 | Biological inference · 生物数据推断 | [Bayesian models · 贝叶斯建模](../src/seedenv/data/guides/bayesian-models.md) · `bayesian-models` | PyMC / ArviZ (pip) |
 | Biological inference · 生物数据推断 | [R statistics · R 统计计算](../src/seedenv/data/guides/r-statistics.md) · `r-statistics` | R · 统计计算 (connect command / 连接程序) |
+| Laboratory automation · 实验自动化 | [Liquid handling · 液体处理与实验板操作](../src/seedenv/data/guides/liquid-handling.md) · `liquid-handling` | PyLabRobot (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Laboratory automation · 实验自动化 | [Flow experiments · 流量与气路实验](../src/seedenv/data/guides/flow-control.md) · `flow-control` | Alicat flow controller driver (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Laboratory automation · 实验自动化 | [Instrument procedures · 仪器测量程序](../src/seedenv/data/guides/instrument-procedures.md) · `instrument-procedures` | PyMeasure (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Laboratory automation · 实验自动化 | [Synchronized streams · 多设备数据流同步](../src/seedenv/data/guides/synchronized-streams.md) · `synchronized-streams` | Lab Streaming Layer · 同步数据流 (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Laboratory automation · 实验自动化 | [Adaptive experiments · 自适应实验采集](../src/seedenv/data/guides/adaptive-experiments.md) · `adaptive-experiments` | Bluesky / Ophyd (pip) |
 
 Related resources / 关联资源：
 
@@ -264,6 +310,9 @@ Related resources / 关联资源：
 | Physiological signals · 生理信号 | [Electrophysiology · 电生理信号分析](../src/seedenv/data/guides/electrophysiology.md) · `electrophysiology` | MNE-Python (pip) |
 | Physiological signals · 生理信号 | [Signal processing · 信号处理](../src/seedenv/data/guides/signal-processing.md) · `signal-processing` | NumPy / SciPy (pip) |
 | Physiological signals · 生理信号 | [Time series and econometrics · 时间序列与计量](../src/seedenv/data/guides/time-series.md) · `time-series` | Statsmodels · 统计与时序 (pip) |
+| Physiological signals · 生理信号 | [Synchronized streams · 多设备数据流同步](../src/seedenv/data/guides/synchronized-streams.md) · `synchronized-streams` | Lab Streaming Layer · 同步数据流 (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Physiological signals · 生理信号 | [DAQ streams · 连续数据采集](../src/seedenv/data/guides/daq-streams.md) · `daq-streams` | openDAQ (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Physiological signals · 生理信号 | [Measurement calibration · 测量标定与误差传播](../src/seedenv/data/guides/measurement-calibration.md) · `measurement-calibration` | NumPy / SciPy (pip) |
 | Population & event data · 人群与事件数据 | [Survival analysis · 生存与事件时间分析](../src/seedenv/data/guides/survival-analysis.md) · `survival-analysis` | lifelines (pip) |
 | Population & event data · 人群与事件数据 | [Causal models · 因果建模](../src/seedenv/data/guides/causal-models.md) · `causal-models` | DoWhy (pip) |
 | Population & event data · 人群与事件数据 | [Statistical models · 统计建模与推断](../src/seedenv/data/guides/statistical-models.md) · `statistical-models` | Statsmodels · 统计与时序 (pip) |
@@ -292,6 +341,11 @@ Related resources / 关联资源：
 | Assays & kinetics · 实验响应与动力学 | [Assay curve models · 实验响应曲线建模](../src/seedenv/data/guides/binding-assays.md) · `binding-assays` | lmfit (pip) |
 | Assays & kinetics · 实验响应与动力学 | [Compartment dynamics · 房室动力学](../src/seedenv/data/guides/compartment-models.md) · `compartment-models` | NumPy / SciPy (pip) |
 | Assays & kinetics · 实验响应与动力学 | [Reaction kinetics · 反应动力学](../src/seedenv/data/guides/reaction-kinetics.md) · `reaction-kinetics` | Cantera (pip) |
+| Assays & kinetics · 实验响应与动力学 | [Liquid handling · 液体处理与实验板操作](../src/seedenv/data/guides/liquid-handling.md) · `liquid-handling` | PyLabRobot (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Assays & kinetics · 实验响应与动力学 | [Microscope acquisition · 显微镜自动采集](../src/seedenv/data/guides/microscope-control.md) · `microscope-control` | Pycro-Manager (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Assays & kinetics · 实验响应与动力学 | [Instrument procedures · 仪器测量程序](../src/seedenv/data/guides/instrument-procedures.md) · `instrument-procedures` | PyMeasure (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Assays & kinetics · 实验响应与动力学 | [Parameter measurements · 参数测量与实验数据集](../src/seedenv/data/guides/laboratory-measurements.md) · `laboratory-measurements` | QCoDeS (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Assays & kinetics · 实验响应与动力学 | [Adaptive experiments · 自适应实验采集](../src/seedenv/data/guides/adaptive-experiments.md) · `adaptive-experiments` | Bluesky / Ophyd (pip) |
 | Data & inference · 数据与推断 | [Statistical models · 统计建模与推断](../src/seedenv/data/guides/statistical-models.md) · `statistical-models` | Statsmodels · 统计与时序 (pip) |
 | Data & inference · 数据与推断 | [Bayesian models · 贝叶斯建模](../src/seedenv/data/guides/bayesian-models.md) · `bayesian-models` | PyMC / ArviZ (pip) |
 | Data & inference · 数据与推断 | [Survival analysis · 生存与事件时间分析](../src/seedenv/data/guides/survival-analysis.md) · `survival-analysis` | lifelines (pip) |
@@ -318,10 +372,20 @@ Related resources / 关联资源：
 | Processes & scheduling · 过程与调度 | [Discrete-event simulation · 离散事件仿真](../src/seedenv/data/guides/discrete-events.md) · `discrete-events` | SimPy (pip) |
 | Processes & scheduling · 过程与调度 | [Discrete optimization · 离散优化与调度](../src/seedenv/data/guides/discrete-optimization.md) · `discrete-optimization` | OR-Tools (pip) |
 | Processes & scheduling · 过程与调度 | [Optimization · 优化与运筹](../src/seedenv/data/guides/optimization.md) · `optimization` | CVXPY / HiGHS · 数学优化 (pip) |
-| Experiments · 实验 | [Instrument connections · 仪器连接](../src/seedenv/data/guides/instruments.md) · `instruments` | PyVISA · 仪器连接 (pip) |
+| Experiments · 实验 | [Instrument connections · 仪器连接](../src/seedenv/data/guides/instruments.md) · `instruments` | PyVISA · 仪器连接 (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
 | Experiments · 实验 | [Experiment scans · 实验扫描与数据流](../src/seedenv/data/guides/experiment-scans.md) · `experiment-scans` | Bluesky / Ophyd (pip) |
 | Experiments · 实验 | [Image processing · 图像处理](../src/seedenv/data/guides/images.md) · `images` | scikit-image / Pillow · 图像处理 (pip) |
-| Experiments · 实验 | [Serial devices · 串口设备连接](../src/seedenv/data/guides/serial-devices.md) · `serial-devices` | pySerial (pip) |
+| Experiments · 实验 | [Serial devices · 串口设备连接](../src/seedenv/data/guides/serial-devices.md) · `serial-devices` | pySerial (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Experiments · 实验 | [Motion control · 位移台与运动控制](../src/seedenv/data/guides/motion-control.md) · `motion-control` | pylablib (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Experiments · 实验 | [DAQ streams · 连续数据采集](../src/seedenv/data/guides/daq-streams.md) · `daq-streams` | openDAQ (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Experiments · 实验 | [CAN devices · CAN 总线设备](../src/seedenv/data/guides/can-devices.md) · `can-devices` | python-can (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Experiments · 实验 | [Modbus devices · 工业与实验传感器](../src/seedenv/data/guides/modbus-devices.md) · `modbus-devices` | PyModbus (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Experiments · 实验 | [Measurement calibration · 测量标定与误差传播](../src/seedenv/data/guides/measurement-calibration.md) · `measurement-calibration` | NumPy / SciPy (pip) |
+| Robotics · 机器人 | [Robot connections · 机器人与 ROS 2](../src/seedenv/data/guides/robot-connections.md) · `robot-connections` | ROS 2 (connect command / 连接程序); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Robotics · 机器人 | [Robot and sensor frames · 机器人与传感器坐标系](../src/seedenv/data/guides/robot-geometry.md) · `robot-geometry` | pytransform3d (pip) |
+| Robotics · 机器人 | [Robot dynamics simulation · 机器人动力学仿真](../src/seedenv/data/guides/robot-dynamics.md) · `robot-dynamics` | MuJoCo (pip) |
+| Robotics · 机器人 | [Embedded measurement boards · 嵌入式测量板](../src/seedenv/data/guides/embedded-boards.md) · `embedded-boards` | MicroPython mpremote (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Robotics · 机器人 | [Synchronized streams · 多设备数据流同步](../src/seedenv/data/guides/synchronized-streams.md) · `synchronized-streams` | Lab Streaming Layer · 同步数据流 (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
 
 ## Electronics · 电子
 
@@ -337,9 +401,19 @@ Related resources / 关联资源：
 | Signals & control · 信号与控制 | [Signal processing · 信号处理](../src/seedenv/data/guides/signal-processing.md) · `signal-processing` | NumPy / SciPy (pip) |
 | Signals & control · 信号与控制 | [Control systems · 控制系统分析](../src/seedenv/data/guides/control-systems.md) · `control-systems` | python-control (pip) |
 | Signals & control · 信号与控制 | [Time series and econometrics · 时间序列与计量](../src/seedenv/data/guides/time-series.md) · `time-series` | Statsmodels · 统计与时序 (pip) |
-| Acquisition & interfaces · 采集与接口 | [Instrument connections · 仪器连接](../src/seedenv/data/guides/instruments.md) · `instruments` | PyVISA · 仪器连接 (pip) |
-| Acquisition & interfaces · 采集与接口 | [Serial devices · 串口设备连接](../src/seedenv/data/guides/serial-devices.md) · `serial-devices` | pySerial (pip) |
+| Acquisition & interfaces · 采集与接口 | [Instrument connections · 仪器连接](../src/seedenv/data/guides/instruments.md) · `instruments` | PyVISA · 仪器连接 (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Acquisition & interfaces · 采集与接口 | [Serial devices · 串口设备连接](../src/seedenv/data/guides/serial-devices.md) · `serial-devices` | pySerial (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
 | Acquisition & interfaces · 采集与接口 | [Experiment scans · 实验扫描与数据流](../src/seedenv/data/guides/experiment-scans.md) · `experiment-scans` | Bluesky / Ophyd (pip) |
+| Acquisition & interfaces · 采集与接口 | [Source-measure sweeps · 源表与器件电学扫描](../src/seedenv/data/guides/source-measure-sweeps.md) · `source-measure-sweeps` | PyMeasure (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Acquisition & interfaces · 采集与接口 | [Oscilloscope acquisition · 示波器波形采集](../src/seedenv/data/guides/oscilloscope-acquisition.md) · `oscilloscope-acquisition` | PyMeasure (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Acquisition & interfaces · 采集与接口 | [Lock-in measurements · 锁相测量](../src/seedenv/data/guides/lockin-measurements.md) · `lockin-measurements` | PyMeasure (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Acquisition & interfaces · 采集与接口 | [Logic acquisition · 数字信号与协议采集](../src/seedenv/data/guides/logic-acquisition.md) · `logic-acquisition` | sigrok-cli (connect command / 连接程序); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Acquisition & interfaces · 采集与接口 | [Radio signal acquisition · 射频信号采集](../src/seedenv/data/guides/radio-acquisition.md) · `radio-acquisition` | SoapySDR (bind interpreter / 连接解释器); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Acquisition & interfaces · 采集与接口 | [DAQ streams · 连续数据采集](../src/seedenv/data/guides/daq-streams.md) · `daq-streams` | openDAQ (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Embedded systems · 嵌入式系统 | [Embedded measurement boards · 嵌入式测量板](../src/seedenv/data/guides/embedded-boards.md) · `embedded-boards` | MicroPython mpremote (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Embedded systems · 嵌入式系统 | [CAN devices · CAN 总线设备](../src/seedenv/data/guides/can-devices.md) · `can-devices` | python-can (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Embedded systems · 嵌入式系统 | [Modbus devices · 工业与实验传感器](../src/seedenv/data/guides/modbus-devices.md) · `modbus-devices` | PyModbus (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Embedded systems · 嵌入式系统 | [Real-time sequences · 实时时序实验](../src/seedenv/data/guides/realtime-sequences.md) · `realtime-sequences` | ARTIQ (connect command / 连接程序); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
 
 ## Earth & environment · 地球与环境
 
@@ -360,6 +434,13 @@ Related resources / 关联资源：
 | Spatial models & uncertainty · 空间模型与不确定度 | [Computational geometry · 计算几何](../src/seedenv/data/guides/computational-geometry.md) · `computational-geometry` | NumPy / SciPy (pip) |
 | Spatial models & uncertainty · 空间模型与不确定度 | [Statistical models · 统计建模与推断](../src/seedenv/data/guides/statistical-models.md) · `statistical-models` | Statsmodels · 统计与时序 (pip) |
 | Spatial models & uncertainty · 空间模型与不确定度 | [Bayesian models · 贝叶斯建模](../src/seedenv/data/guides/bayesian-models.md) · `bayesian-models` | PyMC / ArviZ (pip) |
+| Field instruments · 野外观测设备 | [GNSS field data · GNSS 与野外定位数据](../src/seedenv/data/guides/gnss-streams.md) · `gnss-streams` | pyubx2 (pip) |
+| Field instruments · 野外观测设备 | [Modbus devices · 工业与实验传感器](../src/seedenv/data/guides/modbus-devices.md) · `modbus-devices` | PyModbus (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Field instruments · 野外观测设备 | [MQTT streams · MQTT 数据流](../src/seedenv/data/guides/mqtt-streams.md) · `mqtt-streams` | Eclipse Paho MQTT (pip) |
+| Field instruments · 野外观测设备 | [Embedded measurement boards · 嵌入式测量板](../src/seedenv/data/guides/embedded-boards.md) · `embedded-boards` | MicroPython mpremote (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Field instruments · 野外观测设备 | [Synchronized streams · 多设备数据流同步](../src/seedenv/data/guides/synchronized-streams.md) · `synchronized-streams` | Lab Streaming Layer · 同步数据流 (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Field instruments · 野外观测设备 | [DAQ streams · 连续数据采集](../src/seedenv/data/guides/daq-streams.md) · `daq-streams` | openDAQ (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Field instruments · 野外观测设备 | [Measurement calibration · 测量标定与误差传播](../src/seedenv/data/guides/measurement-calibration.md) · `measurement-calibration` | NumPy / SciPy (pip) |
 
 ## Astronomy & space · 天文与空间
 
@@ -378,6 +459,11 @@ Related resources / 关联资源：
 | Optical instruments · 光学仪器 | [Adaptive optics · 自适应光学](../src/seedenv/data/guides/adaptive-optics.md) · `adaptive-optics` | HCIPy (pip) |
 | Optical instruments · 光学仪器 | [Wavefront analysis · 波前与成像质量](../src/seedenv/data/guides/wavefront-analysis.md) · `wavefront-analysis` | prysm (pip) |
 | Optical instruments · 光学仪器 | [Image processing · 图像处理](../src/seedenv/data/guides/images.md) · `images` | scikit-image / Pillow · 图像处理 (pip) |
+| Optical instruments · 光学仪器 | [Camera acquisition · 工业相机采集](../src/seedenv/data/guides/camera-acquisition.md) · `camera-acquisition` | Harvesters (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Optical instruments · 光学仪器 | [Motion control · 位移台与运动控制](../src/seedenv/data/guides/motion-control.md) · `motion-control` | pylablib (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Optical instruments · 光学仪器 | [Radio signal acquisition · 射频信号采集](../src/seedenv/data/guides/radio-acquisition.md) · `radio-acquisition` | SoapySDR (bind interpreter / 连接解释器); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Optical instruments · 光学仪器 | [Synchronized streams · 多设备数据流同步](../src/seedenv/data/guides/synchronized-streams.md) · `synchronized-streams` | Lab Streaming Layer · 同步数据流 (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Optical instruments · 光学仪器 | [Measurement calibration · 测量标定与误差传播](../src/seedenv/data/guides/measurement-calibration.md) · `measurement-calibration` | NumPy / SciPy (pip) |
 
 Related resources / 关联资源：
 
@@ -412,21 +498,50 @@ Related resources / 关联资源：
 
 | Direction / 方向 | Task / 任务 | Software / 软件 |
 | --- | --- | --- |
-| Device connections · 设备连接 | [Instrument connections · 仪器连接](../src/seedenv/data/guides/instruments.md) · `instruments` | PyVISA · 仪器连接 (pip) |
-| Device connections · 设备连接 | [Serial devices · 串口设备连接](../src/seedenv/data/guides/serial-devices.md) · `serial-devices` | pySerial (pip) |
-| Device connections · 设备连接 | [Camera acquisition · 工业相机采集](../src/seedenv/data/guides/camera-acquisition.md) · `camera-acquisition` | Harvesters (pip) |
-| Device connections · 设备连接 | [Spectrometer acquisition · 光谱仪采集](../src/seedenv/data/guides/spectrometer-acquisition.md) · `spectrometer-acquisition` | python-seabreeze (pip) |
+| Device connections · 设备连接 | [Instrument connections · 仪器连接](../src/seedenv/data/guides/instruments.md) · `instruments` | PyVISA · 仪器连接 (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Device connections · 设备连接 | [Serial devices · 串口设备连接](../src/seedenv/data/guides/serial-devices.md) · `serial-devices` | pySerial (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Device connections · 设备连接 | [Camera acquisition · 工业相机采集](../src/seedenv/data/guides/camera-acquisition.md) · `camera-acquisition` | Harvesters (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Device connections · 设备连接 | [Spectrometer acquisition · 光谱仪采集](../src/seedenv/data/guides/spectrometer-acquisition.md) · `spectrometer-acquisition` | python-seabreeze (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Device connections · 设备连接 | [Instrument procedures · 仪器测量程序](../src/seedenv/data/guides/instrument-procedures.md) · `instrument-procedures` | PyMeasure (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Device connections · 设备连接 | [Parameter measurements · 参数测量与实验数据集](../src/seedenv/data/guides/laboratory-measurements.md) · `laboratory-measurements` | QCoDeS (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Device connections · 设备连接 | [Instrument emulation · 仪器通信模拟](../src/seedenv/data/guides/device-emulation.md) · `device-emulation` | PyVISA-sim (pip) |
 | Laboratory connections · 实验室系统连接 | [OPC UA connections · OPC UA 连接](../src/seedenv/data/guides/opc-ua.md) · `opc-ua` | asyncua (pip) |
 | Laboratory connections · 实验室系统连接 | [MQTT streams · MQTT 数据流](../src/seedenv/data/guides/mqtt-streams.md) · `mqtt-streams` | Eclipse Paho MQTT (pip) |
-| Laboratory connections · 实验室系统连接 | [EPICS process variables · EPICS 过程变量](../src/seedenv/data/guides/epics-controls.md) · `epics-controls` | PyEPICS (bind interpreter / 连接解释器) |
+| Laboratory connections · 实验室系统连接 | [EPICS process variables · EPICS 过程变量](../src/seedenv/data/guides/epics-controls.md) · `epics-controls` | PyEPICS (bind interpreter / 连接解释器); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Laboratory connections · 实验室系统连接 | [Modbus devices · 工业与实验传感器](../src/seedenv/data/guides/modbus-devices.md) · `modbus-devices` | PyModbus (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Laboratory connections · 实验室系统连接 | [CAN devices · CAN 总线设备](../src/seedenv/data/guides/can-devices.md) · `can-devices` | python-can (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Laboratory connections · 实验室系统连接 | [Embedded measurement boards · 嵌入式测量板](../src/seedenv/data/guides/embedded-boards.md) · `embedded-boards` | MicroPython mpremote (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Laboratory connections · 实验室系统连接 | [Flow experiments · 流量与气路实验](../src/seedenv/data/guides/flow-control.md) · `flow-control` | Alicat flow controller driver (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Laboratory connections · 实验室系统连接 | [Temperature experiments · 温控与热学测量](../src/seedenv/data/guides/temperature-control.md) · `temperature-control` | PyMeasure (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
 | Acquisition & control · 采集与控制 | [Experiment scans · 实验扫描与数据流](../src/seedenv/data/guides/experiment-scans.md) · `experiment-scans` | Bluesky / Ophyd (pip) |
 | Acquisition & control · 采集与控制 | [Control systems · 控制系统分析](../src/seedenv/data/guides/control-systems.md) · `control-systems` | python-control (pip) |
 | Acquisition & control · 采集与控制 | [HDF5 data · HDF5 数据](../src/seedenv/data/guides/hdf5-data.md) · `hdf5-data` | h5py (pip) |
+| Acquisition & control · 采集与控制 | [DAQ streams · 连续数据采集](../src/seedenv/data/guides/daq-streams.md) · `daq-streams` | openDAQ (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Acquisition & control · 采集与控制 | [Microscope acquisition · 显微镜自动采集](../src/seedenv/data/guides/microscope-control.md) · `microscope-control` | Pycro-Manager (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Acquisition & control · 采集与控制 | [Source-measure sweeps · 源表与器件电学扫描](../src/seedenv/data/guides/source-measure-sweeps.md) · `source-measure-sweeps` | PyMeasure (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Acquisition & control · 采集与控制 | [Lock-in measurements · 锁相测量](../src/seedenv/data/guides/lockin-measurements.md) · `lockin-measurements` | PyMeasure (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Acquisition & control · 采集与控制 | [Oscilloscope acquisition · 示波器波形采集](../src/seedenv/data/guides/oscilloscope-acquisition.md) · `oscilloscope-acquisition` | PyMeasure (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Acquisition & control · 采集与控制 | [Logic acquisition · 数字信号与协议采集](../src/seedenv/data/guides/logic-acquisition.md) · `logic-acquisition` | sigrok-cli (connect command / 连接程序); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Acquisition & control · 采集与控制 | [Radio signal acquisition · 射频信号采集](../src/seedenv/data/guides/radio-acquisition.md) · `radio-acquisition` | SoapySDR (bind interpreter / 连接解释器); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Acquisition & control · 采集与控制 | [GNSS field data · GNSS 与野外定位数据](../src/seedenv/data/guides/gnss-streams.md) · `gnss-streams` | pyubx2 (pip) |
 | Measurement processing · 测量处理 | [Signal processing · 信号处理](../src/seedenv/data/guides/signal-processing.md) · `signal-processing` | NumPy / SciPy (pip) |
 | Measurement processing · 测量处理 | [Image processing · 图像处理](../src/seedenv/data/guides/images.md) · `images` | scikit-image / Pillow · 图像处理 (pip) |
 | Measurement processing · 测量处理 | [Spectral fitting · 光谱与峰形拟合](../src/seedenv/data/guides/molecular-spectra.md) · `molecular-spectra` | lmfit (pip) |
 | Measurement processing · 测量处理 | [Uncertainty propagation · 不确定度传播](../src/seedenv/data/guides/uncertainty-propagation.md) · `uncertainty-propagation` | uncertainties (pip) |
 | Measurement processing · 测量处理 | [Physical units · 物理单位计算](../src/seedenv/data/guides/physical-units.md) · `physical-units` | Pint (pip) |
+| Measurement processing · 测量处理 | [Measurement calibration · 测量标定与误差传播](../src/seedenv/data/guides/measurement-calibration.md) · `measurement-calibration` | NumPy / SciPy (pip) |
+| Measurement processing · 测量处理 | [Photon event data · 单光子事件数据](../src/seedenv/data/guides/photon-event-data.md) · `photon-event-data` | phconvert (pip) |
+| Motion and robotics · 运动与机器人 | [Motion control · 位移台与运动控制](../src/seedenv/data/guides/motion-control.md) · `motion-control` | pylablib (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Motion and robotics · 运动与机器人 | [Robot connections · 机器人与 ROS 2](../src/seedenv/data/guides/robot-connections.md) · `robot-connections` | ROS 2 (connect command / 连接程序); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Motion and robotics · 运动与机器人 | [Robot and sensor frames · 机器人与传感器坐标系](../src/seedenv/data/guides/robot-geometry.md) · `robot-geometry` | pytransform3d (pip) |
+| Motion and robotics · 运动与机器人 | [Robot dynamics simulation · 机器人动力学仿真](../src/seedenv/data/guides/robot-dynamics.md) · `robot-dynamics` | MuJoCo (pip) |
+| Timing and synchronization · 时序与同步 | [Synchronized streams · 多设备数据流同步](../src/seedenv/data/guides/synchronized-streams.md) · `synchronized-streams` | Lab Streaming Layer · 同步数据流 (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Timing and synchronization · 时序与同步 | [Real-time sequences · 实时时序实验](../src/seedenv/data/guides/realtime-sequences.md) · `realtime-sequences` | ARTIQ (connect command / 连接程序); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Timing and synchronization · 时序与同步 | [Triggered experiment sequences · 触发与实验序列](../src/seedenv/data/guides/triggered-sequences.md) · `triggered-sequences` | labscript suite (bind interpreter / 连接解释器); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Experimental procedures · 实验程序 | [Adaptive experiments · 自适应实验采集](../src/seedenv/data/guides/adaptive-experiments.md) · `adaptive-experiments` | Bluesky / Ophyd (pip) |
+| Experimental procedures · 实验程序 | [Liquid handling · 液体处理与实验板操作](../src/seedenv/data/guides/liquid-handling.md) · `liquid-handling` | PyLabRobot (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Experimental procedures · 实验程序 | [Instrument procedures · 仪器测量程序](../src/seedenv/data/guides/instrument-procedures.md) · `instrument-procedures` | PyMeasure (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
+| Experimental procedures · 实验程序 | [Parameter measurements · 参数测量与实验数据集](../src/seedenv/data/guides/laboratory-measurements.md) · `laboratory-measurements` | QCoDeS (pip); Laboratory device connections · 实验设备连接 (connect service / 连接服务) |
 
 Related resources / 关联资源：
 

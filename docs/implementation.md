@@ -1,7 +1,7 @@
 # Implementation · 2026-11-22
 
-SeedEnv has 14 research fields and 2 shared entry groups, with 85 directions and
-groupings, 171 distinct task modules and 8 related resources. The
+SeedEnv has 14 research fields and 2 shared entry groups, with 94 directions and
+groupings, 198 distinct task modules, 188 shared components and 8 related resources. The
 [catalogue](catalogue.md) is generated from the same data used by the CLI, MCP,
 TypeScript picker and Rust client. Several directions may reference one module;
 several modules may use one software component.
@@ -46,6 +46,29 @@ This round prepared and ran the following new examples on Linux x86-64 / Python
 | python-control | Unit step for 1/(s+1) | Maximum error against analytic response 5.8 × 10⁻¹⁵ |
 | OR-Tools | Small discrete allocation | Optimal objective 7 |
 
+The physical-experiment extension adds 27 tasks, including acquisition, motion,
+robotics, timing, microscopy, liquid handling and field instruments. Eighteen
+selected Python components were prepared or reused on this Linux worker;
+software imports succeeded. Native apparatus such as ARTIQ, ROS 2 and labscript
+retain their upstream connection routes. No physical apparatus was operated.
+
+The following additional examples ran using their actual upstream libraries:
+
+| Software | Executed program | Result |
+| --- | --- | --- |
+| PyVISA-sim | Query the upstream simulated serial instrument | `LSG Serial #1234` |
+| python-can | Exchange a frame over a virtual bus | ID 291, bytes `[9, 196]`; decoded under the example's declared units |
+| pytransform3d | Compose sample/tool/base transforms | Sample origin `(0.11, 0.22, 0.33)` m; inverse returns the original point |
+| MuJoCo | Headless damped pendulum, 2 seconds | Finite trajectory; total energy decreases |
+| NumPy / SciPy | Synthetic linear calibration and inverse prediction | 2.517647 K with standard uncertainty 0.031769 K |
+| Bluesky / Ophyd / SciPy | Adaptive sampling of a virtual detector | Peak found at 0.699991 versus the supplied model's 0.7 |
+| PyLabRobot | Chatterbox transfer with volume tracking | Source 200 → 150 µL, destination 0 → 50 µL; no physical transfer |
+
+These are software simulations and synthetic calculations. Hardware compatibility,
+timing accuracy and physical measurement performance require the user's actual
+device and apparatus configuration. The host connection remains explicit after
+software preparation; repeated preparation does not reinstall its Python components.
+
 Earlier work exercised the base scientific stack and optics programs, including
 thin films, RCWA, paraxial imaging, polarization, coherence, speckle statistics,
 quantum evolution and a DEVSIM capacitor. The catalogue's other installation
@@ -54,9 +77,10 @@ instruments and external accounts were not connected in this round. The earlier
 host TeX installation lacked its XeLaTeX formats; a working TeX installation or
 the host's TeX preparation flow is still needed for that writing example.
 
-Twenty-two Python process tests pass, covering real local-wheel installation,
+Twenty-three Python process tests pass, covering real local-wheel installation,
 reuse across processes, cancellation, failed additions, empty selection, shared
-environments, selected context, local extensions and relocated MCP packages.
+environments, selected context, local extensions, relocated MCP packages and
+prepared software with a still-pending laboratory connection.
 The TypeScript client/picker tests and Rust client tests pass. Repository CI runs
 the Python process tests on Linux, Windows and macOS; this tests SeedEnv's core,
 not every upstream scientific package on those operating systems.
