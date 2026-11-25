@@ -244,3 +244,15 @@ normal interpreter or terminal interface, including the full upstream API.
 The exported plugin and adapters run independently. This repository does not
 change Origo's shipped installer, automatically activate plugins, or create
 external accounts.
+
+## Environment descriptions and files
+
+The Origo package exports `environment.presentation`, keyed by language tag,
+and `environment.resources` from `data/environment.json`. Each resource has a
+`kind`, a fallback `title`, optional translated `titles`, and a `package_path`
+relative to the exported package. Only resources included in the selected export
+are listed. The host resolves them to installed locations when it displays them.
+
+These declarations describe packaged content. They do not establish that Python
+packages, TeX, external services or instruments have been prepared; use the
+existing preparation result and environment registrations for that state.
