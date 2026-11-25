@@ -94,8 +94,13 @@ def export_plugin(output, host="origo", home=None, catalog=None, selections=None
                  "args": ["-B", str(output / "server.py")], "env": environment}}}
         (output / "mcp.json").write_text(json.dumps(value, indent=2) + "\n", encoding="utf-8")
     else:
-        value = {"name": "seedenv", "version": "0.1.0", "description": "Prepare and reuse research tools across disciplines",
-                 "skills": ["skills/seedenv"], "environment": {"resources": []},
+        contents = json.loads((DATA / "environment.json").read_text(encoding="utf-8"))
+        contents["resources"] = [item for item in contents["resources"]
+            if item["package_path"] == "plugin.json" or (output / item["package_path"]).exists()]
+        value = {"name": "seedenv", "version": "0.1.0", "display_name": "SeedEnv",
+                 "description": contents["presentation"]["en"]["summary"],
+                 "homepage": "https://github.com/EnvFoundry/SeedEnv",
+                 "skills": ["skills/seedenv"], "environment": contents,
                  "mcpServers": {"seedenv": {"transport": "stdio", "command": "${RESEARCH_PYTHON}",
                     "args": ["-B", "${PACKAGE_ROOT}/server.py"], "protocol_version": "2025-11-25",
                     "env": environment}}}

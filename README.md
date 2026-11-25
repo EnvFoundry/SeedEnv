@@ -10,6 +10,8 @@ environments, data connections, plugins and practical guidance. Specialist
 environments such as Optics-Photonics-AI-Lab and IOP retain their own scientific
 methods, knowledge and experimental workflows.
 
+Host packages include [publisher-maintained descriptions and resource locations](src/seedenv/data/environment.json) in English and Chinese. The host resolves each `package_path` against the actual installed package; installation state, software locations and running tasks remain with their existing managers. Refreshing these descriptions does not install research software.
+
 ## Scientific Basics and Scientific Writing
 
 These are shared groups of optional modules. They can be used independently of
