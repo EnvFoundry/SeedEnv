@@ -23,6 +23,15 @@
   },
   "resources": [
     {
+      "kind": "getting-started",
+      "package_path": "skills/seedenv/SKILL.md",
+      "title": "Find and prepare research software",
+      "titles": {
+        "en": "Find and prepare research software",
+        "zh-CN": "查找并准备科研软件"
+      }
+    },
+    {
       "kind": "catalogue",
       "package_path": "seedenv/data/catalog.json",
       "title": "Fields, directions and modules",
