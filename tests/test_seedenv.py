@@ -489,6 +489,15 @@ class SeedEnvTests(unittest.TestCase):
         self.assertIn("seedenv_prepare", result.stdout)
         self.assertEqual(json.loads((moved / "plugin.json").read_text())["skills"], ["skills/seedenv"])
 
+    def test_selected_plugin_exposes_only_its_packaged_resources(self):
+        exported = self.root / 'numeric plugin'
+        export_plugin(exported, selections=['numerical-computing'])
+        metadata = json.loads((exported / 'plugin.json').read_text())['environment']
+        self.assertIn('zh-CN', metadata['presentation'])
+        self.assertFalse(any(item['kind'] == 'writing' for item in metadata['resources']))
+        for resource in metadata['resources']:
+            self.assertTrue((exported / resource['package_path']).exists(), resource)
+
     def test_selected_export_contains_local_catalogue_resources_after_moving(self):
         self.definition['modules'][0]['example'] = {'component': 'fixture-python', 'file': 'example.py'}
         (self.root / 'example.py').write_text('from seedenv_fixture import square\nprint(square(3))\n')
