@@ -1,0 +1,80 @@
+{
+  "presentation": {
+    "en": {
+      "label": "Scientific foundations",
+      "summary": "Scientific computing, writing and domain software, selected by research task with existing installations reused.",
+      "capabilities": [
+        "Computing",
+        "Writing",
+        "Domain software",
+        "Templates & methods"
+      ]
+    },
+    "zh-CN": {
+      "label": "科研基础与按需软件",
+      "summary": "科学计算、论文写作与领域软件，按研究任务选择模块并复用已有安装。",
+      "capabilities": [
+        "科学计算",
+        "论文写作",
+        "领域软件",
+        "模板与方法"
+      ]
+    }
+  },
+  "resources": [
+    {
+      "kind": "catalogue",
+      "package_path": "seedenv/data/catalog.json",
+      "title": "Fields, directions and modules",
+      "titles": {
+        "en": "Fields, directions and modules",
+        "zh-CN": "领域、方向与模块"
+      }
+    },
+    {
+      "kind": "guidance",
+      "package_path": "seedenv/data/guides",
+      "title": "Research and usage guides",
+      "titles": {
+        "en": "Research and usage guides",
+        "zh-CN": "研究与使用说明"
+      }
+    },
+    {
+      "kind": "examples",
+      "package_path": "seedenv/data/examples",
+      "title": "Editable research programs",
+      "titles": {
+        "en": "Editable research programs",
+        "zh-CN": "可编辑的研究程序"
+      }
+    },
+    {
+      "kind": "writing",
+      "package_path": "seedenv/data/writing",
+      "title": "Scientific writing and templates",
+      "titles": {
+        "en": "Scientific writing and templates",
+        "zh-CN": "科研写作与文稿模板"
+      }
+    },
+    {
+      "kind": "skills",
+      "package_path": "skills/seedenv",
+      "title": "Agent guidance",
+      "titles": {
+        "en": "Agent guidance",
+        "zh-CN": "Agent 使用方法"
+      }
+    },
+    {
+      "kind": "configuration",
+      "package_path": "plugin.json",
+      "title": "MCP / Plugin",
+      "titles": {
+        "en": "MCP / Plugin",
+        "zh-CN": "MCP 与插件配置"
+      }
+    }
+  ]
+}
