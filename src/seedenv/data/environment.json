@@ -23,6 +23,15 @@
   },
   "resources": [
     {
+      "kind": "getting-started",
+      "package_path": "skills/seedenv/SKILL.md",
+      "title": "Choose and use research modules",
+      "titles": {
+        "en": "Choose and use research modules",
+        "zh-CN": "选择并使用研究模块"
+      }
+    },
+    {
       "kind": "catalogue",
       "package_path": "seedenv/data/catalog.json",
       "title": "Fields, directions and modules",
