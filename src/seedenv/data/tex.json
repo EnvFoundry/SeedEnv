@@ -9,7 +9,6 @@
     "luatexja",
     "xetex",
     "ctex",
-    "fandol",
     "revtex",
     "siunitx",
     "pgfplots",
@@ -54,5 +53,22 @@
     "biblatex",
     "biber",
     "grfext"
+  ],
+  "fonts": [
+    {
+      "id": "fandol",
+      "version": "0.4",
+      "url": "https://mirrors.ctan.org/obsolete/fonts/fandol.zip",
+      "files": {
+        "fandol/FandolSong-Regular.otf": "fonts/opentype/public/fandol/FandolSong-Regular.otf",
+        "fandol/FandolSong-Bold.otf": "fonts/opentype/public/fandol/FandolSong-Bold.otf",
+        "fandol/FandolHei-Regular.otf": "fonts/opentype/public/fandol/FandolHei-Regular.otf",
+        "fandol/FandolHei-Bold.otf": "fonts/opentype/public/fandol/FandolHei-Bold.otf",
+        "fandol/FandolKai-Regular.otf": "fonts/opentype/public/fandol/FandolKai-Regular.otf",
+        "fandol/FandolFang-Regular.otf": "fonts/opentype/public/fandol/FandolFang-Regular.otf",
+        "fandol/README": "doc/fonts/fandol/README",
+        "fandol/COPYING": "doc/fonts/fandol/COPYING"
+      }
+    }
   ]
 }
