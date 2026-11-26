@@ -1,6 +1,7 @@
 """Select components, reuse software and prepare isolated installations."""
 from __future__ import annotations
 
+from contextlib import ExitStack
 import json
 import os
 from pathlib import Path
@@ -9,7 +10,10 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import threading
+import time
 import uuid
+from datetime import datetime, timezone
 
 from .catalog import Catalog
 from .process import Cancelled, installation_lock, run
@@ -18,10 +22,10 @@ from . import tex
 
 
 def research_home(space):
-    """Use the product's System spelling, preserving an existing older location."""
     space = Path(space).expanduser()
-    current, legacy = space / "System" / "env" / "seedenv", space / "system" / "seedenv"
-    return legacy if legacy.exists() and not current.exists() else current
+    current = space / "System/software/seedenv"
+    return next((path for path in (current, space / "System/env/seedenv", space / "system/seedenv")
+                 if path.exists()), current)
 
 
 def executable(value):
@@ -282,7 +286,9 @@ class Manager:
 
     def prepare(self, selections, *, python=None, offline=False, find_links=(), cancel=None):
         plan = self.plan(selections)
-        result = {"modules": plan["modules"], "ready": [], "pending": [], "failed": []}
+        self.state.select(selections)
+        result = {"modules": plan["modules"], "ready": [], "pending": [], "failed": [],
+                  "resources": self._resources(plan["modules"])}
         for action in plan["actions"]:
             if cancel and cancel.exists():
                 raise Cancelled("Preparation cancelled")
@@ -304,9 +310,98 @@ class Manager:
                     result["pending"].append(action)
                     continue
                 result["ready"].append({**self.entry(name), "managed": saved["managed"]})
+                location = {"kind": "software", "path": str(saved["location"])}
+                if location not in result["resources"]:
+                    result["resources"].append(location)
             except (OSError, RuntimeError, ValueError, TimeoutError) as error:
                 result["failed"].append({"component": name, "error": str(error)})
         return result
+
+    def _resources(self, modules):
+        result = []
+        for name in modules:
+            module = self.catalog.modules[name]
+            paths = [("guides", module["guide"])]
+            if module.get("example"):
+                paths.append(("examples", module["example"]["file"]))
+            paths.extend(("data", path) for path in module.get("resources", []))
+            for kind, path in paths:
+                resource = {"kind": kind, "path": str(self.catalog.resource(name, path))}
+                if resource not in result:
+                    result.append(resource)
+        return result
+
+    def installed_summary(self):
+        entries = self.state.list()
+        ready = [entry for entry in entries if entry["command"] and Path(entry["command"][0]).is_file()]
+        available = {entry["component"] for entry in ready}
+        selected = [name for name in self.state.selected()
+                    if name in self.catalog.modules or name in self.catalog.components]
+        modules, _ = self.catalog.select(selected)
+        required = {name: set(self.catalog.select([name])[1]) for name in modules}
+        return {"modules": modules, "ready_modules": [name for name in modules if required[name] <= available],
+                "resources": self._resources(modules) + [{"kind": "software", "path": entry["location"]} for entry in ready],
+                "ready": ready,
+                "pending": [{"component": name, "status": "not_prepared"}
+                            for name in sorted(set().union(*required.values()) - available)],
+                "failed": [{"component": entry["component"], "error": "The registered executable is unavailable"}
+                           for entry in entries if entry["component"] not in available]}
+
+    def remove(self, selections):
+        requested_modules, requested_components = self.catalog.select(selections)
+        if not self.state.path.is_file():
+            return {"removed": [], "files": [], "retained": []}
+        with ExitStack() as locks:
+            for name in sorted(requested_components):
+                locks.enter_context(installation_lock(self.home / "locks" / (name + ".lock")))
+            locks.enter_context(installation_lock(self.home / "locks/registry.lock", wait=True))
+            recorded = self.state.selected()
+            known_recorded = [name for name in recorded
+                              if name in self.catalog.modules or name in self.catalog.components]
+            recorded_modules, _ = self.catalog.select(known_recorded)
+            remaining = [name for name in recorded if name not in selections]
+            known_remaining = [name for name in remaining
+                               if name in self.catalog.modules or name in self.catalog.components]
+            remaining_modules, remaining_components = self.catalog.select(known_remaining)
+            required = set(selections) & (set(remaining_modules) | set(remaining_components))
+            if required:
+                raise ValueError("Still required by installed modules: " + ", ".join(sorted(required)))
+            candidates = set(requested_components) - set(remaining_components)
+            with self.state.db(write=True) as db:
+                rows = [self.state.installation(row) for row in db.execute("SELECT * FROM installations")]
+                kept = [Path(row["location"]).resolve() for row in rows if row["component"] not in candidates]
+                files, retained = set(), set()
+                for row in rows:
+                    if row["component"] not in candidates:
+                        continue
+                    location = Path(row["location"])
+                    resolved = location.resolve()
+                    shared = any(resolved == other or resolved.is_relative_to(other) or other.is_relative_to(resolved)
+                                 for other in kept)
+                    owned = row["managed"] and any(resolved.parent == (self.home / area).resolve()
+                                                   for area in ("environments", "software"))
+                    if owned and not shared and not location.is_symlink():
+                        if location.is_dir():
+                            shutil.rmtree(location)
+                            files.add(str(location))
+                    elif location.exists():
+                        retained.add(str(location))
+                    db.execute("DELETE FROM installations WHERE component=?", (row["component"],))
+                    db.commit()
+                for name in sorted(candidates):
+                    pending = self.home / "preparing" / (name + ".json")
+                    if not pending.is_file():
+                        continue
+                    location = Path(json.loads(pending.read_text(encoding="utf-8"))["location"])
+                    if location.resolve().parent != (self.home / "environments").resolve() or location.is_symlink():
+                        raise ValueError(f"Unfinished installation for {name} is outside its managed directory")
+                    if location.is_dir() and not any(location.resolve() == other for other in kept):
+                        shutil.rmtree(location)
+                        files.add(str(location))
+                    pending.unlink()
+                db.executemany("DELETE FROM selections WHERE module=?", ((name,) for name in selections))
+        return {"removed": sorted(set(requested_modules) & set(recorded_modules) - set(remaining_modules)),
+                "files": sorted(files), "retained": sorted(retained)}
 
     def entry(self, component):
         saved = self._available(self._component(component))
@@ -391,7 +486,7 @@ class Manager:
     def start(self, selections, **options):
         modules, components = self.catalog.select(selections)
         if not components:
-            return {"job": None, "state": "ready", "result": {"modules": modules, "ready": [], "pending": [], "failed": []}}
+            return {"job": None, "state": "ready", "result": self.prepare(selections, **options)}
         job = uuid.uuid4().hex
         folder = self.home / "jobs" / job
         folder.mkdir(parents=True)
@@ -403,8 +498,9 @@ class Manager:
                 env = dict(os.environ)
                 env["PYTHONPATH"] = str(Path(__file__).parent.parent)
                 kwargs = {"creationflags": subprocess.CREATE_NEW_PROCESS_GROUP | subprocess.DETACHED_PROCESS} if os.name == "nt" else {"start_new_session": True}
-                subprocess.Popen([sys.executable, "-m", "seedenv.worker", str(self.home), job],
-                                 stdin=subprocess.DEVNULL, stdout=log, stderr=log, env=env, **kwargs)
+                child = subprocess.Popen([sys.executable, "-m", "seedenv.worker", str(self.home), job],
+                                         stdin=subprocess.DEVNULL, stdout=log, stderr=log, env=env, **kwargs)
+            threading.Thread(target=child.wait, daemon=True).start()
         except OSError as error:
             self.state.set_job(job, "failed", error=str(error))
             raise
@@ -412,6 +508,18 @@ class Manager:
 
     def status(self, job):
         value = self.state.job(job)
+        if value["state"] in {"queued", "running"}:
+            folder = self.home / "jobs" / job
+            age = time.time() - datetime.fromisoformat(value["created_at"]).replace(tzinfo=timezone.utc).timestamp()
+            try:
+                with installation_lock(folder / "worker.lock"):
+                    if (folder / "started").exists() or age > 30:
+                        current = self.state.job(job)
+                        if current["state"] in {"queued", "running"}:
+                            self.state.set_job(job, "failed", error="Preparation worker stopped; completed components are retained")
+            except RuntimeError:
+                pass
+            value = self.state.job(job)
         log = self.home / "jobs" / job / "output.log"
         if log.is_file():
             with log.open("rb") as stream:

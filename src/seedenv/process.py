@@ -52,7 +52,7 @@ def run(command, *, env=None, cancel=None, timeout=1800, cwd=None):
 
 
 @contextmanager
-def installation_lock(path):
+def installation_lock(path, *, wait=False):
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("a+b") as handle:
         # Do not read byte zero before locking it: Windows forbids reading a
@@ -65,10 +65,10 @@ def installation_lock(path):
         try:
             if os.name == "nt":
                 import msvcrt
-                msvcrt.locking(handle.fileno(), msvcrt.LK_NBLCK, 1)
+                msvcrt.locking(handle.fileno(), msvcrt.LK_LOCK if wait else msvcrt.LK_NBLCK, 1)
             else:
                 import fcntl
-                fcntl.flock(handle, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                fcntl.flock(handle, fcntl.LOCK_EX if wait else fcntl.LOCK_EX | fcntl.LOCK_NB)
         except OSError as error:
             raise RuntimeError("This component is being prepared by another process") from error
         try:

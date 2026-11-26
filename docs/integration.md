@@ -11,7 +11,7 @@ the product's existing job. Use its user-level persistent directory, not a sessi
 directory. `prepare-request` is synchronous and starts no detached worker:
 
 ```sh
-python -m seedenv --home /user/Research/System/env/seedenv prepare-request --file request.json
+python -m seedenv --home /user/Research/System/software/seedenv prepare-request --file request.json
 ```
 
 The same JSON may be supplied on stdin:
@@ -106,12 +106,12 @@ tokens for research services stay in host connection settings, outside catalogue
 For remote computers, run this code through the product's existing remote worker.
 
 Pass the user-level space, shared by sessions, to `research_space` (or
-`SEEDENV_RESEARCH_SPACE`). Software and SQL state live in `System/env/seedenv` beneath
+`SEEDENV_RESEARCH_SPACE`). Software and SQL state live in `System/software/seedenv` beneath
 it. An explicit `home` / `SEEDENV_HOME` still selects the environment directory
 directly. This does not move earlier installations. The product selects a space
 on each execution host; passing a desktop path to a server does not mount it.
-An existing legacy `system/seedenv` remains in use if the canonical location does
-not exist. When both exist, the canonical location wins; select `--home` explicitly
+Existing `System/env/seedenv` and `system/seedenv` installations remain in use if
+the canonical location does not exist. When both exist, the canonical location wins; select `--home` explicitly
 to continue another existing installation. There is no background migration.
 
 `browse` only navigates. `search` supports `field` and `direction` filters and
@@ -195,7 +195,7 @@ container.append(picker);
 ```
 
 Implement `ResearchEnvironmentAPI` over the product's IPC or HTTP boundary:
-`browse`, `search`, `plan`, `prepare`, `status`, `cancel`. The direct Node client implements
+`browse`, `search`, `prepare`, `status`, `cancel`, and optional `remove`. The direct Node client implements
 that interface; in a browser its calls travel through the host bridge. Keep the
 chosen execution host fixed during a preparation. The component does not create
 a second desktop service or request filesystem permissions.
@@ -203,12 +203,13 @@ a second desktop service or request filesystem permissions.
 The picker starts with field navigation and no selected modules. Shared capabilities
 have their own field group, and related resources have a distinct label. Direction
 filters and search do not clear the selection basket. Researchers can remove a
-selected module even when it is outside the current filter. Before preparation,
-the picker displays the unique component actions, shared installation count and
-destination. Unknown download/disk estimates are null, not zero. The catalogue's
-small metadata and guides do not trigger solver, model or dataset downloads.
+selected module even when it is outside the current filter. Install selected
+starts preparation directly; dependency resolution belongs to the preparation
+owner. Progress and final results show ready software and any remaining setup.
+Uninstall selected removes unused managed software and reports retained resources.
+The catalogue's small metadata and guides do not trigger solver, model or dataset downloads.
 
-The picker emits `seedenv-started`, `seedenv-finished`, and `seedenv-skip`.
+The picker emits `seedenv-started`, `seedenv-finished`, `seedenv-removed`, and `seedenv-skip`.
 Store the started job ID in product state. Removing the picker does not cancel
 the installation; call `picker.resume(jobId)` when reopening the page, or use
 `status` in the product's job view. A temporary status error keeps the job ID and
@@ -220,7 +221,7 @@ Chinese and English labels use the `lang` attribute.
 `seedenv connect origo --output PATH` creates `plugin.json`, a self-contained
 Python server, and `skills/seedenv/SKILL.md`. Move or archive the directory, import
 it in Origo, and activate it. Export with `--research-space PATH` to configure
-`PATH/System/env/seedenv`, or have the host supply `SEEDENV_RESEARCH_SPACE` at launch.
+`PATH/System/software/seedenv`, or have the host supply `SEEDENV_RESEARCH_SPACE` at launch.
 Without either setting, standalone behavior remains `~/.seedenv`. The package no
 longer derives software storage from a project or session workspace placeholder.
 
@@ -256,3 +257,17 @@ are listed. The host resolves them to installed locations when it displays them.
 These declarations describe packaged content. They do not establish that Python
 packages, TeX, external services or instruments have been prepared; use the
 existing preparation result and environment registrations for that state.
+
+## Declarative environment preparation
+
+The exported environment names its MCP server and exact installed, plan and prepare
+operations. Catalogue resources include repository paths for browsing before any
+installation. `seedenv_preparation_installed` returns selected and ready modules
+separately from ready, pending and failed components; the older `seedenv_installed`
+array remains unchanged. Pure guidance and templates need no software installation.
+
+MCP Tasks wrap the existing preparation jobs: call `seedenv_prepare` with `task: {}`
+and read `tasks/get` and `tasks/result`. `tasks/cancel` waits for the existing worker
+to stop. Completed components survive cancellation and reconnects; an unexpectedly
+terminated worker is reported rather than left running forever. The host-owned
+`prepare-request` process and its cancellation contract remain available.

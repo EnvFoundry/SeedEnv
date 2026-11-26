@@ -5,6 +5,7 @@ from pathlib import Path
 import sqlite3
 
 from .catalog import DATA
+from .process import installation_lock
 
 
 class State:
@@ -49,7 +50,9 @@ class State:
             return [self.installation(row) for row in db.execute("SELECT * FROM installations ORDER BY component")]
 
     def bind(self, component, definition, command, location, managed):
-        with self.db(write=True) as db:
+        with installation_lock(self.home / "locks/registry.lock", wait=True), self.db(write=True) as db:
+            if not Path(command[0]).is_file() or not Path(location).exists():
+                raise ValueError(f"The installation for {component} is no longer available")
             db.execute("""INSERT INTO installations(component,definition,command,managed,location)
                 VALUES(?,?,?,?,?) ON CONFLICT(component) DO UPDATE SET
                 definition=excluded.definition,command=excluded.command,managed=excluded.managed,
@@ -60,6 +63,19 @@ class State:
     def add_job(self, job, names):
         with self.db(write=True) as db:
             db.execute("INSERT INTO jobs(id,state,selection) VALUES(?,?,?)", (job, "queued", json.dumps(names)))
+
+    def select(self, modules):
+        if modules:
+            with installation_lock(self.home / "locks/registry.lock", wait=True), self.db(write=True) as db:
+                db.executemany("INSERT OR IGNORE INTO selections(module) VALUES (?)", ((name,) for name in modules))
+
+    def selected(self):
+        if not self.path.is_file():
+            return []
+        with self.db() as db:
+            if not db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='selections'").fetchone():
+                return []
+            return [row[0] for row in db.execute("SELECT module FROM selections ORDER BY module")]
 
     def set_job(self, job, state, result=None, error=None):
         with self.db(write=True) as db:

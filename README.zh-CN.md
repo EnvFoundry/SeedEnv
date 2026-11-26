@@ -99,7 +99,6 @@ python -m pip install .
 seedenv browse
 seedenv browse --field optics
 seedenv search --field optics --direction optoelectronic-devices
-seedenv --research-space /path/to/user-space plan thin-films writing
 seedenv --research-space /path/to/user-space prepare thin-films
 seedenv --research-space /path/to/user-space context thin-films
 seedenv --research-space /path/to/user-space example thin-films --output thin_film.py
@@ -107,11 +106,11 @@ seedenv --research-space /path/to/user-space run python-tmm -- thin_film.py
 ```
 
 `--research-space` 指向**用户层级的研究空间**。软件与登记信息放在其中的
-`System/env/seedenv`，研究代码、数据和输出留在各自项目中。各会话传入同一个用户
+`System/software/seedenv`，研究代码、数据和输出留在各自项目中。各会话传入同一个用户
 空间即可复用环境，不要传入每次会话的临时目录。也可设置 `SEEDENV_RESEARCH_SPACE`。
 
 已有的 `--home` / `SEEDENV_HOME` 仍直接指定环境目录；没有位置配置的独立命令
-继续使用 `~/.seedenv`。已有软件不会被迁移或删除。
+继续使用 `~/.seedenv`。已有 `System/env/seedenv`、`system/seedenv` 安装沿用原位置。
 
 ## 软件体积与长期使用
 
@@ -135,7 +134,11 @@ seedenv installed
 seedenv prepare thin-films --background
 seedenv status JOB_ID
 seedenv cancel JOB_ID
+seedenv remove thin-films
 ```
+
+卸载只删除所选模块独占、由 SeedEnv 安装的软件。其他模块仍在使用的软件、
+外部连接、文稿和研究成果会保留。仍被其他选中模块依赖的模块，需要一同选择后卸载。
 
 后续命令继续使用相同的位置参数或环境变量。环境不随会话结束删除；失败的新增
 安装不替换已有环境。后台准备要求执行机器持续运行。

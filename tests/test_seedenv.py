@@ -19,6 +19,31 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class SeedEnvTests(unittest.TestCase):
+    def test_mcp_task_returns_partial_preparation_after_reconnection(self):
+        from seedenv.mcp import dispatch
+        from seedenv.tasks import Tasks
+        response = dispatch(self.manager, {"method": "tools/call", "params": {
+            "name": "seedenv_prepare", "task": {}, "arguments": {
+                "selections": ["fixture-composed"], "offline": True, "find_links": [str(self.wheels)]}}})
+        task_id = response["task"]["taskId"]
+        tasks = Tasks(Manager(self.home, Catalog(self.extra)))
+        result = tasks.result(task_id)
+        self.assertFalse(result["isError"])
+        self.assertEqual(tasks.get(task_id)["status"], "completed")
+        self.assertEqual(result["structuredContent"]["ready"][0]["component"], "fixture-python")
+        self.assertEqual(result["structuredContent"]["pending"][0]["component"], "fixture-native")
+        installed = tasks.manager.installed_summary()
+        self.assertIn("fixture", installed["ready_modules"])
+        self.assertNotIn("fixture-composed", installed["ready_modules"])
+
+    def test_mcp_empty_task_has_a_persistent_result(self):
+        from seedenv.mcp import dispatch
+        from seedenv.tasks import Tasks
+        response = dispatch(self.manager, {"method": "tools/call", "params": {
+            "name": "seedenv_prepare", "task": {}, "arguments": {"selections": []}}})
+        tasks = Tasks(self.manager)
+        self.assertEqual(tasks.result(response["task"]["taskId"])["structuredContent"]["modules"], [])
+
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(prefix="seedenv test ")
         self.addCleanup(self.temp.cleanup)
@@ -80,7 +105,9 @@ class SeedEnvTests(unittest.TestCase):
         self.assertTrue((paper / "sn-nature.bst").is_file())
         self.assertEqual((paper / "WRITING.md").read_bytes(),
                          (ROOT / "src/seedenv/data/guides/writing-methods.md").read_bytes())
-        self.assertFalse(self.home.exists())
+        self.assertIn("writing-templates", self.manager.installed_summary()["ready_modules"])
+        self.assertFalse((self.home / "environments").exists())
+        self.assertFalse((self.home / "software").exists())
         with self.assertRaises(FileExistsError):
             create_manuscript("standard-article-en", paper)
         exported = self.root / "writing export"
@@ -97,7 +124,7 @@ class SeedEnvTests(unittest.TestCase):
         self.assertNotIn('"isError": true', result.stdout)
         self.assertTrue((self.root/"book/main.tex").is_file())
         self.assertEqual((self.root/"book/WRITING.md").read_bytes(), (paper/"WRITING.md").read_bytes())
-        self.assertFalse(self.home.exists())
+        self.assertEqual(self.manager.state.list(), [])
         export_plugin(self.root/"numeric export", "mcp", selections=["numerical-computing"])
         self.assertFalse((self.root/"numeric export/seedenv/data/writing").exists())
 
@@ -134,11 +161,88 @@ class SeedEnvTests(unittest.TestCase):
 
     def test_existing_legacy_location_is_preserved_and_new_spaces_use_system(self):
         space = self.root/"research"
-        self.assertEqual(Manager(research_space=space).home, space/"System/env/seedenv")
+        self.assertEqual(Manager(research_space=space).home, space/"System/software/seedenv")
         legacy = space/"system/seedenv"
         legacy.mkdir(parents=True)
         self.assertEqual(Manager(research_space=space).home, legacy)
         self.assertEqual(Manager(home=self.home, research_space=space).home, self.home)
+        prior = space/"System/env/seedenv"
+        prior.mkdir(parents=True)
+        self.assertEqual(Manager(research_space=space).home, prior)
+
+    def test_uninstall_preserves_shared_software_until_its_last_module_is_removed(self):
+        from seedenv.mcp import dispatch
+        self.definition["components"].append({**self.definition["components"][0],
+            "id": "fixture-small", "reuse_from": ["fixture-python"]})
+        self.definition["modules"].append({"id": "fixture-small-module", "title": "Small",
+            "components": ["fixture-small"], "guide": "guide.md"})
+        self.save_catalog()
+        self.manager = Manager(self.home, Catalog(self.extra))
+        original = self.prepare()
+        self.manager.prepare(["fixture-small-module"], offline=True)
+        manuscript = self.root/"paper.tex"
+        manuscript.write_text("Retain this research")
+        with installation_lock(self.home/"locks/fixture-python.lock"):
+            with self.assertRaises(RuntimeError):
+                self.manager.remove(["fixture"])
+        result = dispatch(self.manager, {"method": "tools/call", "params": {
+            "name": "seedenv_remove", "arguments": {"selections": ["fixture"]}}})["structuredContent"]
+        self.assertEqual(result["removed"], ["fixture"])
+        self.assertEqual(result["retained"], [original["location"]])
+        self.assertEqual(self.cli("run", "fixture-small", "--", "-c",
+            "from seedenv_fixture import square; print(square(3))").stdout.strip(), "9")
+        removed = self.cli("remove", "fixture-small-module")
+        self.assertEqual(removed.returncode, 0, removed.stderr)
+        self.assertEqual(json.loads(removed.stdout)["removed"], ["fixture-small-module"])
+        self.assertFalse(Path(original["location"]).exists())
+        self.assertEqual(manuscript.read_text(), "Retain this research")
+        self.assertEqual(self.manager.installed_summary()["modules"], [])
+
+    def test_uninstall_keeps_external_software_and_independently_selected_dependencies(self):
+        original = self.prepare()
+        other = Manager(self.root/"other", Catalog(self.extra))
+        other.bind("fixture-python", original["command"])
+        other.prepare(["fixture", "fixture-composed"], offline=True)
+        with self.assertRaisesRegex(ValueError, "Still required"):
+            other.remove(["fixture"])
+        self.assertEqual(other.remove(["fixture-composed"])["removed"], ["fixture-composed"])
+        self.assertIn("fixture", other.installed_summary()["ready_modules"])
+        result = other.remove(["fixture"])
+        self.assertTrue(result["retained"])
+        self.assertEqual(result["files"], [])
+        self.assertEqual(self.cli("run", "fixture-python", "--", "-c",
+            "from seedenv_fixture import square; print(square(4))").stdout.strip(), "16")
+
+    def test_uninstall_removes_unfinished_owned_installation_and_retains_task_records(self):
+        result = self.manager.prepare(["fixture"], offline=True)
+        self.assertTrue(result["failed"])
+        pending = self.home/"preparing/fixture-python.json"
+        location = Path(json.loads(pending.read_text())["location"])
+        self.manager.state.add_job("recorded", ["fixture"])
+        self.manager.state.set_job("recorded", "failed", result)
+        removed = self.manager.remove(["fixture"])
+        self.assertEqual(removed["files"], [str(location)])
+        self.assertFalse(pending.exists())
+        self.assertFalse(location.exists())
+        self.assertEqual(self.manager.state.job("recorded")["result"], result)
+
+    def test_template_module_installation_and_uninstall_keep_authored_templates(self):
+        from seedenv.mcp import dispatch
+        from seedenv.tasks import Tasks
+        request = dispatch(self.manager, {"method": "tools/call", "params": {
+            "name": "seedenv_prepare", "task": {}, "arguments": {"selections": ["writing-templates"]}}})
+        completed = Tasks(self.manager).result(request["task"]["taskId"])["structuredContent"]
+        resources = completed["resources"]
+        self.assertEqual({item["kind"] for item in resources}, {"guides", "data"})
+        self.assertTrue(all(Path(item["path"]).is_file() for item in resources))
+        self.assertTrue(any(item["path"].endswith("templates.json") for item in resources))
+        self.assertEqual(self.manager.installed_summary()["resources"], resources)
+        self.assertEqual(self.manager.state.list(), [])
+        self.assertIn("writing-templates", self.manager.installed_summary()["ready_modules"])
+        result = self.manager.remove(["writing-templates"])
+        self.assertEqual(result["removed"], ["writing-templates"])
+        self.assertEqual(result["files"], [])
+        self.assertTrue((ROOT/"src/seedenv/data/writing").is_dir())
 
     def test_tex_archive_continues_an_interrupted_http_transfer(self):
         import http.server
@@ -195,7 +299,8 @@ class SeedEnvTests(unittest.TestCase):
         plan = self.manager.plan(["scientific-python", "numerical-computing", "symbolic-mathematics", "scientific-plotting"])
         self.assertEqual([a["action"] for a in plan["actions"]], ["install","share","share","share"])
         self.assertEqual(self.manager.prepare(["writing-methods","writing-templates"])["ready"], [])
-        self.assertFalse(self.home.exists())
+        self.assertEqual(set(self.manager.installed_summary()["ready_modules"]), {"writing-methods", "writing-templates"})
+        self.assertEqual(self.manager.state.list(), [])
 
     def test_composition_and_software_search(self):
         modules, components = self.manager.catalog.select(["fixture", "fixture-composed"])
@@ -323,7 +428,7 @@ class SeedEnvTests(unittest.TestCase):
     def test_user_research_space_and_external_solver_binding(self):
         user_space = self.root / "user research space"
         manager = Manager(catalog=self.manager.catalog, research_space=user_space)
-        expected = user_space / "System" / "env" / "seedenv"
+        expected = user_space / "System" / "software" / "seedenv"
         self.assertEqual(manager.home, expected)
         plan = manager.plan(["thin-films"])
         self.assertEqual(plan["storage"]["root"], str(expected))
@@ -525,7 +630,7 @@ class SeedEnvTests(unittest.TestCase):
                                     capture_output=True, text=True, cwd=self.root, env=env, timeout=30)
         self.assertEqual(configured.returncode, 0, configured.stderr)
         config = json.loads((moved / 'mcp.json').read_text())['mcpServers']['seedenv']
-        self.assertEqual(config['env']['SEEDENV_HOME'], str(space / 'System' / 'env' / 'seedenv'))
+        self.assertEqual(config['env']['SEEDENV_HOME'], str(space / 'System' / 'software' / 'seedenv'))
         result = subprocess.run([config['command'], *config['args']], input=''.join(json.dumps(r)+'\n' for r in requests),
                                 capture_output=True, text=True, cwd=self.root, env={**env, **config['env']}, timeout=30)
         self.assertEqual(result.returncode, 0, result.stderr)

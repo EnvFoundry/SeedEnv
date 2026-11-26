@@ -73,6 +73,9 @@ impl Client {
         self.request(std::iter::once("context").chain(modules.iter().copied()))
     }
     pub fn installed(&self) -> io::Result<String> { self.request(["installed"]) }
+    pub fn remove(&self, modules: &[&str]) -> io::Result<String> {
+        self.request(std::iter::once("remove").chain(modules.iter().copied()))
+    }
     pub fn discover(&self, modules: &[&str], python: Option<&OsStr>) -> io::Result<String> {
         let mut args: Vec<OsString> = std::iter::once("discover").chain(modules.iter().copied()).map(OsString::from).collect();
         if let Some(python) = python { args.push("--python".into()); args.push(python.into()); }

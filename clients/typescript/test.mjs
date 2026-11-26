@@ -26,6 +26,7 @@ test('TypeScript uses the real catalogue and host request format', async () => {
     assert.deepEqual((await api.plan([])).actions, []);
     assert.equal((await api.prepare([])).job, null);
     assert.equal((await api.prepare(['writing-templates'])).job, null);
+    assert.deepEqual(await api.remove(['thin-films']), {removed:[],files:[],retained:[]});
     assert.deepEqual((await api.prepareOnHost({selections:[]})).ready, []);
     assert.equal((await api.templates({form:'article',language:'zh'})).items.length, 3);
     const manuscript = await api.manuscript('standard-article-zh', resolve(home,'paper'));
@@ -42,12 +43,13 @@ test('TypeScript uses the real catalogue and host request format', async () => {
   } finally { await rm(home, { recursive: true, force: true }); }
 });
 
-test('Picker reviews software before starting and reports completion', async () => {
+test('Picker installs directly, resumes the original job and uninstalls selected modules', async () => {
   const dom = new JSDOM('<!doctype html><body></body>');
   for (const name of ['HTMLElement', 'customElements', 'document', 'CustomEvent']) globalThis[name] = dom.window[name];
   await import('./dist/picker.js');
   const picker = document.createElement('seedenv-picker'); picker.lang = 'zh';
-  let starts = 0, reviewed;
+  let starts = 0;
+  const selections = [], removals = [];
   const fields = [{id:'optics',title:'光学',module_count:2},{id:'physics',title:'物理',module_count:1}];
   const path = {field:'optics',field_title:'光学',direction:'films',direction_title:'薄膜'};
   const thin = {id:'thin-films',title:'薄膜',summary:'多层膜',components:['python-tmm'],includes:[],tags:[],paths:[path],software:[{id:'python-tmm',title:'tmm',kind:'python'}]};
@@ -55,10 +57,16 @@ test('Picker reviews software before starting and reports completion', async () 
   picker.api = {
     browse: async field => ({fields,field,directions:field?[{id:'films',title:'薄膜',module_count:1},{id:'quantum',title:'量子',module_count:1}]:[]}),
     search: async (query,offset,limit,signal,scope) => ({ items: [scope?.field === 'physics' || scope?.direction === 'quantum' ? quantum : thin], total:1,next_offset:null }),
-    plan: async selections => { reviewed=selections; return { modules:selections,target:'linux',guides:[],actions:[{component:'python-tmm',title:'tmm',kind:'python',action:'install',requirements:['tmm']}],storage:{root:'/user-space/system/seedenv',new_environments:1,reused_environments:0,download_bytes:null,additional_disk_bytes:null,free_bytes:1000} }; },
-    prepare: async () => { starts++; return { job: 'demo', state: 'queued' }; },
-    status: async () => ({ id: 'demo', state: 'ready', selection: ['thin-films'], result: { ready: [], pending: [], failed: [] }, error: null }),
+    prepare: async selected => { starts++; selections.push(selected); return { job: 'demo', state: 'queued' }; },
+    status: async () => ({ id: 'demo', state: 'partial', selection: ['thin-films'], result: { ready: [], pending: [
+      {component:'python-tmm',title:'tmm',kind:'python',action:'choose-host',instructions:'Choose a host with the required interpreter.'},
+    ], failed: [] }, error: null }),
     cancel: async () => ({ job: 'demo', state: 'cancelled' }),
+    remove: async selected => {
+      removals.push(selected);
+      if (removals.length === 1) throw new Error('Software is still in use');
+      return {removed:selected, files:[], retained:['/shared/software/tmm']};
+    },
   };
   document.body.append(picker);
   await new Promise(resolve => setImmediate(resolve));
@@ -66,10 +74,14 @@ test('Picker reviews software before starting and reports completion', async () 
   assert.equal(root.querySelectorAll('input[type=checkbox]').length, 0);
   let skips = 0;
   picker.addEventListener('seedenv-skip', () => skips++);
-  [...root.querySelectorAll('button')].find(x => x.textContent === '以后再准备').click();
+  const button = text => [...root.querySelectorAll('button')].find(x => x.textContent === text);
+  button('以后再安装').click();
   assert.equal(skips, 1);
   assert.equal(starts, 0);
-  assert.equal([...root.querySelectorAll('button')].find(x => x.textContent === '查看准备内容').disabled, true);
+  assert.equal(button('查看准备内容'), undefined);
+  assert.equal(button('安装所选内容').hidden, false);
+  assert.equal(button('安装所选内容').disabled, true);
+  assert.equal(button('卸载所选模块').disabled, true);
   const field = root.querySelector('select[aria-label="研究领域"]');
   field.value='optics'; field.dispatchEvent(new dom.window.Event('change'));
   await new Promise(resolve => setImmediate(resolve));
@@ -80,19 +92,16 @@ test('Picker reviews software before starting and reports completion', async () 
   root.querySelector('input[type=checkbox]').click();
   assert.match(root.querySelector('.basket').textContent, /薄膜/);
   assert.match(root.querySelector('.basket').textContent, /量子态/);
-  // Selection survives navigation, and can be removed even while filtered out.
   [...root.querySelectorAll('.basket button')].find(x=>x.textContent.includes('量子态')).click();
-  [...root.querySelectorAll('button')].find(x => x.textContent === '查看准备内容').click();
-  await new Promise(resolve => setImmediate(resolve));
-  assert.match(root.querySelector('.details').textContent, /tmm/);
-  assert.deepEqual(reviewed,['thin-films']);
-  assert.match(root.querySelector('.details').textContent, /system\/seedenv/);
-  assert.match(root.querySelector('.details').textContent, /尚无体积估计/);
   const finished = new Promise(resolve => picker.addEventListener('seedenv-finished', resolve, { once: true }));
-  [...root.querySelectorAll('button')].find(x => x.textContent === '准备研究环境').click();
+  button('安装所选内容').click();
+  assert.equal(button('安装所选内容').disabled, true);
+  assert.equal(button('卸载所选模块').disabled, true);
   await finished;
   assert.equal(starts, 1);
-  assert.equal(root.querySelector('[role=status]').textContent, '可以开始使用');
+  assert.deepEqual(selections, [['thin-films']]);
+  assert.equal(root.querySelector('[role=status]').textContent, '部分工具尚需配置');
+  assert.match(root.querySelector('.details').textContent, /required interpreter/);
   let polls = 0;
   picker.api.status = async () => {
     if (++polls === 1) throw new Error('Temporary connection interruption');
@@ -105,6 +114,29 @@ test('Picker reviews software before starting and reports completion', async () 
   retry.click();
   await new Promise(resolve => setImmediate(resolve));
   assert.equal(root.querySelector('[role=status]').textContent, '可以开始使用');
-  assert.equal(starts, 1); // Reopening and reading progress never reinstalls software.
+  assert.equal(root.querySelector('.details').textContent, '');
+  assert.equal(starts, 1);
+  button('卸载所选模块').click();
+  await new Promise(resolve => setImmediate(resolve));
+  assert.match(root.querySelector('[role=status]').textContent, /Software is still in use/);
+  assert.equal(button('卸载所选模块').disabled, false);
+  const removed = new Promise(resolve => picker.addEventListener('seedenv-removed', resolve, {once:true}));
+  button('卸载所选模块').click();
+  const removal = await removed;
+  assert.deepEqual(removal.detail, {removed:['thin-films'],files:[],retained:['/shared/software/tmm']});
+  assert.deepEqual(removals, [['thin-films'], ['thin-films']]);
+  assert.equal(root.querySelector('[role=status]').textContent, '已卸载模块: 1');
+  assert.equal(root.querySelector('details').open, false);
+  assert.match(root.querySelector('.details').textContent, /\/shared\/software\/tmm/);
+  picker.api.prepare = async selected => {
+    starts++; selections.push(selected);
+    return {job:null, state:'ready', result:{ready:[],pending:[],failed:[]}};
+  };
+  const reused = new Promise(resolve => picker.addEventListener('seedenv-finished', resolve, {once:true}));
+  button('安装所选内容').click();
+  await reused;
+  assert.equal(starts, 2);
+  assert.equal(root.querySelector('[role=status]').textContent, '可以开始使用');
+  assert.equal(root.querySelector('.details').textContent, '');
   picker.remove(); dom.window.close();
 });
