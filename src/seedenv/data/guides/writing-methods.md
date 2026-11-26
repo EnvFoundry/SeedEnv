@@ -71,6 +71,10 @@ measurement to the proposed mechanism.
 或否定性结果。比较应对应相近工作和可比条件。先说明一项推导或实验解决什么问题，再
 给出结果；理论报告突出关键构造，实验报告把测量与所讨论的机制连接起来。
 
+Fill optional cover metadata only from information supplied for the document;
+leave it empty otherwise.
+封面的可选信息只填写文稿已提供的内容，未提供的留空。
+
 The report template offers background and problem, central idea, theory and methods,
 experiments or computation, results and discussion, conclusions and applications.
 Adapt or combine these roles. A proof does not need an invented experiment; a
