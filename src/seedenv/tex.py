@@ -15,6 +15,7 @@ import sys
 import tarfile
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError
+from zipfile import BadZipFile, ZipFile
 
 from .catalog import DATA
 from .process import Cancelled, installation_lock, run
@@ -138,6 +139,27 @@ def find_existing():
     return None
 
 
+def _install_fonts(root, cache, fonts, bin_dir, env, cancel):
+    local = root / "texmf-local"
+    for font in fonts:
+        archive = cache / f"{font['id']}-{font['version']}.zip"
+        _download(font["url"], archive, cancel)
+        try:
+            with ZipFile(archive) as bundle:
+                for source, relative in font["files"].items():
+                    _cancelled(cancel)
+                    destination = local / relative
+                    destination.parent.mkdir(parents=True, exist_ok=True)
+                    temporary = destination.with_suffix(destination.suffix + ".partial")
+                    with bundle.open(source) as content, temporary.open("wb") as target:
+                        shutil.copyfileobj(content, target)
+                    temporary.replace(destination)
+        except (BadZipFile, KeyError) as error:
+            raise RuntimeError(f"Cannot install {font['id']} fonts from {font['url']}: {error}") from error
+    suffix = ".exe" if os.name == "nt" else ""
+    run([str(bin_dir / ("mktexlsr" + suffix)), str(local)], env=env, cwd=bin_dir, cancel=cancel)
+
+
 def prepare(home, *, offline=False, cancel=None):
     """Prepare a user-owned TinyTeX without modifying any existing TeX install."""
     home = Path(home)
@@ -193,12 +215,15 @@ def prepare(home, *, offline=False, cancel=None):
                    if os.name == "nt" else [str(bin_dir / "tlmgr")])
         for args in (["option", "repository", spec["repository"]], ["option", "docfiles", "0"],
                      ["option", "srcfiles", "0"], ["update", "--self"],
-                     ["install", *spec["packages"]], ["postaction", "install", "script", "xetex"]):
+                     ["install", *spec["packages"]]):
             _cancelled(cancel)
             run([*manager, *args], env=env, cwd=bin_dir, cancel=cancel)
+        _install_fonts(root, home / "cache", spec["fonts"], bin_dir, env, cancel)
+        run([*manager, "postaction", "install", "script", "xetex"], env=env, cwd=bin_dir, cancel=cancel)
         describe(command)
         for folder in ("home", "var", "config"):
             (home / "tex-state" / folder).mkdir(parents=True, exist_ok=True)
         _cancelled(cancel)
-        complete.write_text(json.dumps({"latexmk": str(Path(command[0]).relative_to(root))}) + "\n", encoding="utf-8")
+        complete.write_text(json.dumps({"latexmk": str(Path(command[0]).relative_to(root)),
+                                        "fonts": spec["fonts"]}) + "\n", encoding="utf-8")
         return command, root
