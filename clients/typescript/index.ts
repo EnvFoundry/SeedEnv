@@ -51,7 +51,8 @@ export interface Preparation {
   id: string;
   state: "queued" | "running" | "ready" | "partial" | "cancelled" | "failed";
   selection: string[];
-  result: { ready: unknown[]; pending: PlanAction[]; failed: { component: string; error: string }[] } | null;
+  result: { ready: unknown[]; pending: PlanAction[]; failed: { component: string; error: string }[];
+    resources?: { kind: string; path: string }[] } | null;
   error: string | null;
   output?: string;
 }
@@ -101,6 +102,7 @@ export interface HostPreparationRequest {
 }
 export interface HostPreparationResult {
   modules: string[];
+  resources?: { kind: string; path: string }[];
   ready: SoftwareEntry[];
   pending: PlanAction[];
   failed: { component: string; error: string }[];

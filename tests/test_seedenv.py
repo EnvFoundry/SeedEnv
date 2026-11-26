@@ -229,7 +229,13 @@ class SeedEnvTests(unittest.TestCase):
         from seedenv.tasks import Tasks
         request = dispatch(self.manager, {"method": "tools/call", "params": {
             "name": "seedenv_prepare", "task": {}, "arguments": {"selections": ["writing-templates"]}}})
-        Tasks(self.manager).result(request["task"]["taskId"])
+        completed = Tasks(self.manager).result(request["task"]["taskId"])["structuredContent"]
+        resources = completed["resources"]
+        self.assertEqual({item["kind"] for item in resources}, {"guides", "data"})
+        self.assertTrue(all(Path(item["path"]).is_file() for item in resources))
+        self.assertTrue(any(item["path"].endswith("templates.json") for item in resources))
+        self.assertEqual(self.manager.installed_summary()["resources"], resources)
+        self.assertEqual(self.manager.state.list(), [])
         self.assertIn("writing-templates", self.manager.installed_summary()["ready_modules"])
         result = self.manager.remove(["writing-templates"])
         self.assertEqual(result["removed"], ["writing-templates"])

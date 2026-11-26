@@ -288,7 +288,8 @@ class Manager:
         plan = self.plan(selections)
         if plan["actions"]:
             self.state.select(selections)
-        result = {"modules": plan["modules"], "ready": [], "pending": [], "failed": []}
+        result = {"modules": plan["modules"], "ready": [], "pending": [], "failed": [],
+                  "resources": self._resources(plan["modules"])}
         for action in plan["actions"]:
             if cancel and cancel.exists():
                 raise Cancelled("Preparation cancelled")
@@ -310,8 +311,25 @@ class Manager:
                     result["pending"].append(action)
                     continue
                 result["ready"].append({**self.entry(name), "managed": saved["managed"]})
+                location = {"kind": "software", "path": str(saved["location"])}
+                if location not in result["resources"]:
+                    result["resources"].append(location)
             except (OSError, RuntimeError, ValueError, TimeoutError) as error:
                 result["failed"].append({"component": name, "error": str(error)})
+        return result
+
+    def _resources(self, modules):
+        result = []
+        for name in modules:
+            module = self.catalog.modules[name]
+            paths = [("guides", module["guide"])]
+            if module.get("example"):
+                paths.append(("examples", module["example"]["file"]))
+            paths.extend(("data", path) for path in module.get("resources", []))
+            for kind, path in paths:
+                resource = {"kind": kind, "path": str(self.catalog.resource(name, path))}
+                if resource not in result:
+                    result.append(resource)
         return result
 
     def installed_summary(self):
@@ -323,6 +341,7 @@ class Manager:
         modules, _ = self.catalog.select(selected)
         required = {name: set(self.catalog.select([name])[1]) for name in modules}
         return {"modules": modules, "ready_modules": [name for name in modules if required[name] <= available],
+                "resources": self._resources(modules) + [{"kind": "software", "path": entry["location"]} for entry in ready],
                 "ready": ready,
                 "pending": [{"component": name, "status": "not_prepared"}
                             for name in sorted(set().union(*required.values()) - available)],
@@ -468,7 +487,7 @@ class Manager:
     def start(self, selections, **options):
         modules, components = self.catalog.select(selections)
         if not components:
-            return {"job": None, "state": "ready", "result": {"modules": modules, "ready": [], "pending": [], "failed": []}}
+            return {"job": None, "state": "ready", "result": self.prepare(selections, **options)}
         job = uuid.uuid4().hex
         folder = self.home / "jobs" / job
         folder.mkdir(parents=True)
