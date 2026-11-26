@@ -27,7 +27,6 @@ class Tasks:
         task_id = response.get("job")
         if task_id is None:
             task_id = uuid.uuid4().hex
-            self.manager.state.select(selections)
             self.manager.state.add_job(task_id, selections)
             self.manager.state.set_job(task_id, "ready", result=response["result"])
         return {"task": self.describe(self.manager.state.job(task_id), starting=True)}

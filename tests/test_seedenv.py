@@ -105,7 +105,9 @@ class SeedEnvTests(unittest.TestCase):
         self.assertTrue((paper / "sn-nature.bst").is_file())
         self.assertEqual((paper / "WRITING.md").read_bytes(),
                          (ROOT / "src/seedenv/data/guides/writing-methods.md").read_bytes())
-        self.assertFalse(self.home.exists())
+        self.assertIn("writing-templates", self.manager.installed_summary()["ready_modules"])
+        self.assertFalse((self.home / "environments").exists())
+        self.assertFalse((self.home / "software").exists())
         with self.assertRaises(FileExistsError):
             create_manuscript("standard-article-en", paper)
         exported = self.root / "writing export"
@@ -122,7 +124,7 @@ class SeedEnvTests(unittest.TestCase):
         self.assertNotIn('"isError": true', result.stdout)
         self.assertTrue((self.root/"book/main.tex").is_file())
         self.assertEqual((self.root/"book/WRITING.md").read_bytes(), (paper/"WRITING.md").read_bytes())
-        self.assertFalse(self.home.exists())
+        self.assertEqual(self.manager.state.list(), [])
         export_plugin(self.root/"numeric export", "mcp", selections=["numerical-computing"])
         self.assertFalse((self.root/"numeric export/seedenv/data/writing").exists())
 
@@ -297,7 +299,8 @@ class SeedEnvTests(unittest.TestCase):
         plan = self.manager.plan(["scientific-python", "numerical-computing", "symbolic-mathematics", "scientific-plotting"])
         self.assertEqual([a["action"] for a in plan["actions"]], ["install","share","share","share"])
         self.assertEqual(self.manager.prepare(["writing-methods","writing-templates"])["ready"], [])
-        self.assertFalse(self.home.exists())
+        self.assertEqual(set(self.manager.installed_summary()["ready_modules"]), {"writing-methods", "writing-templates"})
+        self.assertEqual(self.manager.state.list(), [])
 
     def test_composition_and_software_search(self):
         modules, components = self.manager.catalog.select(["fixture", "fixture-composed"])

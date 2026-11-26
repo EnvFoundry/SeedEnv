@@ -286,8 +286,7 @@ class Manager:
 
     def prepare(self, selections, *, python=None, offline=False, find_links=(), cancel=None):
         plan = self.plan(selections)
-        if plan["actions"]:
-            self.state.select(selections)
+        self.state.select(selections)
         result = {"modules": plan["modules"], "ready": [], "pending": [], "failed": [],
                   "resources": self._resources(plan["modules"])}
         for action in plan["actions"]:
