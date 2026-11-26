@@ -14,15 +14,15 @@
 
 % ── 报告元信息 ─────────────────────────────────────────────
 \providecommand{\ReportTitle}{报告标题}
-\providecommand{\ReportSubtitle}{副标题（可选）}
-\providecommand{\ReportAuthor}{Author Name}
-\providecommand{\ReportOrganization}{Organization}
-\providecommand{\ReportClassification}{公开}
-\providecommand{\ReportVersion}{v1.0}
+\providecommand{\ReportSubtitle}{}
+\providecommand{\ReportAuthor}{}
+\providecommand{\ReportOrganization}{}
+\providecommand{\ReportClassification}{}
+\providecommand{\ReportVersion}{}
 \providecommand{\ReportDate}{\today}
 
 % ── 数学与单位 ─────────────────────────────────────────────
-\usepackage{amsmath,amssymb}
+\usepackage{amsmath,amssymb,etoolbox}
 \usepackage{siunitx}\sisetup{detect-all=true,per-mode=symbol}
 
 % ── 图形 ──────────────────────────────────────────────────
@@ -170,15 +170,16 @@
   \vspace*{2.5cm}
   \begin{flushleft}
     {\Huge\bfseries \ReportTitle\par}\vspace{0.6cm}
-    {\Large\color{ReportLight}\ReportSubtitle\par}\vspace{1.5cm}
+    \ifdefempty{\ReportSubtitle}{}{{\Large\color{ReportLight}\ReportSubtitle\par}\vspace{1.5cm}}
     {\color{ReportLight}\rule{6cm}{0.6pt}}
   \end{flushleft}
   \vfill
   \begin{flushleft}
-    {\large \ReportAuthor\par}\vspace{0.2cm}
-    {\normalsize\color{ReportLight}\ReportOrganization\par}\vspace{0.6cm}
+    \ifdefempty{\ReportAuthor}{}{{\large \ReportAuthor\par}\vspace{0.2cm}}
+    \ifdefempty{\ReportOrganization}{}{{\normalsize\color{ReportLight}\ReportOrganization\par}\vspace{0.6cm}}
     {\normalsize\color{ReportLight}\ReportDate\par}\vspace{0.4cm}
-    {\small\color{ReportLight}机密等级：\ReportClassification\quad|\quad\ReportVersion\par}
+    \ifdefempty{\ReportClassification}{}{{\small\color{ReportLight}机密等级：\ReportClassification\par}}
+    \ifdefempty{\ReportVersion}{}{{\small\color{ReportLight}\ReportVersion\par}}
   \end{flushleft}
   \end{titlepage}}
 
