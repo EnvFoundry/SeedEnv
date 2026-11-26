@@ -58,7 +58,7 @@
     {
       "id": "fandol",
       "version": "0.4",
-      "url": "https://mirrors.ctan.org/obsolete/fonts/fandol.zip",
+      "url": "https://mirrors.ustc.edu.cn/CTAN/obsolete/fonts/fandol.zip",
       "files": {
         "fandol/FandolSong-Regular.otf": "fonts/opentype/public/fandol/FandolSong-Regular.otf",
         "fandol/FandolSong-Bold.otf": "fonts/opentype/public/fandol/FandolSong-Bold.otf",
