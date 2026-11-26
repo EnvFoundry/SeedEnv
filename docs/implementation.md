@@ -8,7 +8,7 @@ several modules may use one software component.
 
 The picker starts with no selection. Browsing and empty preparation create no
 software directory or background job. Selected software is prepared beneath the
-user research space's `System/env/seedenv`, with isolated environments, local caches
+user research space's `System/software/seedenv`, with isolated environments, local caches
 and persistent SQLite state. Existing interpreters and executables can be bound.
 Known compatible larger environments supply smaller modules; selection order
 does not cause duplicate installation. Preparation supports background progress,

@@ -22,7 +22,7 @@ def main(argv=None):
     parser = argparse.ArgumentParser(prog="seedenv", description="Prepare and reuse research tools")
     location = parser.add_mutually_exclusive_group()
     location.add_argument("--home", help="Persistent software and state directory")
-    location.add_argument("--research-space", help="User research space; uses System/env/seedenv and retains existing older locations")
+    location.add_argument("--research-space", help="User research space; uses System/software/seedenv and retains existing locations")
     parser.add_argument("--catalog", help="Additional local module catalogue")
     sub = parser.add_subparsers(dest="action", required=True)
     search = sub.add_parser("search", help="Find research modules")
@@ -42,6 +42,8 @@ def main(argv=None):
     plan.add_argument("--host", choices=["origo"])
     context = sub.add_parser("context", help="Read selected working guides and actual software entries")
     context.add_argument("selections", nargs="*")
+    remove = sub.add_parser("remove", help="Uninstall selected modules, retaining shared software and research files")
+    remove.add_argument("selections", nargs="+")
     for action in ("prepare", "discover"):
         p = sub.add_parser(action)
         p.add_argument("selections", nargs="*")
@@ -101,6 +103,8 @@ def main(argv=None):
             value = origo_requests(manager, args.selections) if args.host else manager.plan(args.selections, args.target)
         elif action == "context":
             value = manager.context(args.selections)
+        elif action == "remove":
+            value = manager.remove(args.selections)
         elif action == "discover":
             value = manager.discover(args.selections, args.python)
         elif action == "prepare":

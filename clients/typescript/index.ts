@@ -105,6 +105,11 @@ export interface HostPreparationResult {
   pending: PlanAction[];
   failed: { component: string; error: string }[];
 }
+export interface Removal {
+  removed: string[];
+  files: string[];
+  retained: string[];
+}
 export interface WritingTemplate {
   id: string;
   title: string;
@@ -164,6 +169,9 @@ export class SeedEnv {
 
   browse(field?: string, signal?: AbortSignal) {
     return this.request<Navigation>(["browse", ...(field ? ["--field", field] : [])], signal);
+  }
+  remove(modules: string[], signal?: AbortSignal) {
+    return this.request<Removal>(["remove", ...modules], signal);
   }
   search(query = "", offset = 0, limit = 20, signal?: AbortSignal, scope: SearchScope = {}) {
     return this.request<{items: ModuleSummary[]; total: number; next_offset: number | null}>(

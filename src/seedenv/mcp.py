@@ -49,6 +49,8 @@ def tools():
          {"job": field("string")}, ["job"], False),
         ("seedenv_installed", "List persistent software installations and their invocation commands.", {}, [], True),
         ("seedenv_preparation_installed", "Read selected modules, ready modules and outstanding software preparation.", {}, [], True),
+        ("seedenv_remove", "Uninstall selected modules and their unreferenced managed software; retain shared installations and research files.",
+         {"selections": SELECTION}, ["selections"], False),
         ("seedenv_entry", "Get the exact command for a prepared component; use it to run full native research programs.",
          {"component": field("string")}, ["component"], True),
         ("seedenv_templates", "List editable scientific writing layouts by language, form or style. Does not install software.",
@@ -62,7 +64,7 @@ def tools():
     return [{"name": name, "description": description,
              **({"execution": {"taskSupport": "optional"}} if name == "seedenv_prepare" else {}),
              "inputSchema": {"type": "object", "properties": properties, "required": required, "additionalProperties": False},
-             "annotations": {"readOnlyHint": read, "destructiveHint": False, "openWorldHint": not read}}
+             "annotations": {"readOnlyHint": read, "destructiveHint": name == "seedenv_remove", "openWorldHint": not read}}
             for name, description, properties, required, read in definitions]
 
 
@@ -91,6 +93,7 @@ def call(manager, name, args):
         "seedenv_status": manager.status, "seedenv_cancel": manager.cancel,
         "seedenv_installed": manager.state.list, "seedenv_entry": manager.entry,
         "seedenv_preparation_installed": manager.installed_summary,
+        "seedenv_remove": manager.remove,
         "seedenv_templates": templates, "seedenv_manuscript": create_manuscript,
         "seedenv_build": manager.build,
     }

@@ -11,7 +11,7 @@ the product's existing job. Use its user-level persistent directory, not a sessi
 directory. `prepare-request` is synchronous and starts no detached worker:
 
 ```sh
-python -m seedenv --home /user/Research/System/env/seedenv prepare-request --file request.json
+python -m seedenv --home /user/Research/System/software/seedenv prepare-request --file request.json
 ```
 
 The same JSON may be supplied on stdin:
@@ -106,12 +106,12 @@ tokens for research services stay in host connection settings, outside catalogue
 For remote computers, run this code through the product's existing remote worker.
 
 Pass the user-level space, shared by sessions, to `research_space` (or
-`SEEDENV_RESEARCH_SPACE`). Software and SQL state live in `System/env/seedenv` beneath
+`SEEDENV_RESEARCH_SPACE`). Software and SQL state live in `System/software/seedenv` beneath
 it. An explicit `home` / `SEEDENV_HOME` still selects the environment directory
 directly. This does not move earlier installations. The product selects a space
 on each execution host; passing a desktop path to a server does not mount it.
-An existing legacy `system/seedenv` remains in use if the canonical location does
-not exist. When both exist, the canonical location wins; select `--home` explicitly
+Existing `System/env/seedenv` and `system/seedenv` installations remain in use if
+the canonical location does not exist. When both exist, the canonical location wins; select `--home` explicitly
 to continue another existing installation. There is no background migration.
 
 `browse` only navigates. `search` supports `field` and `direction` filters and
@@ -220,7 +220,7 @@ Chinese and English labels use the `lang` attribute.
 `seedenv connect origo --output PATH` creates `plugin.json`, a self-contained
 Python server, and `skills/seedenv/SKILL.md`. Move or archive the directory, import
 it in Origo, and activate it. Export with `--research-space PATH` to configure
-`PATH/System/env/seedenv`, or have the host supply `SEEDENV_RESEARCH_SPACE` at launch.
+`PATH/System/software/seedenv`, or have the host supply `SEEDENV_RESEARCH_SPACE` at launch.
 Without either setting, standalone behavior remains `~/.seedenv`. The package no
 longer derives software storage from a project or session workspace placeholder.
 

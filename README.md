@@ -112,7 +112,6 @@ python -m pip install .
 seedenv browse
 seedenv browse --field optics
 seedenv search --field optics --direction optoelectronic-devices
-seedenv --research-space /path/to/user-space plan thin-films writing
 seedenv --research-space /path/to/user-space prepare thin-films
 seedenv --research-space /path/to/user-space context thin-films
 seedenv --research-space /path/to/user-space example thin-films --output thin_film.py
@@ -120,13 +119,13 @@ seedenv --research-space /path/to/user-space run python-tmm -- thin_film.py
 ```
 
 `--research-space` names the **user-level research space**, shared across projects
-and sessions. Software and installation state live in its `System/env/seedenv`.
+and sessions. Software and installation state live in its `System/software/seedenv`.
 Research programs, inputs and outputs stay in their own projects. Do not pass a
 temporary session workspace. `SEEDENV_RESEARCH_SPACE` provides the same setting.
 
 Existing `--home` and `SEEDENV_HOME` directly select the environment directory.
-Unconfigured standalone commands retain `~/.seedenv`; existing software is not
-moved or deleted.
+Unconfigured standalone commands retain `~/.seedenv`; existing `System/env/seedenv`
+and `system/seedenv` installations keep their locations.
 
 ## Storage and reuse
 
@@ -154,7 +153,13 @@ seedenv installed
 seedenv prepare thin-films --background
 seedenv status JOB_ID
 seedenv cancel JOB_ID
+seedenv remove thin-films
 ```
+
+Removal deletes the selected modules' unreferenced managed software. Software
+shared with another installed module, external installations, manuscript files
+and research outputs remain. A module still required by another selection must
+be removed together with that selection.
 
 Continue using the same location arguments or environment variables. Sessions do
 not delete installations. Failed additions preserve existing software. Background

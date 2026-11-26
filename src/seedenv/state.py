@@ -5,6 +5,7 @@ from pathlib import Path
 import sqlite3
 
 from .catalog import DATA
+from .process import installation_lock
 
 
 class State:
@@ -49,7 +50,9 @@ class State:
             return [self.installation(row) for row in db.execute("SELECT * FROM installations ORDER BY component")]
 
     def bind(self, component, definition, command, location, managed):
-        with self.db(write=True) as db:
+        with installation_lock(self.home / "locks/registry.lock", wait=True), self.db(write=True) as db:
+            if not Path(command[0]).is_file() or not Path(location).exists():
+                raise ValueError(f"The installation for {component} is no longer available")
             db.execute("""INSERT INTO installations(component,definition,command,managed,location)
                 VALUES(?,?,?,?,?) ON CONFLICT(component) DO UPDATE SET
                 definition=excluded.definition,command=excluded.command,managed=excluded.managed,
@@ -63,7 +66,7 @@ class State:
 
     def select(self, modules):
         if modules:
-            with self.db(write=True) as db:
+            with installation_lock(self.home / "locks/registry.lock", wait=True), self.db(write=True) as db:
                 db.executemany("INSERT OR IGNORE INTO selections(module) VALUES (?)", ((name,) for name in modules))
 
     def selected(self):

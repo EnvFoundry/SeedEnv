@@ -1,6 +1,7 @@
 """Select components, reuse software and prepare isolated installations."""
 from __future__ import annotations
 
+from contextlib import ExitStack
 import json
 import os
 from pathlib import Path
@@ -21,10 +22,10 @@ from . import tex
 
 
 def research_home(space):
-    """Use the product's System spelling, preserving an existing older location."""
     space = Path(space).expanduser()
-    current, legacy = space / "System" / "env" / "seedenv", space / "system" / "seedenv"
-    return legacy if legacy.exists() and not current.exists() else current
+    current = space / "System/software/seedenv"
+    return next((path for path in (current, space / "System/env/seedenv", space / "system/seedenv")
+                 if path.exists()), current)
 
 
 def executable(value):
@@ -286,7 +287,7 @@ class Manager:
     def prepare(self, selections, *, python=None, offline=False, find_links=(), cancel=None):
         plan = self.plan(selections)
         if plan["actions"]:
-            self.state.select(plan["modules"])
+            self.state.select(selections)
         result = {"modules": plan["modules"], "ready": [], "pending": [], "failed": []}
         for action in plan["actions"]:
             if cancel and cancel.exists():
@@ -317,7 +318,9 @@ class Manager:
         entries = self.state.list()
         ready = [entry for entry in entries if entry["command"] and Path(entry["command"][0]).is_file()]
         available = {entry["component"] for entry in ready}
-        modules = [name for name in self.state.selected() if name in self.catalog.modules]
+        selected = [name for name in self.state.selected()
+                    if name in self.catalog.modules or name in self.catalog.components]
+        modules, _ = self.catalog.select(selected)
         required = {name: set(self.catalog.select([name])[1]) for name in modules}
         return {"modules": modules, "ready_modules": [name for name in modules if required[name] <= available],
                 "ready": ready,
@@ -325,6 +328,62 @@ class Manager:
                             for name in sorted(set().union(*required.values()) - available)],
                 "failed": [{"component": entry["component"], "error": "The registered executable is unavailable"}
                            for entry in entries if entry["component"] not in available]}
+
+    def remove(self, selections):
+        requested_modules, requested_components = self.catalog.select(selections)
+        if not self.state.path.is_file():
+            return {"removed": [], "files": [], "retained": []}
+        with ExitStack() as locks:
+            for name in sorted(requested_components):
+                locks.enter_context(installation_lock(self.home / "locks" / (name + ".lock")))
+            locks.enter_context(installation_lock(self.home / "locks/registry.lock", wait=True))
+            recorded = self.state.selected()
+            known_recorded = [name for name in recorded
+                              if name in self.catalog.modules or name in self.catalog.components]
+            recorded_modules, _ = self.catalog.select(known_recorded)
+            remaining = [name for name in recorded if name not in selections]
+            known_remaining = [name for name in remaining
+                               if name in self.catalog.modules or name in self.catalog.components]
+            remaining_modules, remaining_components = self.catalog.select(known_remaining)
+            required = set(selections) & (set(remaining_modules) | set(remaining_components))
+            if required:
+                raise ValueError("Still required by installed modules: " + ", ".join(sorted(required)))
+            candidates = set(requested_components) - set(remaining_components)
+            with self.state.db(write=True) as db:
+                rows = [self.state.installation(row) for row in db.execute("SELECT * FROM installations")]
+                kept = [Path(row["location"]).resolve() for row in rows if row["component"] not in candidates]
+                files, retained = set(), set()
+                for row in rows:
+                    if row["component"] not in candidates:
+                        continue
+                    location = Path(row["location"])
+                    resolved = location.resolve()
+                    shared = any(resolved == other or resolved.is_relative_to(other) or other.is_relative_to(resolved)
+                                 for other in kept)
+                    owned = row["managed"] and any(resolved.parent == (self.home / area).resolve()
+                                                   for area in ("environments", "software"))
+                    if owned and not shared and not location.is_symlink():
+                        if location.is_dir():
+                            shutil.rmtree(location)
+                            files.add(str(location))
+                    elif location.exists():
+                        retained.add(str(location))
+                    db.execute("DELETE FROM installations WHERE component=?", (row["component"],))
+                    db.commit()
+                for name in sorted(candidates):
+                    pending = self.home / "preparing" / (name + ".json")
+                    if not pending.is_file():
+                        continue
+                    location = Path(json.loads(pending.read_text(encoding="utf-8"))["location"])
+                    if location.resolve().parent != (self.home / "environments").resolve() or location.is_symlink():
+                        raise ValueError(f"Unfinished installation for {name} is outside its managed directory")
+                    if location.is_dir() and not any(location.resolve() == other for other in kept):
+                        shutil.rmtree(location)
+                        files.add(str(location))
+                    pending.unlink()
+                db.executemany("DELETE FROM selections WHERE module=?", ((name,) for name in selections))
+        return {"removed": sorted(set(requested_modules) & set(recorded_modules) - set(remaining_modules)),
+                "files": sorted(files), "retained": sorted(retained)}
 
     def entry(self, component):
         saved = self._available(self._component(component))

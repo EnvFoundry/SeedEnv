@@ -96,6 +96,7 @@
     "server": "seedenv",
     "installed": "seedenv_preparation_installed",
     "plan": "seedenv_plan",
-    "prepare": "seedenv_prepare"
+    "prepare": "seedenv_prepare",
+    "remove": "seedenv_remove"
   }
 }
