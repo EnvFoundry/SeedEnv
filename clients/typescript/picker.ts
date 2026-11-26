@@ -1,22 +1,22 @@
-import type { ModuleSummary, Navigation, Plan, Preparation, PreparationStart, SearchScope } from "./index.js";
+import type { ModuleSummary, Navigation, PlanAction, Preparation, PreparationStart, Removal, SearchScope } from "./index.js";
 
 /** Implement this bridge in the product. No credentials or shell live in the UI. */
 export interface ResearchEnvironmentAPI {
   browse(field?: string): Promise<Navigation>;
   search(query?: string, offset?: number, limit?: number, signal?: AbortSignal, scope?: SearchScope): Promise<{ items: ModuleSummary[]; total: number; next_offset: number | null }>;
-  plan(selections: string[]): Promise<Plan>;
   prepare(selections: string[]): Promise<PreparationStart>;
   status(job: string): Promise<Preparation>;
   cancel(job: string): Promise<{ job: string; state: string }>;
+  remove?(selections: string[]): Promise<Removal>;
 }
 
 const words = {
-  en: { title: "Research environments", intro: "Choose what you need now. You can add more later.", search: "Search by task, field or software", selected: "selected", plan: "Review selection", prepare: "Prepare environments", skip: "Set up later", cancel: "Cancel preparation", loading: "Loading modules…", empty: "No matching modules", error: "Unable to complete this step", ready: "Ready to use", partial: "Some tools need another step", cancelled: "Preparation cancelled", failed: "Preparation failed", running: "Preparing environments…", install: "Install", reuse: "Use existing", connect: "Connect existing", setup: "Setup needed", "choose-host": "Choose a supported host", "add-plugin": "Add plugin", more: "Show more", guide: "Preparation details" },
-  zh: { title: "研究环境", intro: "选择现在需要的模块，以后可以随时补充。", search: "搜索研究任务、领域或软件", selected: "项已选", plan: "查看准备内容", prepare: "准备研究环境", skip: "以后再准备", cancel: "取消准备", loading: "正在读取模块…", empty: "没有找到相关模块", error: "这一步未能完成", ready: "可以开始使用", partial: "部分工具需要继续配置", cancelled: "已取消准备", failed: "准备未完成", running: "正在准备研究环境…", install: "安装", reuse: "复用已有环境", connect: "连接已有软件", setup: "需要配置", "choose-host": "选择可用的运行位置", "add-plugin": "添加插件", more: "显示更多", guide: "准备内容" },
+  en: { title: "Research environments", search: "Search by task, field or software", selected: "selected", prepare: "Install selected", remove: "Uninstall selected", removing: "Uninstalling selected modules…", removed: "Modules uninstalled", unchanged: "No installed modules were removed", skip: "Set up later", cancel: "Cancel installation", empty: "No matching modules", error: "Unable to complete this operation", ready: "Ready to use", partial: "Some tools still need setup", cancelled: "Installation cancelled", failed: "Installation failed", running: "Installing selected modules…", install: "Install", reuse: "Use existing", connect: "Connect existing", setup: "Setup needed", "choose-host": "Choose a supported host", "add-plugin": "Add plugin", more: "Show more", guide: "Remaining setup" },
+  zh: { title: "研究环境", search: "搜索研究任务、领域或软件", selected: "项已选", prepare: "安装所选内容", remove: "卸载所选模块", removing: "正在卸载所选模块…", removed: "已卸载模块", unchanged: "没有已安装的模块被移除", skip: "以后再安装", cancel: "取消安装", empty: "没有找到相关模块", error: "这项操作未能完成", ready: "可以开始使用", partial: "部分工具尚需配置", cancelled: "已取消安装", failed: "安装未完成", running: "正在安装所选模块…", install: "安装", reuse: "复用已有软件", connect: "连接已有软件", setup: "需要配置", "choose-host": "选择可用的运行位置", "add-plugin": "添加插件", more: "显示更多", guide: "尚需配置" },
 };
 const navigationWords = {
-  en: { field: "Research field", direction: "Research direction", allFields: "Choose a field or search", allDirections: "All directions in this field", choose: "Choose a field, then select only the modules needed for your work.", software: "Software", remove: "Remove", location: "Software location", new: "new environments", reused: "existing environments reused", size: "Download and additional disk size depend on the selected host and dependency resolution; no size estimate is available yet." },
-  zh: { field: "研究领域", direction: "研究方向", allFields: "选择领域，或直接搜索", allDirections: "本领域全部方向", choose: "先选择领域，再勾选研究任务需要的模块。浏览领域不会下载安装。", software: "软件", remove: "移除", location: "软件保存位置", new: "个新环境", reused: "个已有环境可复用", size: "下载量和新增空间取决于运行位置及依赖解析，目前尚无体积估计。" },
+  en: { field: "Research field", direction: "Research direction", allFields: "Choose a field or search", allDirections: "All directions in this field", choose: "Choose a field or search for modules.", software: "Software", remove: "Deselect", retained: "Retained resources" },
+  zh: { field: "研究领域", direction: "研究方向", allFields: "选择领域，或直接搜索", allDirections: "本领域全部方向", choose: "选择领域或搜索模块。", software: "软件", remove: "取消勾选", retained: "保留的资源" },
 };
 
 /** Embeddable in onboarding and settings; the same component serves both. */
@@ -36,13 +36,12 @@ export class SeedEnvPicker extends HTMLElement {
   private poll?: ReturnType<typeof setTimeout>;
   private job?: string;
   private busy = false;
-  private currentPlan?: Plan;
   private message = "";
   private list!: HTMLElement;
   private summary!: HTMLElement;
   private detail!: HTMLElement;
   private live!: HTMLElement;
-  private review!: HTMLButtonElement;
+  private removeButton!: HTMLButtonElement;
   private prepareButton!: HTMLButtonElement;
   private more!: HTMLButtonElement;
   private cancelButton!: HTMLButtonElement;
@@ -55,7 +54,7 @@ export class SeedEnvPicker extends HTMLElement {
   /** Resume a persisted job when onboarding or settings is reopened. */
   resume(job: string) {
     if (this.busy && this.job && this.job !== job) throw new Error("Another preparation is already being followed");
-    this.job = job; this.busy = true; this.pollFailed = false;
+    this.job = job; this.busy = true; this.pollFailed = false; this.message = this.t.running;
     if (this.isConnected) { this.update(); void this.checkProgress(); }
   }
   private get t() { return words[this.getAttribute("lang")?.startsWith("zh") ? "zh" : "en"]; }
@@ -88,8 +87,8 @@ export class SeedEnvPicker extends HTMLElement {
       .navigation{display:flex;gap:.75rem;flex-wrap:wrap;margin:1rem 0}.navigation select{padding:.65rem;max-width:100%;background:transparent;color:inherit;border:1px solid #a5afb8;border-radius:.4rem}
       .basket{display:flex;gap:.4rem;flex-wrap:wrap}.basket button{font-size:.85rem;padding:.4rem}.storage{overflow-wrap:anywhere}
       input[type=search]{width:100%;padding:.75rem;border:1px solid #a5afb8;border-radius:.5rem;margin:.5rem 0 1rem}
-      .modules{display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));gap:.65rem}
-      label{display:flex;gap:.7rem;align-items:flex-start;border:1px solid #a5afb8;border-radius:.5rem;padding:.85rem;cursor:pointer}
+      .modules{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,16rem),1fr));gap:.65rem}
+      label{display:flex;gap:.7rem;align-items:flex-start;min-width:0;overflow-wrap:anywhere;border:1px solid #a5afb8;border-radius:.5rem;padding:.85rem;cursor:pointer}
       label:has(input:checked){border-color:#267b78;background:#267b7810}label small{display:block;line-height:1.5;margin-top:.3rem;opacity:.8}
       input[type=checkbox]{margin-top:.3rem;accent-color:#267b78}button{padding:.65rem .9rem;border:1px solid #a5afb8;border-radius:.4rem;background:transparent;color:inherit;cursor:pointer}
       button:disabled{opacity:.5;cursor:default}button.primary{background:#246f6c;color:#fff;border-color:#246f6c}
@@ -97,7 +96,6 @@ export class SeedEnvPicker extends HTMLElement {
       .row small{display:block;line-height:1.6;overflow-wrap:anywhere}a{color:#246f6c} [hidden]{display:none!important}
       :focus-visible{outline:2px solid #267b78;outline-offset:3px}`);
     const title = this.element("h2", this.t.title);
-    const intro = this.element("p", this.t.intro);
     const navigation = this.element("div"); navigation.className = "navigation";
     this.fields = this.element("select"); this.fields.setAttribute("aria-label", this.n.field);
     this.directions = this.element("select"); this.directions.setAttribute("aria-label", this.n.direction);
@@ -114,13 +112,13 @@ export class SeedEnvPicker extends HTMLElement {
     this.detail = this.element("div"); this.detail.className = "details";
     this.live = this.element("p"); this.live.setAttribute("role", "status"); this.live.setAttribute("aria-live", "polite");
     const actions = this.element("div"); actions.className = "actions";
-    this.review = this.button(this.t.plan, () => void this.reviewPlan());
     this.prepareButton = this.button(this.t.prepare, () => void this.begin()); this.prepareButton.className = "primary";
+    this.removeButton = this.button(this.t.remove, () => void this.uninstall());
     this.cancelButton = this.button(this.t.cancel, () => void this.cancel());
     this.retryButton = this.button(this.getAttribute("lang")?.startsWith("zh") ? "重新读取进度" : "Refresh progress", () => { this.pollFailed = false; void this.checkProgress(); this.update(); });
-    actions.append(this.review, this.prepareButton, this.cancelButton, this.retryButton,
+    actions.append(this.prepareButton, this.removeButton, this.cancelButton, this.retryButton,
       this.button(this.t.skip, () => this.dispatchEvent(new CustomEvent("seedenv-skip", { bubbles: true, composed: true }))));
-    root.append(style, title, intro, navigation, search, this.list, this.more, this.summary, this.basket, this.detail, actions, this.live);
+    root.append(style, title, navigation, search, this.list, this.more, this.summary, this.basket, this.detail, actions, this.live);
     this.update();
   }
   private update() {
@@ -128,14 +126,14 @@ export class SeedEnvPicker extends HTMLElement {
     this.basket.replaceChildren();
     for (const name of this.selected) {
       const remove = this.button(`${this.n.remove} · ${this.selectedTitles.get(name) ?? name}`, () => {
-        this.selected.delete(name); this.invalidatePlan();
+        this.selected.delete(name); this.selectionChanged();
         for (const input of this.list.querySelectorAll<HTMLInputElement>("input[type=checkbox]")) input.checked = this.selected.has(input.value);
       });
       remove.disabled = this.busy; this.basket.append(remove);
     }
-    this.review.disabled = !this.selected.size || this.busy;
-    this.prepareButton.hidden = !this.currentPlan;
-    this.prepareButton.disabled = this.busy;
+    this.prepareButton.disabled = !this.selected.size || this.busy;
+    this.removeButton.hidden = !this.bridge?.remove;
+    this.removeButton.disabled = !this.selected.size || this.busy;
     this.cancelButton.hidden = !this.job || !this.busy;
     this.retryButton.hidden = !this.pollFailed;
     this.more.hidden = this.offset === null;
@@ -144,7 +142,7 @@ export class SeedEnvPicker extends HTMLElement {
     this.fields.disabled = this.busy;
     this.directions.disabled = this.busy || !this.scope.field;
   }
-  private invalidatePlan() { this.currentPlan = undefined; this.detail.replaceChildren(); this.message = ""; this.update(); }
+  private selectionChanged() { this.detail.replaceChildren(); this.message = ""; this.update(); }
   private async navigate() {
     if (!this.bridge) return;
     const revision = ++this.navigationRevision;
@@ -193,7 +191,7 @@ export class SeedEnvPicker extends HTMLElement {
         const input = this.element("input"); input.type = "checkbox"; input.value = item.id; input.checked = this.selected.has(item.id);
         input.addEventListener("change", () => {
           if (input.checked) this.selected.add(item.id); else this.selected.delete(item.id);
-          this.selectedTitles.set(item.id, this.label(item.title)); this.invalidatePlan();
+          this.selectedTitles.set(item.id, this.label(item.title)); this.selectionChanged();
         });
         const text = this.element("span", this.label(item.title));
         if (item.kind === "resource") text.append(this.element("small", this.getAttribute("lang")?.startsWith("zh") ? "关联资源与专业环境" : "Related resource or specialist environment"));
@@ -208,21 +206,7 @@ export class SeedEnvPicker extends HTMLElement {
     } catch (error) { if (revision === this.revision) this.fail(error); }
   }
   private fail(error: unknown) { this.message = `${this.t.error}: ${error instanceof Error ? error.message : String(error)}`; this.update(); }
-  private async reviewPlan() {
-    if (!this.bridge || this.busy) return;
-    this.busy = true; this.update();
-    try {
-      this.currentPlan = await this.bridge.plan([...this.selected]);
-      this.showActions(this.currentPlan.actions);
-      const storage = this.currentPlan.storage;
-      const location = this.element("p", `${this.n.location}: ${storage.root}`); location.className = "storage";
-      this.detail.append(location,
-        this.element("p", `${storage.new_environments} ${this.n.new} · ${storage.reused_environments} ${this.n.reused}`),
-        this.element("small", storage.download_bytes === 0 ? (this.getAttribute("lang")?.startsWith("zh") ? "已有软件可直接复用，无需下载。" : "Existing software is ready to reuse; no download is needed.") : this.n.size));
-    } catch (error) { this.fail(error); }
-    finally { this.busy = false; this.update(); }
-  }
-  private showActions(actions: Plan["actions"]) {
+  private showActions(actions: PlanAction[]) {
     this.detail.replaceChildren(this.element("h3", this.t.guide));
     for (const action of actions) {
       const laboratory = action.connection?.type === "laboratory";
@@ -245,14 +229,24 @@ export class SeedEnvPicker extends HTMLElement {
       this.detail.append(row);
     }
   }
+  private showResult(result: Preparation["result"]) {
+    this.detail.replaceChildren();
+    if (result?.pending.length) this.showActions(result.pending);
+    for (const failure of result?.failed ?? []) {
+      this.detail.append(this.element("p", `${failure.component}: ${failure.error}`));
+    }
+  }
   private async begin() {
-    if (!this.bridge || !this.currentPlan || this.busy) return;
-    this.busy = true; this.message = this.t.running; this.update();
+    if (!this.bridge || !this.selected.size || this.busy) return;
+    clearTimeout(this.poll);
+    this.job = undefined; this.pollFailed = false;
+    this.busy = true; this.message = this.t.running; this.detail.replaceChildren(); this.update();
     try {
       const job = await this.bridge.prepare([...this.selected]); this.job = job.job ?? undefined; this.update();
       this.dispatchEvent(new CustomEvent("seedenv-started", { detail: job, bubbles: true, composed: true }));
       if (job.job) await this.checkProgress();
       else {
+        this.showResult(job.result ?? null);
         this.busy = false; this.message = this.t.ready; this.update();
         this.dispatchEvent(new CustomEvent("seedenv-finished", { detail: job, bubbles: true, composed: true }));
       }
@@ -260,19 +254,20 @@ export class SeedEnvPicker extends HTMLElement {
   }
   private async checkProgress() {
     if (!this.job || !this.bridge || !this.isConnected) return;
+    clearTimeout(this.poll);
     const job = this.job;
     try {
       const status = await this.bridge.status(job);
       if (job !== this.job || !this.isConnected) return;
       this.pollFailed = false;
       if (["queued", "running"].includes(status.state)) {
+        this.message = this.t.running; this.update();
         this.poll = setTimeout(() => void this.checkProgress(), 1000); return;
       }
       this.busy = false;
       this.message = this.t[status.state as "ready" | "partial" | "cancelled" | "failed"];
       if (status.error) this.message += `: ${status.error}`;
-      if (status.result?.pending.length) this.showActions(status.result.pending);
-      for (const failure of status.result?.failed ?? []) this.detail.append(this.element("p", `${failure.component}: ${failure.error}`));
+      this.showResult(status.result);
       this.dispatchEvent(new CustomEvent("seedenv-finished", { detail: status, bubbles: true, composed: true }));
       this.update();
     } catch (error) { if (job === this.job && this.isConnected) { this.pollFailed = true; this.fail(error); } }
@@ -281,6 +276,27 @@ export class SeedEnvPicker extends HTMLElement {
     if (!this.bridge || !this.job) return;
     try { await this.bridge.cancel(this.job); }
     catch (error) { this.fail(error); }
+  }
+  private async uninstall() {
+    if (!this.bridge?.remove || !this.selected.size || this.busy) return;
+    clearTimeout(this.poll);
+    this.job = undefined; this.pollFailed = false;
+    this.busy = true; this.message = this.t.removing; this.detail.replaceChildren(); this.update();
+    try {
+      const result = await this.bridge.remove([...this.selected]);
+      this.message = result.removed.length ? `${this.t.removed}: ${result.removed.length}` : this.t.unchanged;
+      if (result.retained.length) {
+        const retained = this.element("details");
+        retained.append(this.element("summary", this.n.retained));
+        for (const path of result.retained) {
+          const location = this.element("p", path); location.className = "storage";
+          retained.append(location);
+        }
+        this.detail.append(retained);
+      }
+      this.dispatchEvent(new CustomEvent("seedenv-removed", { detail: result, bubbles: true, composed: true }));
+    } catch (error) { this.fail(error); }
+    finally { this.busy = false; this.update(); }
   }
 }
 
