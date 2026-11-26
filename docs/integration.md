@@ -195,7 +195,7 @@ container.append(picker);
 ```
 
 Implement `ResearchEnvironmentAPI` over the product's IPC or HTTP boundary:
-`browse`, `search`, `plan`, `prepare`, `status`, `cancel`. The direct Node client implements
+`browse`, `search`, `prepare`, `status`, `cancel`, and optional `remove`. The direct Node client implements
 that interface; in a browser its calls travel through the host bridge. Keep the
 chosen execution host fixed during a preparation. The component does not create
 a second desktop service or request filesystem permissions.
@@ -203,12 +203,13 @@ a second desktop service or request filesystem permissions.
 The picker starts with field navigation and no selected modules. Shared capabilities
 have their own field group, and related resources have a distinct label. Direction
 filters and search do not clear the selection basket. Researchers can remove a
-selected module even when it is outside the current filter. Before preparation,
-the picker displays the unique component actions, shared installation count and
-destination. Unknown download/disk estimates are null, not zero. The catalogue's
-small metadata and guides do not trigger solver, model or dataset downloads.
+selected module even when it is outside the current filter. Install selected
+starts preparation directly; dependency resolution belongs to the preparation
+owner. Progress and final results show ready software and any remaining setup.
+Uninstall selected removes unused managed software and reports retained resources.
+The catalogue's small metadata and guides do not trigger solver, model or dataset downloads.
 
-The picker emits `seedenv-started`, `seedenv-finished`, and `seedenv-skip`.
+The picker emits `seedenv-started`, `seedenv-finished`, `seedenv-removed`, and `seedenv-skip`.
 Store the started job ID in product state. Removing the picker does not cancel
 the installation; call `picker.resume(jobId)` when reopening the page, or use
 `status` in the product's job view. A temporary status error keeps the job ID and
