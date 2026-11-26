@@ -61,6 +61,19 @@ class State:
         with self.db(write=True) as db:
             db.execute("INSERT INTO jobs(id,state,selection) VALUES(?,?,?)", (job, "queued", json.dumps(names)))
 
+    def select(self, modules):
+        if modules:
+            with self.db(write=True) as db:
+                db.executemany("INSERT OR IGNORE INTO selections(module) VALUES (?)", ((name,) for name in modules))
+
+    def selected(self):
+        if not self.path.is_file():
+            return []
+        with self.db() as db:
+            if not db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='selections'").fetchone():
+                return []
+            return [row[0] for row in db.execute("SELECT module FROM selections ORDER BY module")]
+
     def set_job(self, job, state, result=None, error=None):
         with self.db(write=True) as db:
             db.execute("UPDATE jobs SET state=?,result=?,error=?,updated_at=CURRENT_TIMESTAMP WHERE id=?",

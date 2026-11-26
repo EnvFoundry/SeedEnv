@@ -256,3 +256,17 @@ are listed. The host resolves them to installed locations when it displays them.
 These declarations describe packaged content. They do not establish that Python
 packages, TeX, external services or instruments have been prepared; use the
 existing preparation result and environment registrations for that state.
+
+## Declarative environment preparation
+
+The exported environment names its MCP server and exact installed, plan and prepare
+operations. Catalogue resources include repository paths for browsing before any
+installation. `seedenv_preparation_installed` returns selected and ready modules
+separately from ready, pending and failed components; the older `seedenv_installed`
+array remains unchanged. Pure guidance and templates need no software installation.
+
+MCP Tasks wrap the existing preparation jobs: call `seedenv_prepare` with `task: {}`
+and read `tasks/get` and `tasks/result`. `tasks/cancel` waits for the existing worker
+to stop. Completed components survive cancellation and reconnects; an unexpectedly
+terminated worker is reported rather than left running forever. The host-owned
+`prepare-request` process and its cancellation contract remain available.

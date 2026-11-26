@@ -1,6 +1,9 @@
 """Dependency-free MCP stdio surface; preparations run outside the connection."""
 import json
 import sys
+import threading
+from concurrent.futures import ThreadPoolExecutor
+from .tasks import Tasks
 
 from .manager import Manager
 from .writing import templates, create_manuscript
@@ -45,6 +48,7 @@ def tools():
         ("seedenv_cancel", "Stop an unfinished preparation, retaining already prepared components.",
          {"job": field("string")}, ["job"], False),
         ("seedenv_installed", "List persistent software installations and their invocation commands.", {}, [], True),
+        ("seedenv_preparation_installed", "Read selected modules, ready modules and outstanding software preparation.", {}, [], True),
         ("seedenv_entry", "Get the exact command for a prepared component; use it to run full native research programs.",
          {"component": field("string")}, ["component"], True),
         ("seedenv_templates", "List editable scientific writing layouts by language, form or style. Does not install software.",
@@ -56,6 +60,7 @@ def tools():
           "engine": {"type":"string", "enum":["lualatex", "xelatex"]}, "latexmk": field("string")}, ["source"], False),
     ]
     return [{"name": name, "description": description,
+             **({"execution": {"taskSupport": "optional"}} if name == "seedenv_prepare" else {}),
              "inputSchema": {"type": "object", "properties": properties, "required": required, "additionalProperties": False},
              "annotations": {"readOnlyHint": read, "destructiveHint": False, "openWorldHint": not read}}
             for name, description, properties, required, read in definitions]
@@ -85,6 +90,7 @@ def call(manager, name, args):
         "seedenv_bind": manager.bind, "seedenv_prepare": manager.start,
         "seedenv_status": manager.status, "seedenv_cancel": manager.cancel,
         "seedenv_installed": manager.state.list, "seedenv_entry": manager.entry,
+        "seedenv_preparation_installed": manager.installed_summary,
         "seedenv_templates": templates, "seedenv_manuscript": create_manuscript,
         "seedenv_build": manager.build,
     }
@@ -97,16 +103,24 @@ def dispatch(manager, request):
         supported = {"2024-11-05", "2025-03-26", "2025-06-18", "2025-11-25"}
         protocol = params.get("protocolVersion")
         return {"protocolVersion": protocol if protocol in supported else "2025-11-25",
-                "capabilities": {"tools": {}, "resources": {}, "prompts": {}},
+                "capabilities": {"tools": {}, "resources": {}, "prompts": {},
+                                 "tasks": {"requests": {"tools": {"call": {}}}, "cancel": {}}},
                 "serverInfo": {"name": "seedenv", "version": "0.1.0"}}
     if method == "ping":
         return {}
     if method == "tools/list":
         return {"tools": tools()}
+    if method in {"tasks/get", "tasks/result", "tasks/cancel"}:
+        return getattr(Tasks(manager), method.split("/")[1])(params["taskId"])
     if method == "tools/call":
+        if "task" in params and params["name"] != "seedenv_prepare":
+            raise MethodNotFound("This tool does not support tasks")
         try:
             result = call(manager, params["name"], params.get("arguments", {}))
-            return {"content": [{"type": "text", "text": result if isinstance(result, str) else json.dumps(result, ensure_ascii=False)}]}
+            if "task" in params:
+                return Tasks(manager).start(result, params.get("arguments", {}).get("selections", []))
+            return {"content": [{"type": "text", "text": result if isinstance(result, str) else json.dumps(result, ensure_ascii=False)}],
+                    **({"structuredContent": result} if isinstance(result, dict) else {})}
         except (ValueError, OSError, RuntimeError, TypeError, KeyError) as error:
             return {"content": [{"type": "text", "text": str(error)}], "isError": True}
     if method == "resources/list":
@@ -141,14 +155,16 @@ def serve(manager=None):
         if hasattr(stream, "reconfigure"):
             stream.reconfigure(encoding="utf-8")
     manager = manager or Manager()
-    for line in sys.stdin:
+    output_lock = threading.Lock()
+
+    def respond(line):
         request = None
         try:
             request = json.loads(line)
             if not isinstance(request, dict) or request.get("jsonrpc") != "2.0" or not isinstance(request.get("method"), str):
                 raise ValueError("Expected a JSON-RPC request")
             if "id" not in request:
-                continue
+                return
             response = {"jsonrpc": "2.0", "id": request["id"], "result": dispatch(manager, request)}
         except MethodNotFound as error:
             response = {"jsonrpc": "2.0", "id": request["id"],
@@ -156,5 +172,17 @@ def serve(manager=None):
         except Exception as error:
             response = {"jsonrpc": "2.0", "id": request.get("id") if isinstance(request, dict) else None,
                         "error": {"code": -32600, "message": str(error)}}
-        sys.stdout.write(json.dumps(response, ensure_ascii=False) + "\n")
-        sys.stdout.flush()
+        with output_lock:
+            sys.stdout.write(json.dumps(response, ensure_ascii=False) + "\n")
+            sys.stdout.flush()
+
+    with ThreadPoolExecutor(thread_name_prefix="seedenv-mcp") as calls:
+        for line in sys.stdin:
+            try:
+                method = json.loads(line).get("method")
+            except (ValueError, AttributeError):
+                method = None
+            if method in {"tasks/result", "tasks/cancel"}:
+                calls.submit(respond, line)
+            else:
+                respond(line)

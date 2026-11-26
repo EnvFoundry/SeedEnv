@@ -29,7 +29,8 @@
       "titles": {
         "en": "Choose and use research modules",
         "zh-CN": "选择并使用研究模块"
-      }
+      },
+      "repository_path": "src/seedenv/data/agent-guide.md"
     },
     {
       "kind": "catalogue",
@@ -38,7 +39,8 @@
       "titles": {
         "en": "Fields, directions and modules",
         "zh-CN": "领域、方向与模块"
-      }
+      },
+      "repository_path": "src/seedenv/data/catalog.json"
     },
     {
       "kind": "guidance",
@@ -47,7 +49,8 @@
       "titles": {
         "en": "Research and usage guides",
         "zh-CN": "研究与使用说明"
-      }
+      },
+      "repository_path": "src/seedenv/data/guides"
     },
     {
       "kind": "examples",
@@ -56,7 +59,8 @@
       "titles": {
         "en": "Editable research programs",
         "zh-CN": "可编辑的研究程序"
-      }
+      },
+      "repository_path": "src/seedenv/data/examples"
     },
     {
       "kind": "writing",
@@ -65,7 +69,8 @@
       "titles": {
         "en": "Scientific writing and templates",
         "zh-CN": "科研写作与文稿模板"
-      }
+      },
+      "repository_path": "src/seedenv/data/writing"
     },
     {
       "kind": "skills",
@@ -74,7 +79,8 @@
       "titles": {
         "en": "Agent guidance",
         "zh-CN": "Agent 使用方法"
-      }
+      },
+      "repository_path": "src/seedenv/data/agent-guide.md"
     },
     {
       "kind": "configuration",
@@ -85,5 +91,11 @@
         "zh-CN": "MCP 与插件配置"
       }
     }
-  ]
+  ],
+  "preparation": {
+    "server": "seedenv",
+    "installed": "seedenv_preparation_installed",
+    "plan": "seedenv_plan",
+    "prepare": "seedenv_prepare"
+  }
 }

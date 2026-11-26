@@ -19,6 +19,31 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class SeedEnvTests(unittest.TestCase):
+    def test_mcp_task_returns_partial_preparation_after_reconnection(self):
+        from seedenv.mcp import dispatch
+        from seedenv.tasks import Tasks
+        response = dispatch(self.manager, {"method": "tools/call", "params": {
+            "name": "seedenv_prepare", "task": {}, "arguments": {
+                "selections": ["fixture-composed"], "offline": True, "find_links": [str(self.wheels)]}}})
+        task_id = response["task"]["taskId"]
+        tasks = Tasks(Manager(self.home, Catalog(self.extra)))
+        result = tasks.result(task_id)
+        self.assertFalse(result["isError"])
+        self.assertEqual(tasks.get(task_id)["status"], "completed")
+        self.assertEqual(result["structuredContent"]["ready"][0]["component"], "fixture-python")
+        self.assertEqual(result["structuredContent"]["pending"][0]["component"], "fixture-native")
+        installed = tasks.manager.installed_summary()
+        self.assertIn("fixture", installed["ready_modules"])
+        self.assertNotIn("fixture-composed", installed["ready_modules"])
+
+    def test_mcp_empty_task_has_a_persistent_result(self):
+        from seedenv.mcp import dispatch
+        from seedenv.tasks import Tasks
+        response = dispatch(self.manager, {"method": "tools/call", "params": {
+            "name": "seedenv_prepare", "task": {}, "arguments": {"selections": []}}})
+        tasks = Tasks(self.manager)
+        self.assertEqual(tasks.result(response["task"]["taskId"])["structuredContent"]["modules"], [])
+
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(prefix="seedenv test ")
         self.addCleanup(self.temp.cleanup)
