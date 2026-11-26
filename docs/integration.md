@@ -79,6 +79,21 @@ all writing metadata and resources. `--group scientific-basics` supplies the
 computing group. This exports small resources, not preinstalled scientific software.
 Selected exports include templates only when `writing-templates` is selected.
 
+## MCP connection lifetime
+
+A host using MCP 2025-11-25 can include
+`capabilities.experimental["io.envfoundry/connection-lifecycle"] = {"scope":"request"}`
+in `initialize`. SeedEnv echoes that value only for this negotiated protocol.
+On such a connection `seedenv_prepare` requires `task: {}`; its original
+preparation job becomes the MCP Task. The host keeps the process/container
+alive while calls or unresolved Tasks remain, then may close it. Reconnecting
+to the same home preserves installation state, task IDs and results.
+
+Hosts that do not request this capability retain the existing interface,
+including ordinary preparation responses containing a job ID. Detaching a
+worker does not make it survive container termination. Request-scoped hosts
+must not infer completion merely from an initial tool response.
+
 ## Direct Python preparation
 
 ```python
