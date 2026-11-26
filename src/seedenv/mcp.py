@@ -1,4 +1,4 @@
-"""Dependency-free MCP stdio surface; preparations run outside the connection."""
+"""Dependency-free MCP stdio surface with persistent preparation tasks."""
 import json
 import sys
 import threading
@@ -14,6 +14,7 @@ def field(kind, description=""):
 
 
 SELECTION = {"type": "array", "items": {"type": "string"}}
+CONNECTION_LIFECYCLE = "io.envfoundry/connection-lifecycle"
 
 
 class MethodNotFound(ValueError):
@@ -100,14 +101,18 @@ def call(manager, name, args):
     return operations[name](**args)
 
 
-def dispatch(manager, request):
+def dispatch(manager, request, *, request_lifetime=False):
     method, params = request.get("method"), request.get("params", {})
     if method == "initialize":
         supported = {"2024-11-05", "2025-03-26", "2025-06-18", "2025-11-25"}
         protocol = params.get("protocolVersion")
-        return {"protocolVersion": protocol if protocol in supported else "2025-11-25",
-                "capabilities": {"tools": {}, "resources": {}, "prompts": {},
-                                 "tasks": {"requests": {"tools": {"call": {}}}, "cancel": {}}},
+        protocol = protocol if protocol in supported else "2025-11-25"
+        capabilities = {"tools": {}, "resources": {}, "prompts": {},
+                        "tasks": {"requests": {"tools": {"call": {}}}, "cancel": {}}}
+        lifecycle = params.get("capabilities", {}).get("experimental", {}).get(CONNECTION_LIFECYCLE, {})
+        if protocol == "2025-11-25" and lifecycle.get("scope") == "request":
+            capabilities["experimental"] = {CONNECTION_LIFECYCLE: {"scope": "request"}}
+        return {"protocolVersion": protocol, "capabilities": capabilities,
                 "serverInfo": {"name": "seedenv", "version": "0.1.0"}}
     if method == "ping":
         return {}
@@ -119,6 +124,8 @@ def dispatch(manager, request):
         if "task" in params and params["name"] != "seedenv_prepare":
             raise MethodNotFound("This tool does not support tasks")
         try:
+            if request_lifetime and params["name"] == "seedenv_prepare" and "task" not in params:
+                raise ValueError("This connection requires MCP Tasks for preparation; include task: {}")
             result = call(manager, params["name"], params.get("arguments", {}))
             if "task" in params:
                 return Tasks(manager).start(result, params.get("arguments", {}).get("selections", []))
@@ -159,8 +166,10 @@ def serve(manager=None):
             stream.reconfigure(encoding="utf-8")
     manager = manager or Manager()
     output_lock = threading.Lock()
+    request_lifetime = False
 
     def respond(line):
+        nonlocal request_lifetime
         request = None
         try:
             request = json.loads(line)
@@ -168,7 +177,10 @@ def serve(manager=None):
                 raise ValueError("Expected a JSON-RPC request")
             if "id" not in request:
                 return
-            response = {"jsonrpc": "2.0", "id": request["id"], "result": dispatch(manager, request)}
+            result = dispatch(manager, request, request_lifetime=request_lifetime)
+            if request["method"] == "initialize":
+                request_lifetime = result["capabilities"].get("experimental", {}).get(CONNECTION_LIFECYCLE, {}).get("scope") == "request"
+            response = {"jsonrpc": "2.0", "id": request["id"], "result": result}
         except MethodNotFound as error:
             response = {"jsonrpc": "2.0", "id": request["id"],
                         "error": {"code": -32601, "message": str(error)}}

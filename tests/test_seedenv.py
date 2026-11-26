@@ -19,6 +19,38 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class SeedEnvTests(unittest.TestCase):
+    def test_request_lifetime_negotiates_tasks_and_preserves_reconnection(self):
+        from seedenv.mcp import CONNECTION_LIFECYCLE, dispatch
+        initialize = {"protocolVersion": "2025-11-25", "capabilities": {
+            "experimental": {CONNECTION_LIFECYCLE: {"scope": "request"}}}}
+        for params in ({"protocolVersion": "2025-11-25"},
+                       {**initialize, "protocolVersion": "2025-06-18"}):
+            value = dispatch(self.manager, {"method": "initialize", "params": params})
+            self.assertNotIn("experimental", value["capabilities"])
+        arguments = {"selections": ["fixture"], "offline": True, "find_links": [str(self.wheels)]}
+        requests = [
+            {"jsonrpc": "2.0", "id": 1, "method": "initialize", "params": initialize},
+            {"jsonrpc": "2.0", "id": 2, "method": "tools/call",
+             "params": {"name": "seedenv_prepare", "arguments": arguments}},
+            {"jsonrpc": "2.0", "id": 3, "method": "tools/call",
+             "params": {"name": "seedenv_prepare", "arguments": arguments, "task": {}}},
+        ]
+        process = self.cli("mcp", input="".join(json.dumps(value) + "\n" for value in requests))
+        self.assertEqual(process.returncode, 0, process.stderr)
+        replies = [json.loads(line) for line in process.stdout.splitlines()]
+        self.assertEqual(replies[0]["result"]["capabilities"]["experimental"][CONNECTION_LIFECYCLE], {"scope": "request"})
+        self.assertTrue(replies[1]["result"]["isError"])
+        task_id = replies[2]["result"]["task"]["taskId"]
+        resumed = [requests[0], {"jsonrpc": "2.0", "id": 4, "method": "tasks/result", "params": {"taskId": task_id}}]
+        process = self.cli("mcp", input="".join(json.dumps(value) + "\n" for value in resumed))
+        self.assertEqual(process.returncode, 0, process.stderr)
+        value = next(json.loads(line)["result"] for line in process.stdout.splitlines() if json.loads(line)["id"] == 4)
+        self.assertFalse(value["isError"])
+        self.assertEqual(value["structuredContent"]["ready"][0]["component"], "fixture-python")
+        self.assertEqual(value["_meta"]["io.modelcontextprotocol/related-task"]["taskId"], task_id)
+        with self.manager.state.db() as db:
+            self.assertEqual(db.execute("SELECT count(*) FROM jobs").fetchone()[0], 1)
+
     def test_mcp_task_returns_partial_preparation_after_reconnection(self):
         from seedenv.mcp import dispatch
         from seedenv.tasks import Tasks
